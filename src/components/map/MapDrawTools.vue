@@ -1,19 +1,16 @@
 
 <template>
   <div class="content">
-    <!-- <a class="primary center" href="#"><i class="fa fa-camera-retro"></i>
-      <p class="center">&nbsp; {{this.label}}</p>
-    </a> -->
     <div v-for="item in this.toolMenu" class="divider">
       <a-popconfirm v-if="item.type === 'action' && item.handle==='onClear'" title="确定清除所有范围或坐标?" placement="bottom" @confirm="clearDraw" okText="是" cancelText="否">
         <a v-if="item.type === 'action'" :class="[item.action ? 'action' : '', 'primary', 'center']" href="#" @click="handleClick(item)">
           <a-icon :type="item.icon" theme="filled" />
-          <p class="center">&nbsp; {{item.label}}</p>
+          <p v-if="item.label" class="center">{{item.label}}</p>
         </a>
       </a-popconfirm>
       <a v-if="item.type === 'action' && item.handle!='onClear'" :class="[item.action ? 'action' : '', 'primary', 'center']" href="#" @click="handleClick(item)">
         <a-icon :type="item.icon" theme="filled" />
-        <p class="center">&nbsp; {{item.label}}</p>
+        <p v-if="item.label" class="center">{{item.label}}</p>
       </a>
       <a-divider v-if="item.type === 'split'" type="vertical" />
     </div>
@@ -38,6 +35,17 @@ class Mapbox extends Vue {
     }
 
     private toolMenu: any = [
+        {
+            type: 'action',
+            action: false,
+            label: '',
+            icon: 'home',
+            handle: 'onHome',
+            invork: this.flytoHome
+        },
+        {
+            type: 'split'
+        },
         {
             type: 'action',
             action: false,
@@ -87,6 +95,13 @@ class Mapbox extends Vue {
         console.log(this.map);
     }
 
+    private flytoHome() {
+        if (this.map) {
+            this.map.setZoom(3.9);
+            this.map.setCenter({ lng: 105.00769119789561, lat: 77.34152126076046 });
+        }
+    }
+
     private startMarker() {
         this.$message.success('startMarker', 3);
     }
@@ -121,9 +136,7 @@ export default Mapbox;
     display: flex;
 
     a {
-        height: 100%;
-        padding: 0 $size_12;
-        background-color: map-get($default, grey-glass);
+        padding: 0 $size_6;
 
         &:hover {
             color: map-get($default, pure);

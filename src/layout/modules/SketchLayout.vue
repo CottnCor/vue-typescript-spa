@@ -4,13 +4,19 @@
       <slot name="full"></slot>
     </div>
     <div class="top popup radius">
-      <slot name="top"></slot>
+      <div class="radius">
+        <slot name="top"></slot>
+      </div>
     </div>
     <div class="left popup radius">
-      <slot name="left"></slot>
+      <div class="radius">
+        <slot name="left"></slot>
+      </div>
     </div>
     <div class="bottom popup radius">
-      <slot name="bottom"></slot>
+      <div class="radius">
+        <slot name="bottom"></slot>
+      </div>
     </div>
   </div>
 </template>
@@ -37,17 +43,24 @@ export default SketchLayout;
     }
 
     .popup {
-        display: flex;
         position: absolute;
-        box-shadow: $shadow_strong;
+        padding: $size_12;
+        box-shadow: $shadow_power;
         z-index: $zindex_back-top;
         background-color: map-get($default, glass);
+
+        & > div {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            border: 1px dashed map-get($default, grey_4);
+        }
 
         &.right,
         &.left {
             top: $size_24;
-            width: $size_180 * 2 + $size_12 * 4;
-            height: calc(100% - #{($size_24 * 2)});
+            max-height: 80%;
+            overflow-y: auto;
         }
 
         &.right {
@@ -61,15 +74,12 @@ export default SketchLayout;
         &.top {
             top: $size_24;
             right: $size_24;
-            min-width: $size_180 * 2 + $size_12 * 4;
-            height: $size_48;
+            padding: $size_12;
         }
 
         &.bottom {
             right: $size_24;
             bottom: $size_24;
-            width: calc(100% - #{($size_24 * 3 + ($size_180 * 2 + $size_12 * 4))});
-            height: $size_240;
         }
     }
 }
