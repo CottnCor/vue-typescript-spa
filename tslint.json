@@ -1,0 +1,20 @@
+{
+  // "defaultSeverity": "warning",
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint:recommended",
+    // 继承 AlloyTeam TSLint 规则： https://github.com/AlloyTeam/tslint-config-alloy
+    "tslint-config-alloy",
+    "tslint-config-prettier"
+  ],
+  "linterOptions": {
+    "exclude": [
+      "node_modules/**"
+    ]
+  },
+  "rules": {
+    "ordered-imports": false,
+    "no-redundant-jsdoc": false,
+    "no-implicit-dependencies": false
+  }
+}
