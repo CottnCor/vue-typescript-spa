@@ -8,23 +8,17 @@
 <script lang='ts'>
 import { Component, Provide, Prop, Vue, Emit, Watch } from 'vue-property-decorator';
 
-import { MAPBOX_ACCESSTOKEN } from '@/config';
+import { MAPBOX_ACCESSTOKEN, MAP_IMG_URL, MAP_VEC_URL, MAP_CVA_URL, MAP_WAP_URL } from '@/config';
 
 import mapboxgl from 'mapbox-gl';
 
 @Component({})
 class Mapbox extends Vue {
-    @Prop({ type: String, default: '100%' })
+    @Prop({ default: '100%' })
     public mapWidth!: string;
 
-    @Prop({ type: String, default: '100%' })
+    @Prop({ default: '100%' })
     public mapHeight!: string;
-
-    @Prop({ type: String, default: 'img' })
-    public basetype!: string;
-
-    @Prop({ type: String, default: 'mapbox://styles/mapbox/streets-v9' })
-    private mapStyle!: string;
 
     @Prop({ default: null }) private mapOptions!: mapboxgl.MapboxOptions;
 
@@ -36,37 +30,11 @@ class Mapbox extends Vue {
 
     private accessToken: string = MAPBOX_ACCESSTOKEN;
 
-    private imgLayer: any = null;
-
-    private drawLayer: any = null;
-
-    private sources: any = null;
-
     @Emit('load') public mapLoaded() {
         return {
             map: this.map,
             component: this
         };
-    }
-
-    @Watch('mapStyle')
-    public onMapStyleChanged(nextStyle: string, prev: string) {
-        if (nextStyle != prev) {
-            (this.map as mapboxgl.Map).setStyle(nextStyle);
-        }
-    }
-
-    @Provide('handleMap')
-    public handleMap(found: (map: mapboxgl.Map) => void) {
-        let that = this;
-        function checkForMap() {
-            if (that.map) {
-                found(that.map);
-            } else {
-                setTimeout(checkForMap, 50);
-            }
-        }
-        checkForMap();
     }
 
     private activated() {}
@@ -78,12 +46,52 @@ class Mapbox extends Vue {
     private beforeDestroy() {}
 
     private init() {
-        debugger;
         mapboxgl.accessToken = this.accessToken;
+        let imgLayer = {
+            type: 'raster',
+            tiles: [MAP_IMG_URL],
+            tileSize: 256
+        };
+        let cvaLayer = {
+            type: 'raster',
+            tiles: [MAP_CVA_URL],
+            tileSize: 256
+        };
+        let wapLayer = {
+            type: 'raster',
+            tiles: [MAP_WAP_URL],
+            tileSize: 256
+        };
+        let sources = {
+            imgLayer: imgLayer,
+            cvaLayer: cvaLayer,
+            wapLayer: wapLayer
+        };
+        let style = {
+            version: 8,
+            sources: sources,
+            layers: [
+                {
+                    type: 'raster',
+                    id: 'img-layer',
+                    source: 'imgLayer'
+                },
+                {
+                    type: 'raster',
+                    id: 'cva-layer',
+                    source: 'cvaLayer'
+                },
+                {
+                    type: 'raster',
+                    id: 'wap-layer',
+                    source: 'wapLayer'
+                }
+            ]
+        };
         let map = new mapboxgl.Map({
             ...this.mapOptions,
             container: this.$refs.basicMapbox,
-            style: this.mapStyle,
+            style: style,
             zoom: 3.9,
             minZoom: 3,
             maxZoom: 18,
@@ -94,6 +102,11 @@ class Mapbox extends Vue {
         map.on('load', () => {
             this.map = map;
             this.mapLoaded();
+        });
+        map.on('moveend', (e) => {
+            console.log(map.getZoom());
+            console.log(map.getCenter());
+            console.log(map.getBounds());
         });
     }
 
@@ -130,7 +143,7 @@ export default Mapbox;
         width: 100%;
         cursor: move;
         text-align: left;
-        background-image: linear-gradient(135deg, rgba(3, 19, 46, 1), rgba(3, 19, 46, 0.8));
+        background-color: transparent;
     }
 }
 </style>

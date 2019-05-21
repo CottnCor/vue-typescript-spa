@@ -1,6 +1,6 @@
 <template>
-    <div class="wapper">
-        <slot name="content"></slot>
+    <div class="container">
+        <slot name="container"></slot>
     </div>
 </template>
 
@@ -13,11 +13,11 @@ export default BlankLayout;
 </script>
 
 <style lang='scss' scoped>
-.wapper {
+.container {
     width: 100%;
+    min-height: 100vh;
     display: flex;
     flex-flow: column;
-    min-height: 100vh;
     background: map-get($default, grey_2);
 }
 </style>

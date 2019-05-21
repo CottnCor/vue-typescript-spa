@@ -58,11 +58,11 @@ $size_1: 0.072rem; // 1px
 
 // 媒体查询断点
 $breakpoint: (xs: 34.286rem, // 480px
-sm: 41.143rem, // 576px
-md: 54.857rem, // 768px
-lg: 70.857rem, // 992px
-xl: 85.714rem, // 1200px
-xxl: 114.286rem // 1600px
+  sm: 41.143rem, // 576px
+  md: 54.857rem, // 768px
+  lg: 70.857rem, // 992px
+  xl: 85.714rem, // 1200px
+  xxl: 114.286rem // 1600px
 );
 
 // animation
@@ -324,5 +324,18 @@ mark {
 }
 
 .radius {
-  border-radius:  $size_6;
+  border-radius: $size_6;
+}
+
+.divider {
+  display: flex;
+
+  &>div {
+    margin: auto;
+    background-color: map-get($default, primary);
+  }
+}
+
+.overlay {
+  pointer-events: none;
 }

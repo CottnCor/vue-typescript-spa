@@ -35,6 +35,8 @@ import {
     InputNumber,
     Layout,
     List,
+    message,
+    notification,
     Menu,
     Modal,
     Pagination,
@@ -108,6 +110,14 @@ Vue.use(TimePicker);
 Vue.use(Timeline);
 Vue.use(Tooltip);
 Vue.use(Upload);
+
+Vue.prototype.$message = message;
+Vue.prototype.$notification = notification;
+Vue.prototype.$info = Modal.info;
+Vue.prototype.$success = Modal.success;
+Vue.prototype.$error = Modal.error;
+Vue.prototype.$warning = Modal.warning;
+Vue.prototype.$confirm = Modal.confirm;
 
 new Vue({
     router,

@@ -30,27 +30,27 @@
     "vuex-class": "^0.3.2"
   },
   "devDependencies": {
+    "@babel/core": "^7.4.4",
     "@types/jest": "^23.1.4",
     "@vue/cli-plugin-babel": "^3.7.0",
     "@vue/cli-plugin-typescript": "^3.7.0",
     "@vue/cli-plugin-unit-jest": "^3.7.0",
     "@vue/cli-service": "^3.7.0",
     "@vue/test-utils": "1.0.0-beta.29",
-    "babel-core": "7.0.0-bridge.0",
-    "babel-plugin-import": "^1.11.0",
-    "ts-jest": "^23.0.0",
-    "typescript": "^3.4.3",
-    "vue-template-compiler": "^2.5.21",
+    "babel-plugin-import": "^1.11.2",
     "express": "^4.16.4",
-    "prettier": "^1.17.0",
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
+    "prettier": "^1.17.0",
     "sass": "^1.17.2",
     "sass-loader": "^7.1.0",
     "serve-static": "^1.13.2",
+    "ts-jest": "^23.0.0",
     "tslint": "^5.15.0",
     "tslint-config-alloy": "^0.2.1",
     "tslint-config-prettier": "^1.18.0",
-    "vue-eslint-parser": "^6.0.3"
+    "typescript": "^3.4.3",
+    "vue-eslint-parser": "^6.0.3",
+    "vue-template-compiler": "^2.5.21"
   }
 }

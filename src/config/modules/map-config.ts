@@ -11,3 +11,6 @@ export const MAP_IMG_URL =
 
 export const MAP_CVA_URL =
     'https://t0.tianditu.gov.cn/DataServer?T=cva_c&x={x}&y={y}&l={z}&tk=' + MAP_KEY;
+
+export const MAP_WAP_URL =
+    'https://dd.landcloud.org.cn:4447/mapserver/vmap/GTDP_V3/getMAP?x={x}&y={y}&l={z}&styleId=gtdp';

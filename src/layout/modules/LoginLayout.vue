@@ -1,6 +1,6 @@
 <template>
-    <div class="content">
-        <slot name="content"></slot>
+    <div class="container">
+        <slot name="container"></slot>
     </div>
 </template>
 
@@ -13,9 +13,9 @@ export default LoginLayout;
 </script>
 
 <style lang='scss' scoped>
-.content {
+.container {
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
 }
 </style>

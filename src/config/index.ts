@@ -1,3 +1,4 @@
+import { MAP_IMG_URL } from '@/config';
 export { APP_PRAMS } from './modules/app-config';
 
 export { COOKIE_KEYS, COOKIE_EXPIRES } from './modules/cookies-config';
@@ -29,7 +30,7 @@ export { OPEN_MODULES, NEED_LOGGED_PAGES } from './modules/intercept-config';
 
 export { ROOT_ROUTER, ASSIST_ROUTER} from './modules/router-config';
 
-export { MAPBOX_ACCESSTOKEN, MAP_VEC_URL, MAP_IMG_URL, MAP_CVA_URL } from './modules/map-config';
+export { MAPBOX_ACCESSTOKEN, MAP_VEC_URL, MAP_IMG_URL, MAP_CVA_URL, MAP_WAP_URL } from './modules/map-config';
 
 // 平台
 export const HOST_PLATFORM = 'WEB';

@@ -1,8 +1,8 @@
 <template>
   <sketch-layout>
-    <div slot="content" class="wapper">
-      <mapbox></mapbox>
-    </div>
+    <mapbox slot="full" @onLoaded="onMapLoaded" />
+    <!-- <map-draw-tools slot="top" v-if="this.map" @onLoaded="onDrawToolLoaded" :map="this.map" :label="this.fuck" /> -->
+    <map-draw-tools slot="top" @onLoaded="onDrawToolLoaded" :label="this.fuck" />
   </sketch-layout>
 </template>
 

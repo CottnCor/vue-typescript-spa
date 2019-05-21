@@ -1,6 +1,6 @@
 <template>
-    <div class="content">
-        <slot name="content"></slot>
+    <div class="container">
+        <slot name="container"></slot>
     </div>
 </template>
 
@@ -14,26 +14,26 @@ export default ContentLayout;
 
 <style lang='scss' scoped>
 
-.content {
+.container {
     margin-left: auto;
     margin-right: auto;
     min-width: map-get($breakpoint, md) - $size_18;
 }
 
 @media only screen and (min-width: map-get($breakpoint, md)) {
-    .content {
+    .container {
         width: map-get($breakpoint, md) - $size_18;
     }
 }
 
 @media only screen and (min-width: map-get($breakpoint, lg)) {
-    .content {
+    .container {
         width: map-get($breakpoint, lg) - $size_24;
     }
 }
 
 @media only screen and (min-width: map-get($breakpoint, xl)) {
-    .content {
+    .container {
         width: map-get($breakpoint, xl) - $size_30;
     }
 }
