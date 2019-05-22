@@ -19,20 +19,26 @@
     <div class="content">
       <div>
         <div class="radius">
-          <div class="content-tools">
-            <div v-for="item in this.toolMenu" class="divider">
-              <a v-if="item.type === 'action'" :class="[item.active ? 'active' : '', 'button']" @click="toolsHandleClickClick(item)">
-                <a-icon :type="item.icon" theme="filled" />
-              </a>
-              <a-divider v-if="item.type === 'split'" type="vertical" />
-            </div>
-          </div>
-          <img src="https://gl.landcloud.org.cn/images/pic_bg.png">
+          <img :src="this.queryResult.images">
         </div>
       </div>
       <div>
         <div class="radius">
-
+          <div class="info-wapper">
+            <div class="content-tools">
+              <div v-for="item in this.toolMenu" class="divider">
+                <a v-if="item.type === 'action'" :class="[item.active ? 'active' : '', 'button']" @click="toolsHandleClickClick(item)">
+                  <a-icon :type="item.icon" theme="filled" />
+                </a>
+                <a-divider v-if="item.type === 'split'" type="vertical" />
+              </div>
+            </div>
+            <a class="primary center warning simple" v-for="(item, index) in this.tabMenu" :key="item.index">
+              <a-icon type="check-circle" theme="filled" />
+              <span class="center right strong">XXXXX：</span>
+              <span class="center right strong">XXXXXTTCCVVBB</span>
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -141,6 +147,22 @@ class TabCard extends Vue {
             invork: this.switchTheme
         }
     ];
+
+    private queryResult: any = {
+        attributes: [
+            {
+                code: '201',
+                name: '城市',
+                mj: '186.812531134901',
+                percent: '1.0000000033045'
+            }
+        ],
+        images:
+            'http://gtdcy-obs.obs.cn-north-1.myhwclouds.com/cloudQueryDbImage/14089/dbimage/c0296e18-ab4a-4ac1-b963-9f2633f349e3.png',
+        themeImgs:
+            'http://gtdcy-obs.obs.cn-north-1.myhwclouds.com/cloudQueryDbImage/14089/dbimage/51c2d228-f27a-490f-b3a2-3421ba1453aa.png',
+        date: null
+    };
 
     private hideTab: any = {
         left: 0,
@@ -270,24 +292,39 @@ export default TabCard;
         & > div {
             float: left;
 
+            &:first-child {
+                background-image: url(https://gl.landcloud.org.cn/images/pic_bg.png);
+                background-size: 100% 100%;
+                background-repeat: no-repeat;
+            }
+
             & > div {
                 position: relative;
-                width: calc(#{($size_240 + $size_20 * 2)});
-                height: calc(#{($size_240 - $size_20 + $size_6)});
+                padding: calc(#{($size_12)});
 
-                img {
-                    width: 100%;
-                    height: 100%;
-                    position: absolute;
-                    top: 0;
-                    left: 0;
+                img,
+                .info-wapper {
+                    width: calc(#{($size_240 + $size_20 * 2)});
+                    height: calc(#{($size_240 - $size_20 + $size_6)});
                 }
 
-                .content-tools {
-                    z-index: $zindex_back-top;
-                    position: absolute;
-                    top: $size_6;
-                    right: $size_6;
+                .info-wapper {
+                    overflow-y: auto;
+                    display: flex;
+                    position: relative;
+                    flex-direction: column;
+                    & > a {
+                        flex: 1;
+                    }
+
+                    .content-tools {
+                        z-index: $zindex_back-top;
+                        position: absolute;
+                        top: $size_6;
+                        right: $size_6;
+                        display: flex;
+                        flex-direction: column;
+                    }
                 }
             }
         }

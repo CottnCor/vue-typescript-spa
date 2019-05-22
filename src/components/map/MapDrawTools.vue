@@ -1,14 +1,22 @@
 
 <template>
   <div class="content">
+    <div class="divider">
+      <a class="primary center warning simple">
+        <!-- <a-icon type="check-circle" theme="filled" /> -->
+        <a-icon type="loading" />
+        <p class="center right strong">西城区0101街道</p>
+      </a>
+      <a-divider type="vertical" />
+    </div>
     <div v-for="item in this.toolMenu" class="divider">
       <a-popconfirm v-if="item.type === 'action' && item.handle==='onClear'" title="确定清除所有范围或坐标?" placement="bottom" @confirm="clearDraw" okText="是" cancelText="否">
-        <a v-if="item.type === 'action'" :class="[item.active ? 'active' : '', 'primary', 'center', 'hover']" href="#" @click="handleClick(item)">
+        <a v-if="item.type === 'action'" class="primary center simple" :class="item.active ? 'active' : ''" href="#" @click="handleClick(item)">
           <a-icon :type="item.icon" theme="filled" />
           <p v-if="item.label" class="center">{{item.label}}</p>
         </a>
       </a-popconfirm>
-      <a v-if="item.type === 'action' && item.handle!='onClear'" :class="[item.active ? 'active' : '', 'primary', 'center', 'hover']" href="#" @click="handleClick(item)">
+      <a v-if="item.type === 'action' && item.handle!='onClear'" :class="[item.active ? 'active' : '', 'primary', 'center', 'simple']" href="#" @click="handleClick(item)">
         <a-icon :type="item.icon" theme="filled" />
         <p v-if="item.label" class="center">{{item.label}}</p>
       </a>
@@ -134,20 +142,6 @@ export default Mapbox;
 .content {
     margin: auto;
     display: flex;
-
-    a {
-        padding: 0 $size_6;
-
-        i {
-            width: $size_32;
-            height: $size_32;
-            display: flex;
-            color: map-get($default, primary);
-            svg {
-                margin: auto;
-            }
-        }
-    }
 }
 </style>
 

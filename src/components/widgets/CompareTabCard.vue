@@ -26,7 +26,6 @@
                   <a-divider v-if="item.type === 'split'" type="vertical" />
                 </div>
               </div>
-              <img src="https://gl.landcloud.org.cn/images/pic_bg.png">
             </div>
           </div>
         </div>
@@ -284,6 +283,9 @@ export default TabCard;
                     float: left;
                     position: relative;
                     transition: left $ease_in;
+                    background-image: url(https://gl.landcloud.org.cn/images/pic_bg.png);
+                    background-size: 100% 100%;
+                    background-repeat: no-repeat;
 
                     & > div {
                         width: calc(#{($size_240 + $size_20 * 2)});

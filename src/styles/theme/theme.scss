@@ -201,6 +201,10 @@ textarea {
     margin: auto 0 auto auto;
   }
 
+  &.gap {
+    margin: auto 0.6rem;
+  }
+
   &.pure {
     color: map-get($default, pure);
   }
@@ -233,6 +237,21 @@ a {
     height: $size_32;
     width: $size_108;
     border-radius: $size_16;
+  }
+
+  &.simple {
+    padding: 0 $size_6;
+
+    i {
+      width: $size_32;
+      height: $size_32;
+      display: flex;
+      color: map-get($default, primary);
+
+      svg {
+        margin: auto;
+      }
+    }
   }
 
   &.button {
@@ -275,6 +294,30 @@ a {
       svg {
         margin: auto;
       }
+    }
+  }
+
+  &.strong {
+    i {
+      color: map-get($default, strong);
+    }
+  }
+
+  &.success {
+    i {
+      color: map-get($default, success);
+    }
+  }
+
+  &.error {
+    i {
+      color: map-get($default, error);
+    }
+  }
+
+  &.warning {
+    i {
+      color: map-get($default, warning);
     }
   }
 }
