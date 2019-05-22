@@ -3,9 +3,8 @@
     <mapbox slot="full" @onLoaded="onMapLoaded" />
     <!-- <map-draw-tools slot="top" v-if="this.map" @onLoaded="onDrawToolLoaded" :map="this.map" :label="this.fuck" /> -->
     <map-draw-tools slot="top" @onLoaded="onDrawToolLoaded" :label="this.fuck" />
-    <div slot="left">
-      <tab-card/>
-    </div>
+    <simple-tab-card slot="left" />
+    <compare-tab-card slot="bottom" />
   </sketch-layout>
 </template>
 

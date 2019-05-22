@@ -53,33 +53,35 @@ export default SketchLayout;
             display: flex;
             width: 100%;
             height: 100%;
-            border: 1px dashed map-get($default, grey_4);
         }
 
         &.right,
         &.left {
-            top: $size_24;
+            top: $size_12;
             max-height: 80%;
             overflow-y: auto;
         }
 
         &.right {
-            right: $size_24;
+            right: $size_12;
         }
 
         &.left {
-            left: $size_24;
+            left: $size_12;
         }
 
         &.top {
-            top: $size_24;
-            right: $size_24;
-            padding: $size_12;
+            top: $size_12;
+            right: $size_12;
+            padding: $size_6;
+            & > div {
+                border: 1px dashed map-get($default, grey_4);
+            }
         }
 
         &.bottom {
-            right: $size_24;
-            bottom: $size_24;
+            left: $size_12;
+            bottom: $size_12;
         }
     }
 }

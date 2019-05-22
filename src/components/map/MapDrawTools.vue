@@ -3,12 +3,12 @@
   <div class="content">
     <div v-for="item in this.toolMenu" class="divider">
       <a-popconfirm v-if="item.type === 'action' && item.handle==='onClear'" title="确定清除所有范围或坐标?" placement="bottom" @confirm="clearDraw" okText="是" cancelText="否">
-        <a v-if="item.type === 'action'" :class="[item.action ? 'action' : '', 'primary', 'center']" href="#" @click="handleClick(item)">
+        <a v-if="item.type === 'action'" :class="[item.active ? 'active' : '', 'primary', 'center', 'hover']" href="#" @click="handleClick(item)">
           <a-icon :type="item.icon" theme="filled" />
           <p v-if="item.label" class="center">{{item.label}}</p>
         </a>
       </a-popconfirm>
-      <a v-if="item.type === 'action' && item.handle!='onClear'" :class="[item.action ? 'action' : '', 'primary', 'center']" href="#" @click="handleClick(item)">
+      <a v-if="item.type === 'action' && item.handle!='onClear'" :class="[item.active ? 'active' : '', 'primary', 'center', 'hover']" href="#" @click="handleClick(item)">
         <a-icon :type="item.icon" theme="filled" />
         <p v-if="item.label" class="center">{{item.label}}</p>
       </a>
@@ -37,7 +37,7 @@ class Mapbox extends Vue {
     private toolMenu: any = [
         {
             type: 'action',
-            action: false,
+            active: false,
             label: '',
             icon: 'home',
             handle: 'onHome',
@@ -48,7 +48,7 @@ class Mapbox extends Vue {
         },
         {
             type: 'action',
-            action: false,
+            active: false,
             label: '坐标查询',
             icon: 'pushpin',
             handle: 'onLocation',
@@ -59,7 +59,7 @@ class Mapbox extends Vue {
         },
         {
             type: 'action',
-            action: false,
+            active: false,
             label: '范围查询',
             icon: 'edit',
             handle: 'onDraw',
@@ -70,7 +70,7 @@ class Mapbox extends Vue {
         },
         {
             type: 'action',
-            action: false,
+            active: false,
             label: '清除',
             icon: 'delete',
             handle: 'onClear',
@@ -116,12 +116,12 @@ class Mapbox extends Vue {
 
     private handleClick(param: any) {
         this.toolMenu.map((item) => {
-            item.action = false;
+            item.active = false;
             if (item.handle === param.handle) {
                 if (item.handle != 'onClear') {
-                    item.invork();
+                    item.invork(param);
                 }
-                item.action = true;
+                item.active = true;
             }
         });
     }
@@ -138,13 +138,6 @@ export default Mapbox;
     a {
         padding: 0 $size_6;
 
-        &:hover {
-            color: map-get($default, pure);
-            background-color: map-get($default, primary);
-            i {
-                color: map-get($default, pure);
-            }
-        }
         i {
             width: $size_32;
             height: $size_32;

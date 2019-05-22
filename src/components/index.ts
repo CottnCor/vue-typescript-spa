@@ -4,6 +4,8 @@ import MapDrawTools from './map/MapDrawTools.vue';
 
 import ExceptionCard from './widgets/ExceptionCard.vue';
 
-import TabCard from './widgets/TabCard.vue';
+import SimpleTabCard from './widgets/SimpleTabCard.vue';
 
-export { Mapbox, MapDrawTools, ExceptionCard, TabCard };
+import CompareTabCard from './widgets/CompareTabCard.vue';
+
+export { Mapbox, MapDrawTools, ExceptionCard, SimpleTabCard, CompareTabCard};

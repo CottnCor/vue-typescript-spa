@@ -10,14 +10,15 @@ html {
 }
 
 html *,
-html *:before,
-html *:after {
+html *::before,
+html *::after {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
 
 // size
+$size_max: 999rem;
 $size_960: 68.572rem; // 960px
 $size_640: 45.714rem; // 640px
 $size_540: 38.571rem; // 540px
@@ -192,6 +193,14 @@ textarea {
     text-align: center;
   }
 
+  &.left {
+    margin: auto 0;
+  }
+
+  &.right {
+    margin: auto 0 auto auto;
+  }
+
   &.pure {
     color: map-get($default, pure);
   }
@@ -208,6 +217,7 @@ a {
   &.hover {
     &:hover {
       background-color: map-get($default, grey_2);
+      color: map-get($default, primary_dark_2);
     }
   }
 
@@ -223,6 +233,49 @@ a {
     height: $size_32;
     width: $size_108;
     border-radius: $size_16;
+  }
+
+  &.button {
+    margin: auto;
+    display: inline-block;
+    box-shadow: $shadow_base;
+    justify-content: space-between;
+    background-color: map-get($default, glass);
+
+    i {
+      color: map-get($default, pure);
+      z-index: $zindex_affix;
+      width: $size_32;
+      height: $size_32;
+      display: flex;
+      color: map-get($default, primary);
+
+      svg {
+        margin: auto;
+      }
+    }
+  }
+
+  &.tab {
+    display: flex;
+
+    span,
+    i {
+      color: map-get($default, pure);
+      z-index: $zindex_affix;
+    }
+
+    i {
+      display: flex;
+      width: $size_32;
+      height: $size_32;
+      margin-left: 0.3em;
+      color: map-get($default, pure);
+
+      svg {
+        margin: auto;
+      }
+    }
   }
 }
 
@@ -257,8 +310,8 @@ del {
   text-decoration: line-through;
 }
 
-q:before,
-q:after {
+q::before,
+q::after {
   content: '';
 }
 
@@ -328,7 +381,7 @@ mark {
 }
 
 .divider {
-  display: flex;
+  display: inline-flex;
 
   &>div {
     margin: auto;

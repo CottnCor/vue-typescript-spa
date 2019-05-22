@@ -2,15 +2,14 @@ import { Component, Vue } from 'vue-property-decorator';
 
 import { SketchLayout } from '@/layout';
 
-import { Mapbox, MapDrawTools, TabCard } from '@/components';
+import { Mapbox, MapDrawTools, SimpleTabCard, CompareTabCard } from '@/components';
 
 import { LngLat, LngLatLike } from 'mapbox-gl';
 
 @Component({
-    components: { SketchLayout, Mapbox, MapDrawTools, TabCard }
+    components: { SketchLayout, Mapbox, MapDrawTools, SimpleTabCard, CompareTabCard }
 })
 class HomePage extends Vue {
-  
     private map?: mapboxgl.Map;
 
     private fuck = 'fuck';

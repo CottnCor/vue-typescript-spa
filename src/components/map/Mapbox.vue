@@ -15,12 +15,15 @@ import mapboxgl from 'mapbox-gl';
 @Component({})
 class Mapbox extends Vue {
     @Prop({ default: '100%' })
-    public mapWidth!: string;
+    private mapWidth!: string;
 
     @Prop({ default: '100%' })
-    public mapHeight!: string;
+    private mapHeight!: string;
 
     @Prop({ default: null }) private mapOptions!: mapboxgl.MapboxOptions;
+
+    @Prop({ default: 'mapbox://styles/mapbox/streets-v9' })
+    private defaultStyle!: string;
 
     private get mapSize(): any {
         return { width: this.mapWidth, height: this.mapHeight };
@@ -47,6 +50,7 @@ class Mapbox extends Vue {
 
     private init() {
         mapboxgl.accessToken = this.accessToken;
+
         let imgLayer = {
             type: 'raster',
             tiles: [MAP_IMG_URL],
@@ -67,6 +71,7 @@ class Mapbox extends Vue {
             cvaLayer: cvaLayer,
             wapLayer: wapLayer
         };
+
         let style = {
             version: 8,
             sources: sources,
@@ -88,10 +93,11 @@ class Mapbox extends Vue {
                 }
             ]
         };
+
         let map = new mapboxgl.Map({
             ...this.mapOptions,
             container: this.$refs.basicMapbox,
-            style: style,
+            style: this.defaultStyle,
             zoom: 3.9,
             minZoom: 3,
             maxZoom: 18,
@@ -99,10 +105,12 @@ class Mapbox extends Vue {
             center: { lng: 105.00769119789561, lat: 77.34152126076046 },
             attributionControl: false
         } as mapboxgl.MapboxOptions);
+
         map.on('load', () => {
             this.map = map;
             this.mapLoaded();
         });
+
         map.on('moveend', (e) => {
             console.log(map.getZoom());
             console.log(map.getCenter());
