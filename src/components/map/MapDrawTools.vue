@@ -9,7 +9,7 @@
       </a>
       <a-divider type="vertical" />
     </div>
-    <div v-for="item in this.toolMenu" class="divider">
+    <div v-for="(item, index) in this.toolMenu" :key="index" class="divider">
       <a-popconfirm v-if="item.type === 'action' && item.handle==='onClear'" title="确定清除所有范围或坐标?" placement="bottom" @confirm="clearDraw" okText="是" cancelText="否">
         <a v-if="item.type === 'action'" class="primary center simple" :class="item.active ? 'active' : ''" href="#" @click="handleClick(item)">
           <a-icon :type="item.icon" theme="filled" />
@@ -31,12 +31,10 @@ import { Component, Provide, Prop, Vue, Emit, Watch } from 'vue-property-decorat
 import mapboxgl from 'mapbox-gl';
 
 @Component({})
-class Mapbox extends Vue {
-    @Prop({ required: true, default: undefined }) private map!: mapboxgl.Map;
+class MapDrawTools extends Vue {
+    @Prop({ required: true }) private map!: mapboxgl.Map;
 
-    @Prop({ required: true, default: '' }) private label!: string;
-
-    @Emit('onLoaded') public mapLoaded() {
+    @Emit('onLoaded') private mapLoaded() {
         return {
             component: this
         };
@@ -99,7 +97,6 @@ class Mapbox extends Vue {
     private beforeDestroy() {}
 
     private init() {
-        console.log(this.label);
         console.log(this.map);
     }
 
@@ -135,7 +132,7 @@ class Mapbox extends Vue {
     }
 }
 
-export default Mapbox;
+export default MapDrawTools;
 </script>
 
 <style lang='scss' scoped>

@@ -176,7 +176,7 @@ textarea {
     color: map-get($default, grey_6);
   }
 
-  p.highlight {
+  &.highlight {
     color: map-get($default, high_light);
   }
 
@@ -207,6 +207,16 @@ textarea {
 
   &.pure {
     color: map-get($default, pure);
+  }
+
+  i {
+    width: $size_32;
+    height: $size_32;
+    display: inline-flex;
+
+    svg {
+      margin: auto;
+    }
   }
 }
 
@@ -255,14 +265,13 @@ a {
   }
 
   &.button {
-    margin: auto;
+    margin: auto 0;
     display: inline-block;
     box-shadow: $shadow_base;
     justify-content: space-between;
     background-color: map-get($default, glass);
 
     i {
-      color: map-get($default, pure);
       z-index: $zindex_affix;
       width: $size_32;
       height: $size_32;
@@ -289,7 +298,6 @@ a {
       width: $size_32;
       height: $size_32;
       margin-left: 0.3em;
-      color: map-get($default, pure);
 
       svg {
         margin: auto;

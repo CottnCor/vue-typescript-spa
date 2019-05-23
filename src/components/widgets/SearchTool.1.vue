@@ -45,8 +45,7 @@
       </a>
     </div>
     <a-modal title="Basic Modal" v-model="resultFull" width="auto" destroyOnClose>
-      <!-- <compare-details-card /> -->
-      <search-tool />
+      <compare-details-card />
     </a-modal>
   </div>
 </template>
@@ -54,9 +53,9 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
-import { CompareDetailsCard, SearchTool } from '@/components';
+import { CompareDetailsCard } from '@/components';
 
-@Component({ components: { CompareDetailsCard, SearchTool } })
+@Component({ components: { CompareDetailsCard } })
 class CompareTabCard extends Vue {
     private tabMenu: any = [
         {

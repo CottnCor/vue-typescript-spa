@@ -38,6 +38,8 @@ export default SketchLayout;
 .container {
     width: 100%;
     height: 100%;
+    display: flex;
+    flex-direction: column;
 
     .full {
         position: absolute;
@@ -67,10 +69,8 @@ export default SketchLayout;
     }
 
     .top-wapper {
-        height: $size_120;
-
         .top {
-            margin: $size_12 auto auto auto;
+            margin: $size_6 auto auto auto;
             padding: $size_6;
             & > div {
                 border: 1px dashed map-get($default, grey_4);
@@ -79,7 +79,7 @@ export default SketchLayout;
     }
 
     .main-wapper {
-        height: calc(100% - #{($size_120)});
+        flex: 1;
 
         .left,
         .bottom {

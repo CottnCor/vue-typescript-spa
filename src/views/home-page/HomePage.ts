@@ -4,23 +4,14 @@ import { SketchLayout } from '@/layout';
 
 import { Mapbox, MapDrawTools, SimpleTabCard, CompareTabCard } from '@/components';
 
-import { LngLat, LngLatLike } from 'mapbox-gl';
-
 @Component({
     components: { SketchLayout, Mapbox, MapDrawTools, SimpleTabCard, CompareTabCard }
 })
 class HomePage extends Vue {
-    private map?: mapboxgl.Map;
-
-    private fuck = 'fuck';
-
-    private activated() {}
-
-    private mounted() {}
-
-    private beforeDestroy() {}
+    private map?: any = null;
 
     private onMapLoaded(event: any) {
+        console.log(event.map);
         this.map = event.map;
     }
 

@@ -20,33 +20,49 @@
       <div>
         <div class="radius">
           <div class="content-tools">
-            <div v-for="item in this.toolMenu" class="divider">
-              <a v-if="item.type === 'action'" :class="[item.active ? 'active' : '', 'button']" @click="toolsHandleClickClick(item)">
-                <a-icon :type="item.icon" theme="filled" />
+            <div v-for="(item, index)  in this.toolMenu" :key="index" class="divider">
+              <a v-if="item.type === 'action'" :class="[item.on ? 'on' : '', 'button']" @click="toolsHandleClickClick(item)">
+                <a-icon :type="item.icon" />
               </a>
               <a-divider v-if="item.type === 'split'" type="vertical" />
             </div>
           </div>
-          <img :src="this.queryResult.images">
+          <img v-if="!themeSwitch && queryResult.images" :src="queryResult.images">
+          <img v-if="themeSwitch && queryResult.themeImgs" :src="queryResult.themeImgs">
+          <div v-if="!themeSwitch ? !queryResult.images : !queryResult.themeImgs" class="no-img">
+            <img src="https://gl.landcloud.org.cn/images/no_img.png">
+          </div>
+          <div v-if="!themeSwitch ? !queryResult.images : !queryResult.themeImgs" class="content-tips">
+            <p class="secondary center pure">查询范围内不涉及XXX</p>
+          </div>
         </div>
       </div>
       <div>
         <div class="radius">
           <div class="info-wapper">
-            <a-table :columns="columns" :dataSource="data" bordered :pagination="false" />
+            <a-table v-if="propColumns && propContent" :columns="propColumns" :dataSource="propContent" bordered :pagination="false" />
+            <p v-else class="title center highlight">
+              <a-icon type="warning" />查询范围内不涉及XXX</p>
           </div>
         </div>
       </div>
     </div>
+    <a-modal title="Basic Modal" v-model="resultFull" width="auto" destroyOnClose>
+      <!-- <simple-detail-card :queryResult="queryResult" :propColumns="propColumns" :propContent="propContent" /> -->
+      <search-tool :queryResult="queryResult" :propColumns="propColumns" :propContent="propContent" />
+    </a-modal>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { hasKey } from '../../utils/common';
 
-@Component({})
-class TabCard extends Vue {
+import { SimpleDetailCard, SearchTool } from '@/components';
+
+@Component({
+    components: { SimpleDetailCard, SearchTool }
+})
+class SimpleTabCard extends Vue {
     private tabMenu: any = [
         {
             type: 'action',
@@ -125,22 +141,22 @@ class TabCard extends Vue {
     private toolMenu: any = [
         {
             type: 'action',
-            active: false,
-            label: '范围查询',
-            icon: 'edit',
-            handle: 'onDraw',
-            invork: this.fullResult
+            on: false,
+            label: '专题图',
+            icon: 'heat-map',
+            handle: 'onTheme',
+            invork: this.switchTheme
         },
         {
             type: 'split'
         },
         {
             type: 'action',
-            active: false,
-            label: '清除',
-            icon: 'delete',
-            handle: 'onClear',
-            invork: this.switchTheme
+            on: false,
+            label: '全屏',
+            icon: 'fullscreen',
+            handle: 'onFull',
+            invork: this.fullResult
         }
     ];
 
@@ -155,12 +171,11 @@ class TabCard extends Vue {
         ],
         images:
             'http://gtdcy-obs.obs.cn-north-1.myhwclouds.com/cloudQueryDbImage/14089/dbimage/c0296e18-ab4a-4ac1-b963-9f2633f349e3.png',
-        themeImgs:
-            'http://gtdcy-obs.obs.cn-north-1.myhwclouds.com/cloudQueryDbImage/14089/dbimage/51c2d228-f27a-490f-b3a2-3421ba1453aa.png',
+        themeImgs: null,
         date: null
     };
 
-    private columns: any = [
+    private propColumns: any = [
         {
             title: '序号',
             className: 'index',
@@ -177,18 +192,21 @@ class TabCard extends Vue {
         }
     ];
 
-    private data: any = [
+    private propContent: any = [
         {
+            key: 1,
             index: 1,
             content: '无备案信息',
             area: 3.55
         },
         {
+            key: 2,
             index: 2,
             content: '已备案',
             area: 1.25
         },
         {
+            key: 3,
             content: '合计',
             area: 4.8
         }
@@ -198,6 +216,10 @@ class TabCard extends Vue {
         left: 0,
         right: this.tabMenu.length - 3
     };
+
+    private themeSwitch: boolean = false;
+
+    private resultFull: boolean = false;
 
     private get hideTabWidth(): number {
         return -this.hideTab.left * 132 * 0.072;
@@ -223,10 +245,13 @@ class TabCard extends Vue {
 
     private fullResult(param: any) {
         this.$message.success('fullResult', 3);
+        this.resultFull = true;
     }
 
     private switchTheme(param: any) {
         this.$message.success('switchTheme', 3);
+        param.on = !param.on;
+        this.themeSwitch = param.on;
     }
 
     private handleClick(param: any) {
@@ -242,13 +267,13 @@ class TabCard extends Vue {
         this.toolMenu.map((item) => {
             item.active = false;
             if (item.handle === param.handle) {
-                item.invork(param);
+                item.invork(item);
                 item.active = true;
             }
         });
     }
 }
-export default TabCard;
+export default SimpleTabCard;
 </script>
 
 <style lang="scss" scoped>
@@ -273,7 +298,9 @@ export default TabCard;
             white-space: nowrap;
             overflow-x: hidden;
             justify-content: space-between;
-            max-width: calc(#{(($size_240 + $size_20 * 2) * 2 - $size_64)});
+            max-width: calc(
+                #{(($size_240 + $size_20 * 2 + $size_32) * 2 + $size_12 * 4 - $size_64)}
+            );
 
             & > div {
                 display: inline-block;
@@ -333,9 +360,10 @@ export default TabCard;
                 padding: calc(#{($size_12)});
 
                 img,
-                .info-wapper {
-                    width: calc(#{($size_240 + $size_20 * 2)});
-                    height: calc(#{($size_240 - $size_20 + $size_6)});
+                .info-wapper,
+                .no-img {
+                    width: calc(#{($size_240 + $size_20 * 2 + $size_32)});
+                    height: calc(#{($size_240 - $size_20 + $size_6 + $size_24 + $size_2)});
                 }
 
                 .content-tools {
@@ -345,7 +373,12 @@ export default TabCard;
                     right: $size_12;
                     a {
                         box-shadow: none;
-                        border: 1px dashed map-get($default, primary);
+                        &.on {
+                            background-color: map-get($default, primary);
+                            i {
+                                color: map-get($default, pure);
+                            }
+                        }
                     }
                 }
 
@@ -356,6 +389,25 @@ export default TabCard;
                     flex-direction: column;
                     & > a {
                         flex: 1;
+                    }
+                }
+
+                .content-tips {
+                    z-index: $zindex_back-top;
+                    position: absolute;
+                    bottom: $size_12;
+                    left: $size_12;
+                    width: calc(100% - #{($size_12 * 2)});
+                    background-color: map-get($default, grey_3);
+                }
+
+                .no-img {
+                    display: flex;
+                    background-image: map-get($default, linear_primary_2);
+                    img {
+                        width: $size_64;
+                        height: $size_64;
+                        margin: auto;
                     }
                 }
             }

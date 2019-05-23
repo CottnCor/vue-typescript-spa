@@ -33,7 +33,7 @@ class Mapbox extends Vue {
 
     private accessToken: string = MAPBOX_ACCESSTOKEN;
 
-    @Emit('load') public mapLoaded() {
+    @Emit('onLoaded') public mapLoaded() {
         return {
             map: this.map,
             component: this

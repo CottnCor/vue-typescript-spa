@@ -22,7 +22,7 @@ export const getToken = (key: string) => {
     if (value) {
         return value;
     } else {
-        return undefined;
+        return null;
     }
 };
 
