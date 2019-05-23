@@ -128,6 +128,17 @@ class TabCard extends Vue {
         {
             type: 'action',
             active: false,
+            label: '范围查询',
+            icon: 'edit',
+            handle: 'onDraw',
+            invork: this.fullResult
+        },
+        {
+            type: 'split'
+        },
+        {
+            type: 'action',
+            active: false,
             label: '清除',
             icon: 'delete',
             handle: 'onClear',
@@ -302,8 +313,12 @@ export default TabCard;
                         .content-tools {
                             z-index: $zindex_back-top;
                             position: absolute;
-                            top: $size_6;
-                            right: $size_6;
+                            top: $size_12;
+                            right: $size_12;
+                            a {
+                                box-shadow: none;
+                                border: 1px dashed map-get($default, primary);
+                            }
                         }
                     }
                 }

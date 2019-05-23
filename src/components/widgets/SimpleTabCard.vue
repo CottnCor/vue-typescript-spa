@@ -19,25 +19,21 @@
     <div class="content">
       <div>
         <div class="radius">
+          <div class="content-tools">
+            <div v-for="item in this.toolMenu" class="divider">
+              <a v-if="item.type === 'action'" :class="[item.active ? 'active' : '', 'button']" @click="toolsHandleClickClick(item)">
+                <a-icon :type="item.icon" theme="filled" />
+              </a>
+              <a-divider v-if="item.type === 'split'" type="vertical" />
+            </div>
+          </div>
           <img :src="this.queryResult.images">
         </div>
       </div>
       <div>
         <div class="radius">
           <div class="info-wapper">
-            <div class="content-tools">
-              <div v-for="item in this.toolMenu" class="divider">
-                <a v-if="item.type === 'action'" :class="[item.active ? 'active' : '', 'button']" @click="toolsHandleClickClick(item)">
-                  <a-icon :type="item.icon" theme="filled" />
-                </a>
-                <a-divider v-if="item.type === 'split'" type="vertical" />
-              </div>
-            </div>
-            <a class="primary center warning simple" v-for="(item, index) in this.tabMenu" :key="item.index">
-              <a-icon type="check-circle" theme="filled" />
-              <span class="center right strong">XXXXX：</span>
-              <span class="center right strong">XXXXXTTCCVVBB</span>
-            </a>
+            <a-table :columns="columns" :dataSource="data" bordered :pagination="false" />
           </div>
         </div>
       </div>
@@ -163,6 +159,40 @@ class TabCard extends Vue {
             'http://gtdcy-obs.obs.cn-north-1.myhwclouds.com/cloudQueryDbImage/14089/dbimage/51c2d228-f27a-490f-b3a2-3421ba1453aa.png',
         date: null
     };
+
+    private columns: any = [
+        {
+            title: '序号',
+            className: 'index',
+            dataIndex: 'index'
+        },
+        {
+            title: '备案情况',
+            className: 'content',
+            dataIndex: 'content'
+        },
+        {
+            title: '面积（亩）',
+            dataIndex: 'area'
+        }
+    ];
+
+    private data: any = [
+        {
+            index: 1,
+            content: '无备案信息',
+            area: 3.55
+        },
+        {
+            index: 2,
+            content: '已备案',
+            area: 1.25
+        },
+        {
+            content: '合计',
+            area: 4.8
+        }
+    ];
 
     private hideTab: any = {
         left: 0,
@@ -308,6 +338,17 @@ export default TabCard;
                     height: calc(#{($size_240 - $size_20 + $size_6)});
                 }
 
+                .content-tools {
+                    z-index: $zindex_back-top;
+                    position: absolute;
+                    top: $size_12;
+                    right: $size_12;
+                    a {
+                        box-shadow: none;
+                        border: 1px dashed map-get($default, primary);
+                    }
+                }
+
                 .info-wapper {
                     overflow-y: auto;
                     display: flex;
@@ -315,15 +356,6 @@ export default TabCard;
                     flex-direction: column;
                     & > a {
                         flex: 1;
-                    }
-
-                    .content-tools {
-                        z-index: $zindex_back-top;
-                        position: absolute;
-                        top: $size_6;
-                        right: $size_6;
-                        display: flex;
-                        flex-direction: column;
                     }
                 }
             }
