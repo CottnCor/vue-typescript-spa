@@ -1,4 +1,7 @@
 import { MAP_IMG_URL } from '@/config';
+
+export { CLOUD_QUERY_API } from './modules/api-config';
+
 export { APP_PRAMS } from './modules/app-config';
 
 export { COOKIE_KEYS, COOKIE_EXPIRES } from './modules/cookies-config';

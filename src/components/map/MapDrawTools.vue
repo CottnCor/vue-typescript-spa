@@ -1,13 +1,14 @@
 
 <template>
   <div class="content">
-    <div class="divider">
-      <a class="primary center warning simple">
-        <!-- <a-icon type="check-circle" theme="filled" /> -->
-        <a-icon type="loading" />
-        <p class="center right strong">西城区0101街道</p>
+    <div class="divider" v-if="this.status == 1 || this.status == 2">
+      <a :class="[this.status == 1 ? 'warning' : 'success', 'primary', 'center', 'simple']">
+        <a-icon v-if="this.status == 1" type="loading" />
+        <a-icon v-if="this.status == 2" type="check-circle" theme="filled" />
+        <p v-if="this.status == 1" class="center right strong">正在加载本次云查询结果，请稍等</p>
+        <p v-if="this.status == 2" class="center right strong">{{this.xzqTag}}</p>
       </a>
-      <a-divider type="vertical" />
+      <a-divider v-if="this.status == 2" type="vertical" />
     </div>
     <div v-for="(item, index) in this.toolMenu" :key="index" class="divider">
       <a-popconfirm v-if="item.type === 'action' && item.handle==='onClear'" title="确定清除所有范围或坐标?" placement="bottom" @confirm="clearDraw" okText="是" cancelText="否">
@@ -16,7 +17,13 @@
           <p v-if="item.label" class="center">{{item.label}}</p>
         </a>
       </a-popconfirm>
-      <a v-if="item.type === 'action' && item.handle!='onClear'" :class="[item.active ? 'active' : '', 'primary', 'center', 'simple']" href="#" @click="handleClick(item)">
+      <a-popconfirm v-if="item.type === 'action' && item.handle==='onSwitch'" title="确定退出本次云查询结果页吗?" placement="bottom" @confirm="switchDraw" okText="是" cancelText="否">
+        <a v-if="item.type === 'action'" class="primary center simple" :class="item.active ? 'active' : ''" href="#" @click="handleClick(item)">
+          <a-icon :type="item.icon" theme="filled" />
+          <p v-if="item.label" class="center">{{item.label}}</p>
+        </a>
+      </a-popconfirm>
+      <a v-if="item.type === 'action' && item.handle!='onClear' && item.handle!='onSwitch'" :class="[item.active ? 'active' : '', 'primary', 'center', 'simple']" href="#" @click="handleClick(item)">
         <a-icon :type="item.icon" theme="filled" />
         <p v-if="item.label" class="center">{{item.label}}</p>
       </a>
@@ -26,13 +33,45 @@
 </template>
 
 <script lang='ts'>
-import { Component, Provide, Prop, Vue, Emit, Watch } from 'vue-property-decorator';
+import { Component, Emit, Prop, Vue, Watch } from 'vue-property-decorator';
+
+import { Getter, Action, namespace } from 'vuex-class';
+
+import { getXzqTag } from '@/api/home-page';
+
+const store = namespace('Common');
 
 import mapboxgl from 'mapbox-gl';
 
 @Component({})
 class MapDrawTools extends Vue {
+    private xzqTag: string = '';
+
     @Prop({ required: true }) private map!: mapboxgl.Map;
+
+    @Prop({ required: true }) private xzqdm!: any;
+
+    @store.Getter('status')
+    private status!: number;
+
+    @store.Action('set_status')
+    private setStatus!: (val: number) => void;
+
+    @Watch('xzqdm', { immediate: true, deep: true })
+    private onXzqdm(val: any, oldVal: any) {
+        if (val) {
+            getXzqTag({
+                xzqdm: val
+            }).then((result) => {
+                if (result && result.status === 'OK') {
+                    this.xzqTag = result.data.xzqmc;
+                }
+            });
+        }
+    }
+
+    @Watch('status', { immediate: true, deep: true })
+    private onStatusChanged(val: number, oldVal: number) {}
 
     @Emit('onLoaded') private mapLoaded() {
         return {
@@ -40,49 +79,66 @@ class MapDrawTools extends Vue {
         };
     }
 
-    private toolMenu: any = [
-        {
-            type: 'action',
-            active: false,
-            label: '',
-            icon: 'home',
-            handle: 'onHome',
-            invork: this.flytoHome
-        },
-        {
-            type: 'split'
-        },
-        {
-            type: 'action',
-            active: false,
-            label: '坐标查询',
-            icon: 'pushpin',
-            handle: 'onLocation',
-            invork: this.startMarker
-        },
-        {
-            type: 'split'
-        },
-        {
-            type: 'action',
-            active: false,
-            label: '范围查询',
-            icon: 'edit',
-            handle: 'onDraw',
-            invork: this.startDraw
-        },
-        {
-            type: 'split'
-        },
-        {
-            type: 'action',
-            active: false,
-            label: '清除',
-            icon: 'delete',
-            handle: 'onClear',
-            invork: this.clearDraw
+    private get toolMenu(): any[] {
+        if (this.status == 0) {
+            return [
+                {
+                    type: 'action',
+                    active: false,
+                    label: '',
+                    icon: 'home',
+                    handle: 'onHome',
+                    invork: this.flytoHome
+                },
+                {
+                    type: 'split'
+                },
+                {
+                    type: 'action',
+                    active: false,
+                    label: '坐标查询',
+                    icon: 'pushpin',
+                    handle: 'onLocation',
+                    invork: this.startMarker
+                },
+                {
+                    type: 'split'
+                },
+                {
+                    type: 'action',
+                    active: false,
+                    label: '范围查询',
+                    icon: 'edit',
+                    handle: 'onDraw',
+                    invork: this.startDraw
+                },
+                {
+                    type: 'split'
+                },
+                {
+                    type: 'action',
+                    active: false,
+                    label: '清除',
+                    icon: 'delete',
+                    handle: 'onClear',
+                    invork: this.clearDraw
+                }
+            ];
+        } else if (this.status == 1) {
+            return [];
+        } else {
+            return [
+                {
+                    type: 'action',
+                    active: false,
+                    label: '查询',
+                    icon: 'edit',
+                    handle: 'onSwitch',
+                    invork: this.switchDraw
+                }
+            ];
         }
-    ];
+    }
 
     @Emit('onDraw') public onDraw() {
         return {};
@@ -96,9 +152,7 @@ class MapDrawTools extends Vue {
 
     private beforeDestroy() {}
 
-    private init() {
-        console.log(this.map);
-    }
+    private init() {}
 
     private flytoHome() {
         if (this.map) {
@@ -107,23 +161,21 @@ class MapDrawTools extends Vue {
         }
     }
 
-    private startMarker() {
-        this.$message.success('startMarker', 3);
-    }
+    private startMarker() {}
 
-    private startDraw() {
-        this.$message.success('startDraw', 3);
-    }
+    private startDraw() {}
 
-    private clearDraw() {
-        this.$message.success('clearDraw', 3);
+    private clearDraw() {}
+
+    private switchDraw() {
+        this.setStatus(0);
     }
 
     private handleClick(param: any) {
         this.toolMenu.map((item) => {
             item.active = false;
             if (item.handle === param.handle) {
-                if (item.handle != 'onClear') {
+                if (item.handle != 'onClear' || item.handle != 'onSwitch') {
                     item.invork(param);
                 }
                 item.active = true;

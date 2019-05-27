@@ -47,6 +47,7 @@ import {
     Rate,
     Row,
     Select,
+    Skeleton,
     Slider,
     Spin,
     Steps,
@@ -96,6 +97,7 @@ Vue.use(Radio);
 Vue.use(Rate);
 Vue.use(Row);
 Vue.use(Select);
+Vue.use(Skeleton);
 Vue.use(Slider);
 Vue.use(Spin);
 Vue.use(Steps);

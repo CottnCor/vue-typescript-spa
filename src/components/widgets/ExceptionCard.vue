@@ -1,16 +1,16 @@
 <template>
-    <div class="exception">
-        <div class="img">
-            <img :src="this.config[type].img" />
-        </div>
-        <div class="content">
-            <h1>{{ this.config[type].title }}</h1>
-            <div class="desc">{{ this.config[type].desc }}</div>
-            <div class="action">
-                <a-button type="primary" @click="this.back">返回上一页</a-button>
-            </div>
-        </div>
+  <div class="exception">
+    <div class="img">
+      <img :src="this.config[code].img" />
     </div>
+    <div class="content">
+      <h1>{{ this.config[code].title }}</h1>
+      <div class="desc">{{ this.config[code].desc }}</div>
+      <div class="action">
+        <a-button type="primary" @click="this.back">返回上一页</a-button>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -20,7 +20,7 @@ import { ASSIST_ROUTER } from '@/config';
 
 @Component({})
 class ExceptionCard extends Vue {
-    @Prop({ type: Number, default: 404 }) public type!: number;
+    @Prop({ type: Number, default: 404 }) public code!: number;
 
     private config: any = {
         403: {

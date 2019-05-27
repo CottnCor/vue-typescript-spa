@@ -1,6 +1,6 @@
 <template>
 <div class="wapper">
-    <exception-card :type='this.type' />
+    <exception-card :code='this.code' />
 </div>
 </template>
 

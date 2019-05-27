@@ -2,7 +2,7 @@
   <div class="tab">
     <div class="header">
       <div class="tab-wapper">
-        <div v-for="(item, index) in tabMenu" :key="item.handle" :class="[item.active ? 'active' : '', item.grade === 1 ? 'advanced' : '']" @click="handleClick(item)">
+        <div v-for="(item, index) in this.tabMenu" :key="item.handle" :class="[item.active ? 'active' : '', item.grade === 1 ? 'advanced' : '']" @click="handleClick(item)">
           <a class="tab">
             <a-icon :type="item.icon" theme="filled" />
             <span class="primary center left">{{item.label}}</span>
@@ -18,61 +18,66 @@
         </div>
       </div>
     </div>
-    <div class="content">
-      <a class="button" @click="visibleContent('left')">
-        <a-icon type="caret-left" theme="filled" />
-      </a>
-      <div class="content-wapper">
-        <div v-for="(item, index) in queryResult" :key="index" :style="{left: hideContentWidth + 'px'}">
-          <div class="radius">
-            <div v-if="!themeSwitch ? item.images : item.themeImgs" class="content-tips">
-              <p class="secondary left pure">卫星：{{item.attributes[0].sjy}}</p>
-              <p class="secondary left pure">拍摄时间：{{item.attributes[0].sx}}</p>
-            </div>
-            <img v-if="!themeSwitch && item.images" :src="item.images">
-            <img v-if="themeSwitch && item.themeImgs" :src="item.themeImgs">
-            <div v-if="!themeSwitch ? !item.images : !item.themeImgs" class="no-img">
-              <img src="https://gl.landcloud.org.cn/images/no_img.png">
-            </div>
-            <div v-if="!themeSwitch ? !item.images : !item.themeImgs" class="content-tips">
-              <p class="secondary center pure">查询范围内不涉及XXX</p>
+    <a-spin size='large' :spinning="!this.currentQueryResult">
+      <div class="content">
+        <a class="button" @click="visibleContent('left')">
+          <a-icon type="caret-left" theme="filled" />
+        </a>
+        <div class="content-wapper" v-if="this.currentQueryResult">
+          <div v-for="(item, index) in this.currentQueryResult" :key="index" :style="{left: hideContentWidth + 'px'}">
+            <div class="radius">
+              <div v-if="!themeSwitch ? item.images : item.themeImgs" class="content-tips">
+                <p class="secondary left pure">卫星：{{item.attributes[0].sjy}}</p>
+                <p class="secondary left pure">拍摄时间：{{item.attributes[0].sx}}</p>
+              </div>
+              <img v-if="!themeSwitch && item.images" :src="item.images">
+              <img v-if="themeSwitch && item.themeImgs" :src="item.themeImgs">
+              <div v-if="!themeSwitch ? !item.images : !item.themeImgs" class="no-img">
+                <img src="https://gl.landcloud.org.cn/images/no_img.png">
+              </div>
+              <div v-if="!themeSwitch ? !item.images : !item.themeImgs" class="content-tips">
+                <p class="secondary center pure">查询范围内不涉及{{this.currentTab.label}}</p>
+              </div>
             </div>
           </div>
         </div>
+        <a class="button" @click="visibleContent('right')">
+          <a-icon type="caret-right" theme="filled" />
+        </a>
       </div>
-      <a class="button" @click="visibleContent('right')">
-        <a-icon type="caret-right" theme="filled" />
-      </a>
-    </div>
-    <a-modal title="Basic Modal" v-model="resultFull" width="auto" destroyOnClose>
-      <!-- <compare-details-card /> -->
-      <search-tool />
-    </a-modal>
+    </a-spin>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Emit, Prop, Vue, Watch } from 'vue-property-decorator';
 
-import { CompareDetailsCard, SearchTool } from '@/components';
+import { Getter, Action, namespace } from 'vuex-class';
 
-@Component({ components: { CompareDetailsCard, SearchTool } })
+@Component({ components: {} })
 class CompareTabCard extends Vue {
+    @Prop({ default: null })
+    private queryResult!: any;
+
+    private currentQueryResult: any = null;
+
     private tabMenu: any = [
         {
             type: 'action',
             active: false,
             label: '多年影像',
-            icon: 'delete',
-            grade: 0,
+            value: 'image_Analyze_History',
+            icon: 'trophy',
+            grade: 1,
             handle: 1
         },
         {
             type: 'action',
             active: false,
             label: '多年现状',
-            icon: 'delete',
-            grade: 0,
+            valuee: 'landType_Analyze_History',
+            icon: 'trophy',
+            grade: 1,
             handle: 2
         }
     ];
@@ -81,10 +86,10 @@ class CompareTabCard extends Vue {
         {
             type: 'action',
             on: false,
-            label: '专题图',
+            label: '截图',
             icon: 'heat-map',
-            handle: 'onTheme',
-            invork: this.switchTheme
+            handle: 'onShot',
+            invork: this.switchShot
         },
         {
             type: 'split'
@@ -92,123 +97,49 @@ class CompareTabCard extends Vue {
         {
             type: 'action',
             on: false,
-            label: '全屏',
-            icon: 'fullscreen',
-            handle: 'onFull',
-            invork: this.fullResult
-        }
-    ];
-
-    private queryResult: any = [
-        {
-            attributes: [
-                {
-                    sjy: '北京2号',
-                    sx: '20180111'
-                }
-            ],
-            images:
-                'http://gtdcy-obs.obs.cn-north-1.myhwclouds.com/cloudQueryDbImage/13121/dbimage/976d1438-85ca-4332-9729-b7e5bc6e5a0f.png',
-            themeImgs: null,
-            date: '20180111'
-        },
-        {
-            attributes: [
-                {
-                    sjy: '北京2号',
-                    sx: '20171024'
-                }
-            ],
-            images:
-                'http://gtdcy-obs.obs.cn-north-1.myhwclouds.com/cloudQueryDbImage/13121/dbimage/5fbf1897-2586-40ea-b67e-4a5288986af9.png',
-            themeImgs: null,
-            date: '20171024'
-        },
-        {
-            attributes: [
-                {
-                    sjy: '资源-P1卫星',
-                    sx: '20150919'
-                }
-            ],
-            images:
-                'http://gtdcy-obs.obs.cn-north-1.myhwclouds.com/cloudQueryDbImage/13121/dbimage/316c6c9b-4283-4d32-bb16-46386a435079.png',
-            themeImgs: null,
-            date: '20150919'
-        },
-        {
-            attributes: [
-                {
-                    sjy: 'KS3卫星',
-                    sx: '20140929'
-                }
-            ],
-            images:
-                'http://gtdcy-obs.obs.cn-north-1.myhwclouds.com/cloudQueryDbImage/13121/dbimage/44cbc39a-c595-4b8a-bb82-22b8cb107be3.png',
-            themeImgs: null,
-            date: '20140929'
-        },
-        {
-            attributes: [
-                {
-                    sjy: '北京2号',
-                    sx: '20180111'
-                }
-            ],
-            images:
-                'http://gtdcy-obs.obs.cn-north-1.myhwclouds.com/cloudQueryDbImage/13121/dbimage/976d1438-85ca-4332-9729-b7e5bc6e5a0f.png',
-            themeImgs: null,
-            date: '20180111'
-        },
-        {
-            attributes: [
-                {
-                    sjy: '北京2号',
-                    sx: '20171024'
-                }
-            ],
-            images:
-                'http://gtdcy-obs.obs.cn-north-1.myhwclouds.com/cloudQueryDbImage/13121/dbimage/5fbf1897-2586-40ea-b67e-4a5288986af9.png',
-            themeImgs: null,
-            date: '20171024'
-        },
-        {
-            attributes: [
-                {
-                    sjy: '资源-P1卫星',
-                    sx: '20150919'
-                }
-            ],
-            images:
-                'http://gtdcy-obs.obs.cn-north-1.myhwclouds.com/cloudQueryDbImage/13121/dbimage/316c6c9b-4283-4d32-bb16-46386a435079.png',
-            themeImgs: null,
-            date: '20150919'
-        },
-        {
-            attributes: [
-                {
-                    sjy: 'KS3卫星',
-                    sx: '20140929'
-                }
-            ],
-            images:
-                'http://gtdcy-obs.obs.cn-north-1.myhwclouds.com/cloudQueryDbImage/13121/dbimage/44cbc39a-c595-4b8a-bb82-22b8cb107be3.png',
-            themeImgs: null,
-            date: '20140929'
+            label: '专题图',
+            icon: 'heat-map',
+            handle: 'onTheme',
+            invork: this.switchTheme
         }
     ];
 
     private hideContent: any = {
         left: 0,
-        right: this.queryResult.length - 4
+        right: this.currentQueryResult ? this.currentQueryResult.length - 4 : 0
     };
+
+    private get currentTab(): any {
+        let tabs = this.tabMenu.filter((item) => item.active);
+        if (tabs.length > 0) {
+            return tabs[0];
+        } else {
+            return null;
+        }
+    }
 
     private themeSwitch: boolean = false;
 
-    private resultFull: boolean = false;
-
     private get hideContentWidth(): number {
-        return -this.hideContent.left * 152;
+        return -this.hideContent.left * 304;
+    }
+
+    @Watch('currentTab', { immediate: true, deep: true })
+    private onCurrentTab(val: any, oldVal: any) {
+        if (this.queryResult) {
+            if (val.value === 'map') {
+                return null;
+            } else {
+                this.currentQueryResult = this.queryResult[val.value];
+            }
+        }
+    }
+
+    @Watch('queryResult', { immediate: true, deep: true })
+    private onQueryResult(val: any, oldVal: any) {
+        if (val) {
+            this.tabMenu[0].active = true;
+        }
     }
 
     private visibleContent(param: any) {
@@ -229,14 +160,13 @@ class CompareTabCard extends Vue {
         }
     }
 
-    private fullResult(param: any) {
-        this.$message.success('fullResult', 3);
-        this.resultFull = true;
+    private switchTheme(param: any) {
+        param.on = this.themeSwitch;
+        this.themeSwitch = param.on;
     }
 
-    private switchTheme(param: any) {
-        this.$message.success('switchTheme', 3);
-        param.on = !param.on;
+    private switchShot(param: any) {
+        param.on = !this.themeSwitch;
         this.themeSwitch = param.on;
     }
 
@@ -295,7 +225,7 @@ export default CompareTabCard;
             overflow-x: hidden;
             justify-content: space-between;
 
-            max-width: calc(#{(($size_120 + $size_10 * 2 + $size_5 * 2) * 4 - $size_32 * 2)});
+            max-width: calc(#{(($size_240 + $size_20 * 2 + $size_10 * 2) * 4 - $size_32 * 2)});
 
             & > div {
                 display: inline-block;
@@ -344,7 +274,7 @@ export default CompareTabCard;
 
         & > a {
             i {
-                height: calc(#{($size_120 - $size_10 + $size_3 + $size_6 * 2)});
+                height: calc(#{($size_240 - $size_20 + $size_6 + $size_12 * 2)});
             }
         }
 
@@ -354,7 +284,7 @@ export default CompareTabCard;
             margin: auto;
             display: flex;
             justify-content: space-between;
-            max-width: calc(#{(($size_120 + $size_10 * 2 + $size_6 * 2) * 4)});
+            max-width: calc(#{(($size_240 + $size_20 * 2 + $size_12 * 2) * 4)});
 
             & > div {
                 flex: 1;
@@ -365,20 +295,20 @@ export default CompareTabCard;
                 background-repeat: no-repeat;
 
                 & > div {
-                    padding: calc(#{($size_6)});
+                    padding: calc(#{($size_12)});
 
                     & > img,
                     .no-img {
-                        width: calc(#{($size_120 + $size_10 * 2)});
-                        height: calc(#{($size_120 - $size_10 + $size_3)});
+                        width: calc(#{($size_240 + $size_20 * 2)});
+                        height: calc(#{($size_240 - $size_20 + $size_6)});
                     }
 
                     .content-tips {
                         z-index: $zindex_back-top;
                         position: absolute;
-                        bottom: $size_8;
-                        left: $size_8;
-                        width: calc(100% - #{($size_8 * 2)});
+                        bottom: $size_12;
+                        left: $size_12;
+                        width: calc(100% - #{($size_12 * 2)});
                         background-color: map-get($default, grey_3);
                     }
 

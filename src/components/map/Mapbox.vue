@@ -97,7 +97,7 @@ class Mapbox extends Vue {
         let map = new mapboxgl.Map({
             ...this.mapOptions,
             container: this.$refs.basicMapbox,
-            style: this.defaultStyle,
+            style: style,
             zoom: 3.9,
             minZoom: 3,
             maxZoom: 18,

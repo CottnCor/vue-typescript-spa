@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="full">
+    <div v-if="this.status === 0" class="full">
       <slot name="full"></slot>
     </div>
     <div class="top-wapper">
@@ -10,11 +10,10 @@
         </div>
       </div>
     </div>
-    <div class="main-wapper">
-      <div style="flex: 1"></div>
-      <div class="left popup radius">
+    <div v-if="this.status === 1 || this.status === 2" class="main-wapper">
+      <div class="middle popup radius">
         <div class="radius">
-          <slot name="left"></slot>
+          <slot name="middle"></slot>
         </div>
       </div>
       <div class="bottom popup radius">
@@ -27,10 +26,20 @@
 </template>
 
 <script lang='ts'>
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Emit, Prop, Vue, Watch } from 'vue-property-decorator';
+
+import { Getter, Action, namespace } from 'vuex-class';
+
+const store = namespace('Common');
 
 @Component({})
-class SketchLayout extends Vue {}
+class SketchLayout extends Vue {
+    @store.Getter('status')
+    private status!: number;
+
+    @Watch('status', { immediate: true, deep: true })
+    private onStatusChanged(val: number, oldVal: number) {}
+}
 export default SketchLayout;
 </script>
 
@@ -70,7 +79,7 @@ export default SketchLayout;
 
     .top-wapper {
         .top {
-            margin: $size_6 auto auto auto;
+            margin: auto;
             padding: $size_6;
             & > div {
                 border: 1px dashed map-get($default, grey_4);
@@ -81,18 +90,10 @@ export default SketchLayout;
     .main-wapper {
         flex: 1;
 
-        .left,
+        .middle,
         .bottom {
-            margin: auto auto auto 0;
+            margin: auto;
             padding: $size_12;
-        }
-
-        .left {
-            overflow-y: auto;
-        }
-
-        .bottom {
-            margin-top: $size_12;
         }
     }
 }

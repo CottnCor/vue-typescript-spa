@@ -1,39 +1,16 @@
 import { ActionTree, GetterTree, MutationTree } from 'vuex';
 
-interface ErrorTips {
-    state1: string;
-    state2: number;
-}
+interface ErrorTips {}
 
 const namespaced = true;
 
-const state: ErrorTips = {
-    state1: 'ErrorTips',
-    state2: new Date().getTime()
-};
+const state: ErrorTips = {};
 
-const getters: GetterTree<ErrorTips, number> = {
-    state1: (state: ErrorTips) => state.state1,
-    state2: (state: ErrorTips) => state.state2
-};
+const getters: GetterTree<ErrorTips, any> = {};
 
-const actions: ActionTree<ErrorTips, any> = {
-    set_state1({ commit }, data: string) {
-        commit('update_state1', data);
-    },
-    set_state2({ commit }, data: number) {
-        commit('update_state2', data);
-    }
-};
+const actions: ActionTree<ErrorTips, any> = {};
 
-const mutations: MutationTree<ErrorTips> = {
-    update_state1(state: ErrorTips, data: string) {
-        state.state1 = data;
-    },
-    update_state2(state: ErrorTips, data: number) {
-        state.state2 = data;
-    }
-};
+const mutations: MutationTree<ErrorTips> = {};
 
 export default {
     state,

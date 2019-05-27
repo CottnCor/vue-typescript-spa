@@ -16,58 +16,75 @@
         <a-icon type="caret-right" theme="filled" />
       </a>
     </div>
-    <div class="content">
-      <div>
-        <div class="radius">
-          <div class="content-tools">
-            <div v-for="(item, index)  in this.toolMenu" :key="index" class="divider">
-              <a v-if="item.type === 'action'" :class="[item.on ? 'on' : '', 'button']" @click="toolsHandleClickClick(item)">
-                <a-icon :type="item.icon" />
-              </a>
-              <a-divider v-if="item.type === 'split'" type="vertical" />
+    <a-spin size='large' :spinning="!this.currentQueryResult">
+      <div class="content">
+        <div>
+          <div class="radius">
+            <div class="content-tools">
+              <div v-for="(item, index) in this.toolMenu" :key="index" class="divider">
+                <a v-if="item.type === 'action'" :class="[item.on ? 'on' : '', 'button']" @click="toolsHandleClickClick(item)">
+                  <a-icon :type="item.icon" />
+                </a>
+                <a-divider v-if="item.type === 'split'" type="vertical" />
+              </div>
+            </div>
+            <img v-if="currentQueryResult && !themeSwitch && currentQueryResult.images" :src="currentQueryResult.images">
+            <img v-if="currentQueryResult && themeSwitch && currentQueryResult.themeImgs" :src="currentQueryResult.themeImgs">
+            <div v-if="!currentQueryResult || (currentQueryResult && (!themeSwitch ? !currentQueryResult.images : !currentQueryResult.themeImgs))" class="no-img">
+              <img src="https://gl.landcloud.org.cn/images/no_img.png">
+            </div>
+            <div v-if="currentQueryResult && (!themeSwitch ? !currentQueryResult.images : !currentQueryResult.themeImgs)" class="content-tips">
+              <p class="secondary center pure">查询范围内不涉及{{this.currentTab.label}}</p>
+            </div>
+            <div v-else-if="this.currentQueryResult && this.currentQueryResult.attributes && this.currentTab.value === 'image_Analyze'" class="content-tips">
+              <p class="secondary center left pure">卫星：{{this.currentQueryResult.attributes[0].sjy}} 拍摄时间：{{this.currentQueryResult.attributes[0].sx}}</p>
             </div>
           </div>
-          <img v-if="!themeSwitch && queryResult.images" :src="queryResult.images">
-          <img v-if="themeSwitch && queryResult.themeImgs" :src="queryResult.themeImgs">
-          <div v-if="!themeSwitch ? !queryResult.images : !queryResult.themeImgs" class="no-img">
-            <img src="https://gl.landcloud.org.cn/images/no_img.png">
-          </div>
-          <div v-if="!themeSwitch ? !queryResult.images : !queryResult.themeImgs" class="content-tips">
-            <p class="secondary center pure">查询范围内不涉及XXX</p>
+        </div>
+        <div>
+          <div class="radius">
+            <div class="info-wapper">
+              <a-table v-if="this.propColumns && this.propContent" :columns="this.propColumns" :dataSource="this.propContent" bordered :pagination="false" />
+              <p v-else class="title center highlight">
+                <a-icon type="warning" />该专题暂无属性数据
+              </p>
+            </div>
           </div>
         </div>
       </div>
-      <div>
-        <div class="radius">
-          <div class="info-wapper">
-            <a-table v-if="propColumns && propContent" :columns="propColumns" :dataSource="propContent" bordered :pagination="false" />
-            <p v-else class="title center highlight">
-              <a-icon type="warning" />查询范围内不涉及XXX</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <a-modal title="Basic Modal" v-model="resultFull" width="auto" destroyOnClose>
-      <!-- <simple-detail-card :queryResult="queryResult" :propColumns="propColumns" :propContent="propContent" /> -->
-      <search-tool :queryResult="queryResult" :propColumns="propColumns" :propContent="propContent" />
-    </a-modal>
+    </a-spin>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Emit, Prop, Vue, Watch } from 'vue-property-decorator';
 
-import { SimpleDetailCard, SearchTool } from '@/components';
+import { Getter, Action, namespace } from 'vuex-class';
+
+const store = namespace('Common');
 
 @Component({
-    components: { SimpleDetailCard, SearchTool }
+    components: {}
 })
 class SimpleTabCard extends Vue {
-    private tabMenu: any = [
+    @Prop({ default: null })
+    private queryResult!: any;
+
+    private tabMenu: any[] = [
+        // {
+        //     type: 'action',
+        //     active: false,
+        //     label: '在线影像',
+        //     value: 'map',
+        //     icon: 'pushpin',
+        //     grade: 0,
+        //     handle: 0
+        // },
         {
             type: 'action',
             active: false,
             label: '最新影像',
+            value: 'image_Analyze',
             icon: 'pushpin',
             grade: 0,
             handle: 1
@@ -76,69 +93,68 @@ class SimpleTabCard extends Vue {
             type: 'action',
             active: false,
             label: '土地分类',
-            icon: 'edit',
+            value: 'landType_Analyze',
+            icon: 'pushpin',
             grade: 0,
             handle: 2
         },
         {
             type: 'action',
             active: false,
-            label: '自然保护区',
-            icon: 'delete',
+            label: '基本农田',
+            value: 'primeFarm_Analyze',
+            icon: 'pushpin',
             grade: 0,
             handle: 3
         },
         {
             type: 'action',
             active: false,
-            label: '耕地等别',
-            icon: 'delete',
-            grade: 0,
-            handle: 4
-        },
-        {
-            type: 'action',
-            active: false,
-            label: '耕地等别',
-            icon: 'delete',
-            grade: 0,
-            handle: 5
-        },
-        {
-            type: 'action',
-            active: false,
-            label: '土地规划',
-            icon: 'delete',
-            grade: 0,
-            handle: 6
-        },
-        {
-            type: 'action',
-            active: false,
-            label: '审批备案',
-            icon: 'delete',
+            label: '土地归属',
+            value: 'ownership_Analyze',
+            icon: 'pushpin',
             grade: 0,
             handle: 7
         },
         {
             type: 'action',
             active: false,
-            label: '土地归属',
-            icon: 'delete',
+            label: '土地规划',
+            value: 'plan_Analyze',
+            icon: 'pushpin',
+            grade: 0,
+            handle: 5
+        },
+        {
+            type: 'action',
+            active: false,
+            label: '耕地等别',
+            value: 'landGrade_Analyze',
+            icon: 'trophy',
             grade: 1,
-            handle: 8
+            handle: 4
+        },
+        {
+            type: 'action',
+            active: false,
+            label: '审批备案',
+            value: 'spba_Analyze',
+            icon: 'trophy',
+            grade: 1,
+            handle: 6
         },
         {
             type: 'action',
             active: false,
             label: '自然保护区',
-            icon: 'delete',
+            value: 'natureReserve_Analyze',
+            icon: 'trophy',
             grade: 1,
-            handle: 9
+            handle: 8
         }
     ];
 
-    private toolMenu: any = [
+    private toolMenu: any[] = [
         {
             type: 'action',
             on: false,
@@ -153,77 +169,119 @@ class SimpleTabCard extends Vue {
         {
             type: 'action',
             on: false,
-            label: '全屏',
-            icon: 'fullscreen',
-            handle: 'onFull',
-            invork: this.fullResult
+            label: '属性',
+            icon: 'heat-map',
+            handle: 'onProp',
+            invork: this.switchProp
         }
     ];
 
-    private queryResult: any = {
-        attributes: [
-            {
-                code: '201',
-                name: '城市',
-                mj: '186.812531134901',
-                percent: '1.0000000033045'
-            }
-        ],
-        images:
-            'http://gtdcy-obs.obs.cn-north-1.myhwclouds.com/cloudQueryDbImage/14089/dbimage/c0296e18-ab4a-4ac1-b963-9f2633f349e3.png',
-        themeImgs: null,
-        date: null
-    };
+    private propColumns: any[] = null;
 
-    private propColumns: any = [
-        {
-            title: '序号',
-            className: 'index',
-            dataIndex: 'index'
-        },
-        {
-            title: '备案情况',
-            className: 'content',
-            dataIndex: 'content'
-        },
-        {
-            title: '面积（亩）',
-            dataIndex: 'area'
-        }
-    ];
-
-    private propContent: any = [
-        {
-            key: 1,
-            index: 1,
-            content: '无备案信息',
-            area: 3.55
-        },
-        {
-            key: 2,
-            index: 2,
-            content: '已备案',
-            area: 1.25
-        },
-        {
-            key: 3,
-            content: '合计',
-            area: 4.8
-        }
-    ];
+    private propContent: any[] = null;
 
     private hideTab: any = {
         left: 0,
-        right: this.tabMenu.length - 3
+        right: this.tabMenu.length - 6
     };
 
     private themeSwitch: boolean = false;
 
-    private resultFull: boolean = false;
+    private currentQueryResult: any = null;
 
     private get hideTabWidth(): number {
-        return -this.hideTab.left * 132 * 0.072;
+        return -this.hideTab.left * 264 * 0.072;
     }
+
+    private get currentTab(): any {
+        let tabs = this.tabMenu.filter((item) => item.active);
+        if (tabs.length > 0) {
+            return tabs[0];
+        } else {
+            return null;
+        }
+    }
+
+    @Watch('currentTab', { immediate: true, deep: true })
+    private onCurrentTab(val: any, oldVal: any) {
+        if (this.queryResult) {
+            if (val.value === 'map') {
+                return null;
+            } else {
+                this.currentQueryResult = this.queryResult[val.value];
+                if (this.currentQueryResult && this.currentQueryResult.attributes) {
+                    let totalMj: number = 0;
+                    let attributes: any[] = this.currentQueryResult.attributes.map(
+                        (item, index) => {
+                            totalMj += parseFloat(item.mj);
+                            return {
+                                index: index,
+                                name: item.name + '-' + item.code,
+                                mj: parseFloat(item.mj).toFixed(2)
+                            };
+                        }
+                    );
+                    attributes.push({
+                        name: '合计',
+                        mj: totalMj.toFixed(2)
+                    });
+                    this.propContent = attributes;
+                    this.propColumns = [
+                        {
+                            title: '序号',
+                            dataIndex: 'index'
+                        },
+                        {
+                            title: '地类名称',
+                            dataIndex: 'name'
+                        },
+                        {
+                            title: '面积（亩）',
+                            dataIndex: 'mj'
+                        }
+                    ];
+                }
+                switch (val.value) {
+                    case 'image_Analyze':
+                        this.propColumns = null;
+                        this.propContent = null;
+                        break;
+                    case 'landType_Analyze':
+                        this.propColumns[1].title = '地类名称';
+                        break;
+                    case 'primeFarm_Analyze':
+                        this.propColumns[1].title = '类型';
+                        break;
+                    case 'landGrade_Analyze':
+                        this.propColumns[1].title = '耕地等别';
+                        break;
+                    case 'plan_Analyze':
+                        this.propColumns[1].title = '地类名称';
+                        break;
+                    case 'spba_Analyze':
+                        this.propColumns[1].title = '备案情况';
+                        break;
+                    case 'ownership_Analyze':
+                        this.propColumns[1].title = '权属单位';
+                        break;
+                    case 'natureReserve_Analyze':
+                        this.propColumns[1].title = '功能分区';
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+
+    @Watch('queryResult', { immediate: true, deep: true })
+    private onQueryResult(val: any, oldVal: any) {
+        if (val) {
+            this.tabMenu[0].active = true;
+        }
+    }
+
+    private mounted() {}
 
     private visibleTab(param: any) {
         if (param === 'left') {
@@ -243,13 +301,12 @@ class SimpleTabCard extends Vue {
         }
     }
 
-    private fullResult(param: any) {
-        this.$message.success('fullResult', 3);
-        this.resultFull = true;
+    private switchTheme(param: any) {
+        param.on = !param.on;
+        this.themeSwitch = param.on;
     }
 
-    private switchTheme(param: any) {
-        this.$message.success('switchTheme', 3);
+    private switchProp(param: any) {
         param.on = !param.on;
         this.themeSwitch = param.on;
     }
@@ -299,7 +356,7 @@ export default SimpleTabCard;
             overflow-x: hidden;
             justify-content: space-between;
             max-width: calc(
-                #{(($size_240 + $size_20 * 2 + $size_32) * 2 + $size_12 * 4 - $size_64)}
+                #{(($size_240 + $size_20 * 2 + $size_32) * 4 + $size_12 * 8 - $size_64)}
             );
 
             & > div {
@@ -357,20 +414,20 @@ export default SimpleTabCard;
 
             & > div {
                 position: relative;
-                padding: calc(#{($size_12)});
+                padding: calc(#{($size_24)});
 
                 img,
                 .info-wapper,
                 .no-img {
-                    width: calc(#{($size_240 + $size_20 * 2 + $size_32)});
-                    height: calc(#{($size_240 - $size_20 + $size_6 + $size_24 + $size_2)});
+                    width: calc(#{(($size_240 + $size_20 * 2 + $size_32)) * 2});
+                    height: calc(#{(($size_240 - $size_20 + $size_6 + $size_24 + $size_2)) * 2});
                 }
 
                 .content-tools {
                     z-index: $zindex_back-top;
                     position: absolute;
-                    top: $size_12;
-                    right: $size_12;
+                    top: $size_24;
+                    right: $size_24;
                     a {
                         box-shadow: none;
                         &.on {
@@ -395,9 +452,9 @@ export default SimpleTabCard;
                 .content-tips {
                     z-index: $zindex_back-top;
                     position: absolute;
-                    bottom: $size_12;
-                    left: $size_12;
-                    width: calc(100% - #{($size_12 * 2)});
+                    bottom: $size_24;
+                    left: $size_24;
+                    width: calc(100% - #{($size_24 * 2)});
                     background-color: map-get($default, grey_3);
                 }
 
@@ -411,6 +468,10 @@ export default SimpleTabCard;
                     }
                 }
             }
+        }
+
+        .ant-table-tbody > tr > td {
+            white-space: nowrap;
         }
     }
 }

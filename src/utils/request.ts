@@ -4,7 +4,7 @@
 
 import axios, { AxiosResponse, AxiosRequestConfig } from 'axios';
 
-import { CURRENT_HOST, IS_PROD, IS_MOCK, CONMOM_PRAMS } from '@/config';
+import { CURRENT_HOST, IS_PROD, IS_MOCK, AXIOS_DEFAULT_CONFIG, CONMOM_PRAMS } from '@/config';
 
 const httpStatus = {
     OK: 200,
@@ -39,7 +39,7 @@ export default class Request {
      */
     public get(url: string, param?: any, option?: AxiosRequestConfig) {
         return axios
-            .get(this.host + url, { params: param, timeout: 5000 })
+            .get(this.host + url, { params: param, timeout: AXIOS_DEFAULT_CONFIG.timeout })
             .then((res) => this.handelResponse(res))
             .then((result) => this.handleError(result));
     }
@@ -52,7 +52,7 @@ export default class Request {
      */
     public post(url: string, body: any, param?: any, option?: AxiosRequestConfig) {
         return axios
-            .post(this.host + url, { params: param, timeout: 5000 })
+            .post(this.host + url, body, { params: param, timeout: AXIOS_DEFAULT_CONFIG.timeout })
             .then((res) => this.handelResponse(res))
             .then((result) => this.handleError(result));
     }
@@ -65,7 +65,7 @@ export default class Request {
      */
     public put(url: string, body?: any, param?: any, option?: AxiosRequestConfig) {
         return axios
-            .put(this.host + url, body, { timeout: 5000, params: param })
+            .put(this.host + url, body, { params: param, timeout: AXIOS_DEFAULT_CONFIG.timeout })
             .then((res) => this.handelResponse(res))
             .then((result) => this.handleError(result));
     }
@@ -77,7 +77,7 @@ export default class Request {
      */
     public delete(url: string, param?: any, option?: AxiosRequestConfig) {
         return axios
-            .delete(this.host + url, { params: param, timeout: 5000 })
+            .delete(this.host + url, { params: param, timeout: AXIOS_DEFAULT_CONFIG.timeout })
             .then((res) => this.handelResponse(res))
             .then((result) => this.handleError(result));
     }

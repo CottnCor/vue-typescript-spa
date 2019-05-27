@@ -8,11 +8,7 @@ import SearchTool from './widgets/SearchTool.vue';
 
 import SimpleTabCard from './widgets/SimpleTabCard.vue';
 
-import SimpleDetailCard from './widgets/SimpleDetailCard.vue';
-
 import CompareTabCard from './widgets/CompareTabCard.vue';
-
-import CompareDetailsCard from './widgets/CompareDetailsCard.vue';
 
 export {
     Mapbox,
@@ -20,7 +16,5 @@ export {
     ExceptionCard,
     SearchTool,
     SimpleTabCard,
-    SimpleDetailCard,
     CompareTabCard,
-    CompareDetailsCard
 };
