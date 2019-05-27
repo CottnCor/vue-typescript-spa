@@ -29,13 +29,17 @@ const router = new Router({
 
 // 路由拦截
 router.beforeEach((to: any, from: any, next: any) => {
-    const verify = to.query.appkey && to.query.userid ? true : false;
-    if (!verify) {
-        next({
-            name: ASSIST_ROUTER.error.name
-        });
-    } else {
+    if (to.name === ASSIST_ROUTER.error.name) {
         next();
+    } else {
+        const verify = to.query.appkey && to.query.userid ? true : false;
+        if (!verify) {
+            next({
+                name: ASSIST_ROUTER.error.name
+            });
+        } else {
+            next();
+        }
     }
 });
 

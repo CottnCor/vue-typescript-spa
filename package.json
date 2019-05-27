@@ -12,6 +12,7 @@
     "page": "node scripts/page-tpl.js"
   },
   "dependencies": {
+    "@turf/turf": "^5.1.6",
     "@types/mapbox-gl": "^0.51.6",
     "ant-design-vue": "^1.3.8",
     "axios": "^0.18.0",

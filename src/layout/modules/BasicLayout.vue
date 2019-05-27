@@ -15,7 +15,7 @@ export default BasicLayout;
 <style lang='scss' scoped>
 .main {
     width: 100%;
-    height: 100%;
+    min-height: 100%;
     display: flex;
     background: map-get($default, grey_2);
 }

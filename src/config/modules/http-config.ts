@@ -24,7 +24,7 @@ export const IS_MOCK = false;
 export const ONLINE_HOST = 'http://49.4.82.201:8093/';
 
 // 测试环境
-export const QA_HOST = 'http://192.168.1.9:8080/';
+export const QA_HOST = 'http://172.16.56.98:8080/';
 
 // mock
 export const MOCK_HOST = './mock/';

@@ -5,8 +5,8 @@
       <a :class="[this.status == 1 ? 'warning' : 'success', 'primary', 'center', 'simple']">
         <a-icon v-if="this.status == 1" type="loading" />
         <a-icon v-if="this.status == 2" type="check-circle" theme="filled" />
-        <p v-if="this.status == 1" class="center right strong">正在加载本次云查询结果，请稍等</p>
-        <p v-if="this.status == 2" class="center right strong">{{this.xzqTag}}</p>
+        <p v-if="this.status == 1" class="nowrap center right strong">正在加载本次云查询结果，请稍等</p>
+        <p v-if="this.status == 2" class="nowrap center right strong">{{this.xzqTag}}</p>
       </a>
       <a-divider v-if="this.status == 2" type="vertical" />
     </div>
@@ -14,18 +14,18 @@
       <a-popconfirm v-if="item.type === 'action' && item.handle==='onClear'" title="确定清除所有范围或坐标?" placement="bottom" @confirm="clearDraw" okText="是" cancelText="否">
         <a v-if="item.type === 'action'" class="primary center simple" :class="item.active ? 'active' : ''" href="#" @click="handleClick(item)">
           <a-icon :type="item.icon" theme="filled" />
-          <p v-if="item.label" class="center">{{item.label}}</p>
+          <p v-if="item.label" class="nowrap center">{{item.label}}</p>
         </a>
       </a-popconfirm>
       <a-popconfirm v-if="item.type === 'action' && item.handle==='onSwitch'" title="确定退出本次云查询结果页吗?" placement="bottom" @confirm="switchDraw" okText="是" cancelText="否">
         <a v-if="item.type === 'action'" class="primary center simple" :class="item.active ? 'active' : ''" href="#" @click="handleClick(item)">
           <a-icon :type="item.icon" theme="filled" />
-          <p v-if="item.label" class="center">{{item.label}}</p>
+          <p v-if="item.label" class="nowrap center">{{item.label}}</p>
         </a>
       </a-popconfirm>
       <a v-if="item.type === 'action' && item.handle!='onClear' && item.handle!='onSwitch'" :class="[item.active ? 'active' : '', 'primary', 'center', 'simple']" href="#" @click="handleClick(item)">
         <a-icon :type="item.icon" theme="filled" />
-        <p v-if="item.label" class="center">{{item.label}}</p>
+        <p v-if="item.label" class="nowrap center">{{item.label}}</p>
       </a>
       <a-divider v-if="item.type === 'split'" type="vertical" />
     </div>

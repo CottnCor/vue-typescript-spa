@@ -1,7 +1,7 @@
 <template>
-<div class="wapper">
+  <div class="layout-wapper">
     <exception-card :code='this.code' />
-</div>
+  </div>
 </template>
 
 <script lang="ts" src="./ErrorTips.ts"></script>

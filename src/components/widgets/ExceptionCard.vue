@@ -1,12 +1,12 @@
 <template>
-  <div class="exception">
-    <div class="img">
+  <div class="contronl-wapper exception">
+    <div class="content-wapper img">
       <img :src="this.config[code].img" />
     </div>
-    <div class="content">
-      <h1>{{ this.config[code].title }}</h1>
-      <div class="desc">{{ this.config[code].desc }}</div>
-      <div class="action">
+    <div class="content-wapper content">
+      <h1 class="content-wapper">{{ this.config[code].title }}</h1>
+      <div class="content-wapper desc">{{ this.config[code].desc }}</div>
+      <div class="content-wapper action">
         <a-button type="primary" @click="this.back">返回上一页</a-button>
       </div>
     </div>
@@ -16,7 +16,8 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
-import { ASSIST_ROUTER } from '@/config';
+import { ROOT_ROUTER, ASSIST_ROUTER } from '@/config';
+import mapboxgl from 'mapbox-gl';
 
 @Component({})
 class ExceptionCard extends Vue {
@@ -41,7 +42,7 @@ class ExceptionCard extends Vue {
     };
 
     private back() {
-        this.$router.push({ name: ASSIST_ROUTER.portal.name });
+        this.$router.push({ name: ASSIST_ROUTER.error.name });
     }
 }
 export default ExceptionCard;
@@ -49,57 +50,28 @@ export default ExceptionCard;
 
 <style lang="scss" scoped>
 .exception {
-    min-height: $size_640;
-    height: 80%;
     align-items: center;
     text-align: center;
-    margin: auto;
-    display: flex;
     .img {
-        display: inline-block;
-        padding-right: $size_48;
         zoom: 1;
-        img {
-            height: $size_360;
-            max-width: $size_420;
-        }
     }
     .content {
-        display: inline-block;
-        flex: auto;
         h1 {
-            color: #434e59;
+            color: map-get($default, grey_8);
             font-size: $size_72;
             font-weight: 600;
             line-height: $size_72;
-            margin-bottom: $size_24;
         }
         .desc {
-            color: rgba(0, 0, 0, 0.45);
+            color: map-get($default, grey_6);
             font-size: $size_20;
             line-height: $size_28;
-            margin-bottom: $size_16;
         }
-    }
-    button {
-        margin: auto;
-    }
-}
-
-// media
-@media only screen and (max-width: map-get($breakpoint, sm)) {
-    .exception {
-        margin: auto;
-        .img {
-            padding-right: unset;
-
-            img {
-                height: 40%;
-                max-width: 80%;
+        .action {
+            display: flex;
+            button {
+                margin: auto;
             }
-        }
-        button {
-            margin: auto;
         }
     }
 }

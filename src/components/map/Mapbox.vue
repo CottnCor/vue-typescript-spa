@@ -144,10 +144,8 @@ export default Mapbox;
 .content {
     margin: auto;
     width: 100%;
-    height: 100%;
 
     .mapboxgl-map {
-        height: 100%;
         width: 100%;
         cursor: move;
         text-align: left;
