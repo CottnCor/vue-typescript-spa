@@ -1,0 +1,353 @@
+{
+  "status": "OK",
+  "message": "",
+  "tag": null,
+  "data": {
+    "data": {
+      "id": "0ddacab3-6104-4e6c-8f35-5cedbd031ad4",
+      "xzqdm": "110109",
+      "param": "{\"id\":\"0ddacab3-6104-4e6c-8f35-5cedbd031ad4\",\"mj\":15.37,\"height\":426,\"width\":530,\"analyzetype\":\"地类分析、权属分析、基本农田分析、规划分析、审批备案分析、自然保护区分析、遥感影像分析、基本农田保护|基本农田分析|地类分析、耕地等别分析、遥感影像分析_20141231、遥感影像分析_20151231、遥感影像分析_20171231、遥感影像分析_20181231、地类分析_20091231、地类分析_20131231、地类分析_20141231、地类分析_20151231、地类分析_20161231、地类分析_20171231\",\"range\":\"POLYGON ((115.58126479693298 39.86656326408518, 115.58193532033101 39.86658797344441, 115.58232690912358 39.86625448111516, 115.58192996202092 39.8659333318723, 115.58044408415175 39.86565746143097, 115.58037434666147 39.865995076809924, 115.58126479693298 39.86656326408518))\",\"sourceRange\":\"POLYGON((115.58264721426936 39.86659746376957,115.58331776651927 39.86662216816467,115.58370936903823 39.8662886580807,115.58331240210379 39.865967498688704,115.58182645831403 39.86569162980672,115.5817567208768 39.86602926022722,115.58264721426936 39.86659746376957))\",\"range2000\":\"POLYGON((115.58264721426936 39.86659746376957,115.58331776651927 39.86662216816467,115.58370936903823 39.8662886580807,115.58331240210379 39.865967498688704,115.58182645831403 39.86569162980672,115.5817567208768 39.86602926022722,115.58264721426936 39.86659746376957))\",\"lon\":\"115.58273304496\",\"lat\":\"39.866156898986\"}",
+      "userId": 13121,
+      "querytime": "2019-05-27 11:32:51",
+      "result": "http://gtdcy-obs.obs.cn-north-1.myhwclouds.com/cloudQuery/13121/0ddacab3-6104-4e6c-8f35-5cedbd031ad4=1974d1705bd82993a48ed6a5d3e68475.db",
+      "replyTime": "2019-05-27 11:33:00",
+      "state": 1,
+      "weight": 100,
+      "deviceGuid": null,
+      "isDeleted": 0,
+      "type": 0,
+      "queryType": 0,
+      "relId": "0ddacab3-6104-4e6c-8f35-5cedbd031ad4",
+      "area": 15.37,
+      "isCollect": 0,
+      "name": "门头沟区0912",
+      "shareUser": null,
+      "shareId": null,
+      "num": "门头沟区0912"
+    },
+    "previous": "69354fc9-b443-47a1-95b2-021349547e6f",
+    "next": "b25c99d0-679b-4d84-8313-2ede05619cf3",
+    "landType_Analyze": {
+      "attributes": [{
+          "code": "203",
+          "name": "村庄",
+          "mj": "0.50343940200003",
+          "percent": "0.0327546780741724"
+        },
+        {
+          "code": "012",
+          "name": "水浇地",
+          "mj": "10.1635599225442",
+          "percent": "0.661259591577373"
+        },
+        {
+          "code": "013",
+          "name": "旱地",
+          "mj": "3.56553680827039",
+          "percent": "0.231980273797683"
+        },
+        {
+          "code": "032",
+          "name": "灌木林地",
+          "mj": "1.13746267736306",
+          "percent": "0.0740053791387806"
+        }
+      ],
+      "images": "http://gtdcy-obs.obs.cn-north-1.myhwclouds.com/cloudQueryDbImage/13121/dbimage/81d41592-d844-4a6d-8154-86529e20e342.png",
+      "themeImgs": "http://gtdcy-obs.obs.cn-north-1.myhwclouds.com/cloudQueryDbImage/13121/dbimage/f8eddde5-e460-469e-88e9-1b8f9f5f3f10.png",
+      "date": null
+    },
+    "ownership_Analyze": {
+      "attributes": [{
+        "code": "110109012217",
+        "name": "黄安坨村",
+        "mj": "15.3699993450759",
+        "percent": "0.999999957389452"
+      }],
+      "images": "http://gtdcy-obs.obs.cn-north-1.myhwclouds.com/cloudQueryDbImage/13121/dbimage/c77a17a1-e77f-4e5a-835d-5834b24d06cd.png",
+      "themeImgs": "http://gtdcy-obs.obs.cn-north-1.myhwclouds.com/cloudQueryDbImage/13121/dbimage/1adfe1a3-629d-47ef-981d-4ea5282d789b.png",
+      "date": null
+    },
+    "primeFarm_Analyze": {
+      "attributes": [{
+        "name": "基本农田",
+        "mj": "13.7328045960664",
+        "percent": "0.89348110579482"
+      }],
+      "images": "http://gtdcy-obs.obs.cn-north-1.myhwclouds.com/cloudQueryDbImage/13121/dbimage/c819b4f4-7c6c-4f0f-bcc2-08933fe3e84a.png",
+      "themeImgs": "http://gtdcy-obs.obs.cn-north-1.myhwclouds.com/cloudQueryDbImage/13121/dbimage/d3c2a8e6-f7d6-43da-90fe-034b451d36bf.png",
+      "date": null
+    },
+    "plan_Analyze": {
+      "attributes": [{
+          "code": "010",
+          "name": "允许建设区",
+          "mj": "0.571038315382214",
+          "percent": "0.0371527856462078"
+        },
+        {
+          "code": "030",
+          "name": "限制建设区",
+          "mj": "14.7989613594459",
+          "percent": "0.962847193197519"
+        }
+      ],
+      "images": "http://gtdcy-obs.obs.cn-north-1.myhwclouds.com/cloudQueryDbImage/13121/dbimage/2161f56c-d5d3-42a4-ab49-2641c41e6f0c.png",
+      "themeImgs": "http://gtdcy-obs.obs.cn-north-1.myhwclouds.com/cloudQueryDbImage/13121/dbimage/c602165b-3918-4efb-8f5b-ab9bc2437603.png",
+      "date": null
+    },
+    "spba_Analyze": {
+      "attributes": [{
+        "project_type": "农转用项目图斑",
+        "approval_date": "2011/4/15 0:00:00",
+        "project_number": "d921b4f7-6353-40fb-a9f3-3de9701440c8",
+        "name": "珠海长隆国际海洋度假区六期项目",
+        "mj": "2.23676691915255",
+        "license_number": "粤国土资（建）字[2011]198号"
+      }],
+      "images": "http://gtdcy-obs.obs.cn-north-1.myhwclouds.com/cloudQueryDbImage/13121/dbimage/95876504-3236-4fc9-a775-a3adc80a52a8.png",
+      "themeImgs": "http://gtdcy-obs.obs.cn-north-1.myhwclouds.com/cloudQueryDbImage/13121/dbimage/b4d8d98b-1eb6-4951-a165-4fc38dbf7063.png",
+      "date": null
+    },
+    "natureReserve_Analyze": {
+      "attributes": [{
+        "gnfq": "实验区",
+        "xjbpz": "",
+        "tzpz": "",
+        "name": "百花山",
+        "sn": "",
+        "lx": "",
+        "mj": "14.5316218832686",
+        "percent": "0.94545360333563"
+      }],
+      "images": "http://gtdcy-obs.obs.cn-north-1.myhwclouds.com/cloudQueryDbImage/13121/dbimage/30c86052-9c8c-46e0-bb98-690eb46d5fe4.png",
+      "themeImgs": "http://gtdcy-obs.obs.cn-north-1.myhwclouds.com/cloudQueryDbImage/13121/dbimage/725b9805-9894-44de-a6ed-ccca073792da.png",
+      "date": null
+    },
+    "aggregate_Analyze": {
+      "attributes": null,
+      "images": null,
+      "themeImgs": null,
+      "date": null
+    },
+    "landGrade_Analyze": {
+      "attributes": [{
+        "grade": "9等",
+        "mj": "13.7290982797443",
+        "percent": "0.893239966151222"
+      }],
+      "images": "http://gtdcy-obs.obs.cn-north-1.myhwclouds.com/cloudQueryDbImage/13121/dbimage/1482efe4-573e-468d-9396-9bb060fb294d.png",
+      "themeImgs": "http://gtdcy-obs.obs.cn-north-1.myhwclouds.com/cloudQueryDbImage/13121/dbimage/a2aff0c4-aa98-48d9-b0bd-7747ee9a10a5.png",
+      "date": null
+    },
+    "landType_Analyze_History": [{
+        "attributes": [{
+            "code": "203",
+            "name": "村庄",
+            "mj": "0.50343940200003",
+            "percent": "0.0327546780741724"
+          },
+          {
+            "code": "012",
+            "name": "水浇地",
+            "mj": "10.1635599225442",
+            "percent": "0.661259591577373"
+          },
+          {
+            "code": "013",
+            "name": "旱地",
+            "mj": "3.56553680827039",
+            "percent": "0.231980273797683"
+          },
+          {
+            "code": "032",
+            "name": "灌木林地",
+            "mj": "1.13746267736306",
+            "percent": "0.0740053791387806"
+          }
+        ],
+        "images": "http://gtdcy-obs.obs.cn-north-1.myhwclouds.com/cloudQueryDbImage/13121/dbimage/3564799a-800e-4818-980b-eaed7208a048.png",
+        "themeImgs": "http://gtdcy-obs.obs.cn-north-1.myhwclouds.com/cloudQueryDbImage/13121/dbimage/e3c83fd8-b9ac-4074-91fb-45d74e4ee19b.png",
+        "date": "20171231"
+      },
+      {
+        "attributes": [{
+            "code": "203",
+            "name": "村庄",
+            "mj": "0.50343940200003",
+            "percent": "0.0327546780741724"
+          },
+          {
+            "code": "012",
+            "name": "水浇地",
+            "mj": "10.1635599225442",
+            "percent": "0.661259591577373"
+          },
+          {
+            "code": "013",
+            "name": "旱地",
+            "mj": "3.56553680827039",
+            "percent": "0.231980273797683"
+          },
+          {
+            "code": "032",
+            "name": "灌木林地",
+            "mj": "1.13746267736306",
+            "percent": "0.0740053791387806"
+          }
+        ],
+        "images": "http://gtdcy-obs.obs.cn-north-1.myhwclouds.com/cloudQueryDbImage/13121/dbimage/953c96cc-2875-40ee-9b6b-6b526d66abbb.png",
+        "themeImgs": null,
+        "date": "20161231"
+      },
+      {
+        "attributes": [{
+            "code": "203",
+            "name": "村庄",
+            "mj": "0.50343940200003",
+            "percent": "0.0327546780741724"
+          },
+          {
+            "code": "012",
+            "name": "水浇地",
+            "mj": "10.1635612375601",
+            "percent": "0.661259677134682"
+          },
+          {
+            "code": "032",
+            "name": "灌木林地",
+            "mj": "1.13746267736306",
+            "percent": "0.0740053791387806"
+          },
+          {
+            "code": "013",
+            "name": "旱地",
+            "mj": "3.56553607065864",
+            "percent": "0.231980225807329"
+          }
+        ],
+        "images": "http://gtdcy-obs.obs.cn-north-1.myhwclouds.com/cloudQueryDbImage/13121/dbimage/e393426c-eefb-428a-8789-7619ce09593b.png",
+        "themeImgs": "http://gtdcy-obs.obs.cn-north-1.myhwclouds.com/cloudQueryDbImage/13121/dbimage/212a776b-af38-4092-87a5-9229d26ac96f.png",
+        "date": "20151231"
+      },
+      {
+        "attributes": [{
+            "code": "203",
+            "name": "村庄",
+            "mj": "0.50343940200003",
+            "percent": "0.0327546780741724"
+          },
+          {
+            "code": "013",
+            "name": "旱地",
+            "mj": "13.729097209832",
+            "percent": "0.893239896540796"
+          },
+          {
+            "code": "032",
+            "name": "灌木林地",
+            "mj": "1.13746267736306",
+            "percent": "0.0740053791387806"
+          }
+        ],
+        "images": "http://gtdcy-obs.obs.cn-north-1.myhwclouds.com/cloudQueryDbImage/13121/dbimage/b9e016bf-4c59-48c5-83a3-30e82e26fa00.png",
+        "themeImgs": "http://gtdcy-obs.obs.cn-north-1.myhwclouds.com/cloudQueryDbImage/13121/dbimage/8d23ae75-219d-4b0c-9076-ea581f0d505c.png",
+        "date": "20141231"
+      },
+      {
+        "attributes": [{
+            "code": "203",
+            "name": "村庄",
+            "mj": "0.50343940200003",
+            "percent": "0.0327546780741724"
+          },
+          {
+            "code": "032",
+            "name": "灌木林地",
+            "mj": "1.13746267736306",
+            "percent": "0.0740053791387806"
+          },
+          {
+            "code": "013",
+            "name": "旱地",
+            "mj": "13.729097209832",
+            "percent": "0.893239896540796"
+          }
+        ],
+        "images": "http://gtdcy-obs.obs.cn-north-1.myhwclouds.com/cloudQueryDbImage/13121/dbimage/2421947e-e0e5-4a8e-a4c4-284c35b11e38.png",
+        "themeImgs": null,
+        "date": "20131231"
+      },
+      {
+        "attributes": [{
+            "code": "203",
+            "name": "村庄",
+            "mj": "0.50343940200003",
+            "percent": "0.0327546780741724"
+          },
+          {
+            "code": "013",
+            "name": "旱地",
+            "mj": "13.729097209832",
+            "percent": "0.893239896540796"
+          },
+          {
+            "code": "032",
+            "name": "灌木林地",
+            "mj": "1.13746267736306",
+            "percent": "0.0740053791387806"
+          }
+        ],
+        "images": "http://gtdcy-obs.obs.cn-north-1.myhwclouds.com/cloudQueryDbImage/13121/dbimage/fa3921d4-d669-4039-8efb-29b16df741ed.png",
+        "themeImgs": "http://gtdcy-obs.obs.cn-north-1.myhwclouds.com/cloudQueryDbImage/13121/dbimage/1a693d77-e48b-4d49-a3ca-4aee1e4eb499.png",
+        "date": "20091231"
+      }
+    ],
+    "image_Analyze": {
+      "attributes": [{
+        "sjy": "北京2号",
+        "sx": "20180101"
+      }],
+      "images": "http://gtdcy-obs.obs.cn-north-1.myhwclouds.com/cloudQueryDbImage/13121/dbimage/341a93ee-00ba-43b2-ab2d-5fb6b95bad05.png",
+      "themeImgs": null,
+      "date": null
+    },
+    "image_Analyze_History": [{
+        "attributes": [{
+          "sjy": "北京2号",
+          "sx": "20180101"
+        }],
+        "images": "http://gtdcy-obs.obs.cn-north-1.myhwclouds.com/cloudQueryDbImage/13121/dbimage/99ee99f3-93f1-43d7-85ed-116941138d93.png",
+        "themeImgs": null,
+        "date": "20180101"
+      },
+      {
+        "attributes": [{
+          "sjy": "高分2号",
+          "sx": "20170906"
+        }],
+        "images": "http://gtdcy-obs.obs.cn-north-1.myhwclouds.com/cloudQueryDbImage/13121/dbimage/935ea38f-164e-45a4-8156-e1976170d9a7.png",
+        "themeImgs": null,
+        "date": "20170906"
+      },
+      {
+        "attributes": [{
+          "sjy": "高分2号",
+          "sx": "20151007"
+        }],
+        "images": "http://gtdcy-obs.obs.cn-north-1.myhwclouds.com/cloudQueryDbImage/13121/dbimage/d711d77c-4159-4b65-ab2a-e0b646c0dad2.png",
+        "themeImgs": null,
+        "date": "20151007"
+      },
+      {
+        "attributes": [{
+          "sjy": "KS3卫星",
+          "sx": "20141006"
+        }],
+        "images": "http://gtdcy-obs.obs.cn-north-1.myhwclouds.com/cloudQueryDbImage/13121/dbimage/fdbe1283-4215-4399-b23a-960e7f500555.png",
+        "themeImgs": null,
+        "date": "20141006"
+      }
+    ]
+  }
+}

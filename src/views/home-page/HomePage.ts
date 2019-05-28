@@ -97,7 +97,11 @@ class HomePage extends Vue {
         this.addQuery();
     }
 
-    private beforeDestroy() {}
+    private beforeDestroy() {
+        if (this.intervalGetResult) {
+            clearInterval(this.interval);
+        }
+    }
 
     private onMapLoaded(event: any) {
         this.map = event.map;
@@ -110,6 +114,7 @@ class HomePage extends Vue {
 
     private addQuery() {
         if (this.lon && this.lat && this.type && this.param) {
+            debugger;
             addCloudQuery({
                 appkey: this.appkey,
                 userid: this.userid,
@@ -120,6 +125,7 @@ class HomePage extends Vue {
                 relId: guid()
             })
                 .then((result) => {
+                    debugger;
                     if (result && result.status === 'OK' && result.message === 'SUCCESS') {
                         this.$notification.success({
                             message: '添加云查询成功',
@@ -137,6 +143,7 @@ class HomePage extends Vue {
                     }
                 })
                 .catch((error) => {
+                    debugger;
                     console.log(error);
                     this.$notification.error({
                         message: '添加云查询失败',
@@ -145,6 +152,7 @@ class HomePage extends Vue {
                     this.setStatus(0);
                 });
         } else {
+            debugger;
             this.setStatus(0);
         }
     }
