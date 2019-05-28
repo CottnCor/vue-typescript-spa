@@ -17,11 +17,8 @@ const rootRouter = [
         component: () => import('@/views/home-page/HomePage.vue'),
         props: (route) => ({
             appkey: route.query.appkey,
-            userid: route.query.userid,
-            lon: route.query.lon,
-            lat: route.query.lat,
-            type: route.query.type,
-            param: route.query.param
+            userId: route.query.userId,
+            wkt: route.query.wkt
         }),
         meta: {
             icon: '',
@@ -36,8 +33,8 @@ const rootRouter = [
         component: () => import('@/views/home-page/HomePage.vue'),
         props: (route) => ({
             appkey: route.query.appkey,
-            userid: route.query.userid,
-            queryid: route.query.queryid
+            userId: route.query.userId,
+            queryId: route.query.queryId
         }),
         meta: {
             icon: '',
@@ -52,7 +49,7 @@ const rootRouter = [
         component: () => import('@/views/home-page/HomePage.vue'),
         props: (route) => ({
             appkey: route.query.appkey,
-            userid: route.query.userid
+            userId: route.query.userId
         }),
         meta: {
             icon: '',

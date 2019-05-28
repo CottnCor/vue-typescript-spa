@@ -12,6 +12,10 @@ const router = new Router({
             path: '/' + ASSIST_ROUTER.error.name,
             name: ASSIST_ROUTER.error.name,
             component: () => import('@/views/error-tips/ErrorTips.vue'),
+            props: (route) => ({
+                code: route.query.code,
+                msg: route.query.msg
+            }),
             meta: {
                 icon: '',
                 keepAlive: true,
@@ -32,7 +36,7 @@ router.beforeEach((to: any, from: any, next: any) => {
     if (to.name === ASSIST_ROUTER.error.name) {
         next();
     } else {
-        const verify = to.query.appkey && to.query.userid ? true : false;
+        const verify = to.query.appkey && to.query.userId ? true : false;
         if (!verify) {
             next({
                 name: ASSIST_ROUTER.error.name

@@ -23,6 +23,8 @@ import mapboxgl from 'mapbox-gl';
 class ExceptionCard extends Vue {
     @Prop({ type: Number, default: 404 }) public code!: number;
 
+    @Prop({ type: String, default: '抱歉，访问的页面没有权限' }) public msg!: string;
+
     private config: any = {
         403: {
             img: 'https://gw.alipayobjects.com/zos/rmsportal/wZcnGqRDyhPOEYFcZDnb.svg',

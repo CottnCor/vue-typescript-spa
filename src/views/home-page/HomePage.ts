@@ -6,11 +6,17 @@ const store = namespace('Common');
 
 import { SketchLayout } from '@/layout';
 
+import { ASSIST_ROUTER } from '@/config';
+
 import { Mapbox, MapDrawTools, SimpleTabCard, CompareTabCard } from '@/components';
 
 import { addCloudQuery, getCloudQueryResult } from '@/api/home-page';
 
 import { guid } from '@/utils/common';
+
+import * as wellknown from 'wellknown';
+
+import * as turf from '@turf/turf';
 
 @Component({
     components: { SketchLayout, Mapbox, MapDrawTools, SimpleTabCard, CompareTabCard }
@@ -26,26 +32,19 @@ class HomePage extends Vue {
 
     private xzqdm = '';
 
+    private mj = -1;
+
     @Prop({ default: null })
     private appkey!: string;
 
     @Prop({ default: null })
-    private userid!: number;
+    private userId!: number;
 
     @Prop({ default: null })
-    private queryid!: string;
+    private queryId!: string;
 
     @Prop({ default: null })
-    private lon!: number;
-
-    @Prop({ default: null })
-    private lat!: number;
-
-    @Prop({ default: null })
-    private type!: number;
-
-    @Prop({ default: null })
-    private param!: string;
+    private wkt!: string;
 
     @store.Getter('status')
     private status!: number;
@@ -56,7 +55,11 @@ class HomePage extends Vue {
     @Watch('status', { immediate: true, deep: true })
     private onStatusChanged(val: number, oldVal: number) {
         if (val === 0) {
-            console.log('绘制');
+            console.log(ASSIST_ROUTER.error.title);
+            this.$router.push({
+                path: '/' + ASSIST_ROUTER.error.name,
+                query: { code: '403', msg: '参数异常' }
+            });
         } else if (val === 1) {
             console.log('加载');
         } else if (val === 2) {
@@ -113,19 +116,28 @@ class HomePage extends Vue {
     }
 
     private addQuery() {
-        if (this.lon && this.lat && this.type && this.param) {
-            debugger;
+        let lon = -1;
+        let lat = -1;
+        try {
+            let geoJson = wellknown.parse(this.wkt);
+            let polygon = turf.polygon(geoJson.coordinates);
+            let center = turf.center(polygon);
+            lon = center.geometry ? center.geometry.coordinates[0] : -1;
+            lat = center.geometry ? center.geometry.coordinates[1] : -1;
+            this.mj = turf.area(polygon) / 666.667;
+        } catch (error) {
+            console.log(error);
+        }
+        if (lon !== -1 && lat !== -1 && this.mj !== -1) {
             addCloudQuery({
                 appkey: this.appkey,
-                userid: this.userid,
-                lon: this.lon,
-                lat: this.lat,
-                type: this.type,
-                param: this.param,
-                relId: guid()
+                userId: this.userId,
+                lon,
+                lat,
+                type: 0,
+                param: JSON.stringify({ mj: this.mj, width: 530, height: 426, range: this.wkt })
             })
                 .then((result) => {
-                    debugger;
                     if (result && result.status === 'OK' && result.message === 'SUCCESS') {
                         this.$notification.success({
                             message: '添加云查询成功',
@@ -143,7 +155,6 @@ class HomePage extends Vue {
                     }
                 })
                 .catch((error) => {
-                    debugger;
                     console.log(error);
                     this.$notification.error({
                         message: '添加云查询失败',
@@ -152,26 +163,25 @@ class HomePage extends Vue {
                     this.setStatus(0);
                 });
         } else {
-            debugger;
             this.setStatus(0);
         }
     }
 
-    private intervalGetResult(queryid: string) {
+    private intervalGetResult(queryId: string) {
         this.queryResult = null;
         this.tryAgainTimes = 0;
         this.interval = setInterval(() => {
-            this.getResult(queryid);
+            this.getResult(queryId);
             this.tryAgainTimes++;
         }, 3000);
     }
 
-    private getResult(queryid: string) {
-        if (queryid) {
+    private getResult(queryId: string) {
+        if (queryId) {
             getCloudQueryResult({
                 appkey: this.appkey,
-                userid: this.userid,
-                id: queryid
+                userId: this.userId,
+                id: queryId
             }).then((result) => {
                 if (result && result.status === 'OK') {
                     this.queryResult = result.data;

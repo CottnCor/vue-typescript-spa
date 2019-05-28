@@ -1,7 +1,7 @@
 import { ActionTree, GetterTree, MutationTree } from 'vuex';
 
 interface CommonStore {
-    userid: number;
+    userId: number;
     appkey: string;
     status: number;
 }
@@ -9,20 +9,20 @@ interface CommonStore {
 const namespaced = true;
 
 const state: CommonStore = {
-    userid: -1,
+    userId: -1,
     appkey: '',
     status: -1 // -1：无权限，0：绘制，1：加载，2：展示
 };
 
 const getters: GetterTree<CommonStore, any> = {
-    userid: (state: CommonStore) => state.userid,
+    userId: (state: CommonStore) => state.userId,
     appkey: (state: CommonStore) => state.appkey,
     status: (state: CommonStore) => state.status
 };
 
 const actions: ActionTree<CommonStore, any> = {
-    set_userid({ commit }, data: number) {
-        commit('update_userid', data);
+    set_userId({ commit }, data: number) {
+        commit('update_userId', data);
     },
     set_appkey({ commit }, data: string) {
         commit('update_appkey', data);
@@ -33,8 +33,8 @@ const actions: ActionTree<CommonStore, any> = {
 };
 
 const mutations: MutationTree<CommonStore> = {
-    update_userid(state: CommonStore, data: number) {
-        state.userid = data;
+    update_userId(state: CommonStore, data: number) {
+        state.userId = data;
     },
     update_appkey(state: CommonStore, data: string) {
         state.appkey = data;

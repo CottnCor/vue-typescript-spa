@@ -9,7 +9,10 @@ import { Getter, Action, namespace } from 'vuex-class';
 })
 class ErrorTips extends Vue {
     @Prop({ default: 403 })
-    private code!: string;
+    private code!: number;
+
+    @Prop({ default: '抱歉，访问的页面没有权限' })
+    private msg!: string;
 
     private activated() {}
 

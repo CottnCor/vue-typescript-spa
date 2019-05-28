@@ -8,7 +8,6 @@ const request = new Request();
  * @param  {any} param?
  */
 export const addCloudQuery = (param?: any) => {
-  debugger
     return request.post(CLOUD_QUERY_API.add, param, param);
     
 };
@@ -17,7 +16,6 @@ export const addCloudQuery = (param?: any) => {
  * @param  {any} param?
  */
 export const getCloudQueryResult = (param?: any) => {
-  debugger
     return request.post(CLOUD_QUERY_API.get, param, param);
 };
 
