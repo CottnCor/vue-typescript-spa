@@ -1,5 +1,7 @@
 import { APP_PRAMS } from './app-config';
 
+export const ROOT_PATH = '/cloudQuery/page/'
+
 /*
  * 主菜单路由配置
  */

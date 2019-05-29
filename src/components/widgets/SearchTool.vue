@@ -32,7 +32,6 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component({})
 class CompareDetailsCard extends Vue {
-
     private toolMenu: any = [
         {
             type: 'action',

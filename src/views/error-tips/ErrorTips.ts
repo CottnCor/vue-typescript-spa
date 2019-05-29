@@ -8,10 +8,10 @@ import { Getter, Action, namespace } from 'vuex-class';
     components: { ExceptionCard }
 })
 class ErrorTips extends Vue {
-    @Prop({ default: 403 })
+    @Prop({ default: 404 })
     private code!: number;
 
-    @Prop({ default: '抱歉，访问的页面没有权限' })
+    @Prop()
     private msg!: string;
 
     private activated() {}

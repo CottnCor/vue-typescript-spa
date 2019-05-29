@@ -5,7 +5,7 @@
     </div>
     <div class="content-wapper content">
       <h1 class="content-wapper">{{ this.config[code].title }}</h1>
-      <div class="content-wapper desc">{{ this.config[code].desc }}</div>
+      <div class="content-wapper desc">{{ msg ? msg : this.config[code].desc }}</div>
       <div class="content-wapper action">
         <a-button type="primary" @click="this.back">返回上一页</a-button>
       </div>
@@ -23,7 +23,7 @@ import mapboxgl from 'mapbox-gl';
 class ExceptionCard extends Vue {
     @Prop({ type: Number, default: 404 }) public code!: number;
 
-    @Prop({ type: String, default: '抱歉，访问的页面没有权限' }) public msg!: string;
+    @Prop({ type: String }) public msg!: string;
 
     private config: any = {
         403: {

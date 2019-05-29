@@ -1,4 +1,4 @@
-import { ROOT_ROUTER } from '@/config';
+import { ROOT_PATH, ROOT_ROUTER } from '@/config';
 
 /**
  * meta 可配置参数
@@ -8,11 +8,11 @@ import { ROOT_ROUTER } from '@/config';
  */
 const rootRouter = [
     {
-        path: '/',
-        redirect: '/' + ROOT_ROUTER.add.name
+        path: ROOT_PATH,
+        redirect: ROOT_PATH + ROOT_ROUTER.add.name
     },
     {
-        path: '/' + ROOT_ROUTER.add.name,
+        path: ROOT_PATH + ROOT_ROUTER.add.name,
         name: ROOT_ROUTER.add.name,
         component: () => import('@/views/home-page/HomePage.vue'),
         props: (route) => ({
@@ -28,7 +28,7 @@ const rootRouter = [
         }
     },
     {
-        path: '/' + ROOT_ROUTER.loading.name,
+        path: ROOT_PATH + ROOT_ROUTER.loading.name,
         name: ROOT_ROUTER.loading.name,
         component: () => import('@/views/home-page/HomePage.vue'),
         props: (route) => ({
@@ -44,7 +44,7 @@ const rootRouter = [
         }
     },
     {
-        path: '/' + ROOT_ROUTER.edit.name,
+        path: ROOT_PATH + ROOT_ROUTER.edit.name,
         name: ROOT_ROUTER.edit.name,
         component: () => import('@/views/home-page/HomePage.vue'),
         props: (route) => ({

@@ -6,9 +6,9 @@ const store = namespace('Common');
 
 import { SketchLayout } from '@/layout';
 
-import { ASSIST_ROUTER } from '@/config';
+import { ROOT_PATH, ASSIST_ROUTER } from '@/config';
 
-import { Mapbox, MapDrawTools, SimpleTabCard, CompareTabCard } from '@/components';
+import { Mapbox, TipsBar, SimpleTabCard, CompareTabCard } from '@/components';
 
 import { addCloudQuery, getCloudQueryResult } from '@/api/home-page';
 
@@ -19,7 +19,7 @@ import * as wellknown from 'wellknown';
 import * as turf from '@turf/turf';
 
 @Component({
-    components: { SketchLayout, Mapbox, MapDrawTools, SimpleTabCard, CompareTabCard }
+    components: { SketchLayout, Mapbox, TipsBar, SimpleTabCard, CompareTabCard }
 })
 class HomePage extends Vue {
     private map?: any = null;
@@ -56,9 +56,10 @@ class HomePage extends Vue {
     private onStatusChanged(val: number, oldVal: number) {
         if (val === 0) {
             console.log(ASSIST_ROUTER.error.title);
+            debugger;
             this.$router.push({
-                path: '/' + ASSIST_ROUTER.error.name,
-                query: { code: '403', msg: '参数异常' }
+                path: ROOT_PATH + ASSIST_ROUTER.error.name,
+                query: { code: '500', msg: '检查请求参数是否合法' }
             });
         } else if (val === 1) {
             console.log('加载');
@@ -109,10 +110,6 @@ class HomePage extends Vue {
     private onMapLoaded(event: any) {
         this.map = event.map;
         console.log(event.map);
-    }
-
-    private onDrawToolLoaded(event: any) {
-        console.log(event.component);
     }
 
     private addQuery() {

@@ -10,21 +10,21 @@
         </div>
       </div>
       <div class="tools-wapper">
-        <div v-for="(item, index)  in toolMenu" :key="index" class="divider">
+        <div v-for="(item, index) in toolMenu" :key="index" class="divider">
           <a v-if="item.type === 'action'" :class="[item.on ? 'on' : '', 'button']" @click="toolsHandleClickClick(item)">
-            <a-icon :type="item.icon" />
+            <a-icon :type="item.icon" theme="twoTone" />
           </a>
           <a-divider v-if="item.type === 'split'" type="vertical" />
         </div>
       </div>
     </div>
-    <a-spin size='large' :spinning="!this.currentQueryResult">
-      <div class="content">
-        <a class="button" @click="visibleContent('left')">
-          <a-icon type="caret-left" theme="filled" />
-        </a>
-        <div class="content-wapper" v-if="this.currentQueryResult">
-          <div v-for="(item, index) in this.currentQueryResult" :key="index" :style="{left: hideContentWidth + 'px'}">
+    <div class="content">
+      <a :class="[this.currentTab.value === 'image_Analyze_History'? 'fix' : '', 'button']" @click="visibleContent('left')">
+        <a-icon type="caret-left" theme="filled" />
+      </a>
+      <div class="flex-wapper" v-if="this.currentQueryResult">
+        <div class="content-wapper" v-if="this.currentTab.value === 'image_Analyze_History'">
+          <div v-for="(item, index) in this.currentQueryResult" :key="index" class="background" :style="{left: hideContentWidth + 'px'}">
             <div class="radius">
               <div v-if="!themeSwitch ? item.images : item.themeImgs" class="content-tips">
                 <p class="secondary left pure">卫星：{{item.attributes[0].sjy}}</p>
@@ -41,11 +41,40 @@
             </div>
           </div>
         </div>
-        <a class="button" @click="visibleContent('right')">
-          <a-icon type="caret-right" theme="filled" />
-        </a>
+        <div class="content-wapper" v-if="this.currentTab.value === 'landType_Analyze_History'">
+          <div v-for="(item, index) in this.currentQueryResult" :key="index" class="background" :style="{left: hideContentWidth + 'px'}">
+            <div class="radius">
+              <div v-if="!themeSwitch ? item.images : item.themeImgs" class="content-tips">
+                <p class="secondary left pure">时间：{{item.date}}</p>
+              </div>
+              <img v-if="!themeSwitch && item.images" :src="item.images">
+              <img v-if="themeSwitch && item.themeImgs" :src="item.themeImgs">
+              <div v-if="!themeSwitch ? !item.images : !item.themeImgs" class="no-img">
+                <img src="https://gl.landcloud.org.cn/images/no_img.png">
+              </div>
+              <div v-if="!themeSwitch ? !item.images : !item.themeImgs" class="content-tips">
+                <p class="secondary center pure">查询范围内不涉及{{this.currentTab.label}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="content-wapper" v-if="this.currentTab.value === 'landType_Analyze_History'">
+          <div v-for="(item, index) in this.propContent" :key="index" :style="{left: hideContentWidth + 'px'}">
+            <div class="radius">
+              <div class="info-wapper">
+                <a-table v-if="propColumns.length > 0 && propContent && propContent.length > 0" :columns="propColumns" :dataSource="item.attributes" bordered :pagination="false" />
+                <p v-else class="title center highlight">
+                  <a-icon type="warning" />该专题暂无属性数据
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </a-spin>
+      <a :class="[this.currentTab.value === 'image_Analyze_History'? 'fix' : '', 'button']" @click="visibleContent('right')">
+        <a-icon type="caret-right" theme="filled" />
+      </a>
+    </div>
   </div>
 </template>
 
@@ -75,7 +104,7 @@ class CompareTabCard extends Vue {
             type: 'action',
             active: false,
             label: '多年现状',
-            valuee: 'landType_Analyze_History',
+            value: 'landType_Analyze_History',
             icon: 'trophy',
             grade: 1,
             handle: 2
@@ -86,19 +115,8 @@ class CompareTabCard extends Vue {
         {
             type: 'action',
             on: false,
-            label: '截图',
-            icon: 'heat-map',
-            handle: 'onShot',
-            invork: this.switchShot
-        },
-        {
-            type: 'split'
-        },
-        {
-            type: 'action',
-            on: false,
-            label: '专题图',
-            icon: 'heat-map',
+            label: '切换专题图',
+            icon: 'picture',
             handle: 'onTheme',
             invork: this.switchTheme
         }
@@ -106,7 +124,7 @@ class CompareTabCard extends Vue {
 
     private hideContent: any = {
         left: 0,
-        right: this.currentQueryResult ? this.currentQueryResult.length - 4 : 0
+        right: 0
     };
 
     private get currentTab(): any {
@@ -120,17 +138,62 @@ class CompareTabCard extends Vue {
 
     private themeSwitch: boolean = false;
 
+    private propColumns = [
+        {
+            title: '序号',
+            dataIndex: 'index'
+        },
+        {
+            title: '地类名称',
+            dataIndex: 'name'
+        },
+        {
+            title: '面积（亩）',
+            dataIndex: 'mj'
+        }
+    ];
+
+    private propContent: any;
+
     private get hideContentWidth(): number {
         return -this.hideContent.left * 304;
     }
 
     @Watch('currentTab', { immediate: true, deep: true })
     private onCurrentTab(val: any, oldVal: any) {
-        if (this.queryResult) {
+        if (this.queryResult && val) {
             if (val.value === 'map') {
                 return null;
             } else {
+                this.propContent = [];
                 this.currentQueryResult = this.queryResult[val.value];
+                this.hideContent = {
+                    left: 0,
+                    right: this.currentQueryResult ? this.currentQueryResult.length - 4 : 0
+                };
+                if (this.currentTab.value === 'landType_Analyze_History') {
+                    this.currentQueryResult.map((item, index) => {
+                        if (true) {
+                            let totalMj: number = 0;
+                            let attributes: any[] = item.attributes.map((attr, i) => {
+                                totalMj += parseFloat(attr.mj);
+                                return {
+                                    index: i,
+                                    name: attr.name + (attr.code ? '-' + attr.code : ''),
+                                    mj: parseFloat(attr.mj).toFixed(2)
+                                };
+                            });
+                            attributes.push({
+                                name: '合计',
+                                mj: totalMj.toFixed(2)
+                            });
+                            this.propContent.push({
+                                index: index,
+                                attributes: attributes
+                            });
+                        }
+                    });
+                }
             }
         }
     }
@@ -161,11 +224,6 @@ class CompareTabCard extends Vue {
     }
 
     private switchTheme(param: any) {
-        param.on = this.themeSwitch;
-        this.themeSwitch = param.on;
-    }
-
-    private switchShot(param: any) {
         param.on = !this.themeSwitch;
         this.themeSwitch = param.on;
     }
@@ -270,55 +328,80 @@ export default CompareTabCard;
 
     .content {
         display: flex;
+
         border: 1px dashed map-get($default, primary_light_1);
 
         & > a {
             i {
+                height: calc(#{(($size_240 - $size_20 + $size_6 + $size_12 * 2) * 2)});
+            }
+            &.fix i {
                 height: calc(#{($size_240 - $size_20 + $size_6 + $size_12 * 2)});
             }
         }
 
-        .content-wapper {
-            overflow: hidden;
-            flex: 1;
-            margin: auto;
+        .flex-wapper {
             display: flex;
-            justify-content: space-between;
-            max-width: calc(#{(($size_240 + $size_20 * 2 + $size_12 * 2) * 4)});
+            flex-direction: column;
 
-            & > div {
+            .content-wapper {
                 flex: 1;
-                position: relative;
-                transition: left $ease_in;
-                background-image: url(https://gl.landcloud.org.cn/images/pic_bg.png);
-                background-size: 100% 100%;
-                background-repeat: no-repeat;
+                margin: auto;
+                display: flex;
+                overflow: hidden;
+                justify-content: space-between;
+                max-width: calc(#{(($size_240 + $size_20 * 2 + $size_12 * 2) * 4)});
+
+                & > div.background {
+                    background-image: url(https://gl.landcloud.org.cn/images/pic_bg.png);
+                }
 
                 & > div {
-                    padding: calc(#{($size_12)});
+                    flex: 1;
+                    position: relative;
+                    transition: left $ease_in;
+                    background-size: 100% 100%;
+                    background-repeat: no-repeat;
 
-                    & > img,
-                    .no-img {
-                        width: calc(#{($size_240 + $size_20 * 2)});
-                        height: calc(#{($size_240 - $size_20 + $size_6)});
-                    }
+                    & > div {
+                        padding: calc(#{($size_12)});
 
-                    .content-tips {
-                        z-index: $zindex_back-top;
-                        position: absolute;
-                        bottom: $size_12;
-                        left: $size_12;
-                        width: calc(100% - #{($size_12 * 2)});
-                        background-color: map-get($default, grey_3);
-                    }
+                        & > img,
+                        .no-img,
+                        .info-wapper {
+                            width: calc(#{($size_240 + $size_20 * 2)});
+                            height: calc(#{($size_240 - $size_20 + $size_6)});
+                        }
 
-                    .no-img {
-                        display: flex;
-                        background-image: map-get($default, linear_primary_2);
-                        img {
-                            width: $size_64;
-                            height: $size_64;
-                            margin: auto;
+                        .info-wapper {
+                            overflow-y: auto;
+                            display: flex;
+                            position: relative;
+                            flex-direction: column;
+                            background-color: map-get($default, grey_1);
+                            & > a {
+                                flex: 1;
+                            }
+                        }
+
+                        .content-tips {
+                            z-index: $zindex_back-top;
+                            position: absolute;
+                            padding: $size_6;
+                            bottom: $size_12;
+                            left: $size_12;
+                            width: calc(100% - #{($size_12 * 2)});
+                            background-color: map-get($default, grey_3);
+                        }
+
+                        .no-img {
+                            display: flex;
+                            background-image: map-get($default, linear_primary_2);
+                            img {
+                                width: $size_64;
+                                height: $size_64;
+                                margin: auto;
+                            }
                         }
                     }
                 }

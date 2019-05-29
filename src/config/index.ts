@@ -1,6 +1,13 @@
 import { MAP_IMG_URL } from '@/config';
 
-export { CLOUD_QUERY_API } from './modules/api-config';
+export {
+    CLOUD_QUERY_API,
+    IS_MOCK,
+    ONLINE_HOST,
+    QA_HOST,
+    MOCK_HOST,
+    CURRENT_HOST
+} from './modules/api-config';
 
 export { APP_PRAMS } from './modules/app-config';
 
@@ -18,22 +25,19 @@ export {
     MOCK_TIMEOUT
 } from './modules/debugger-config';
 
-export {
-    AXIOS_DEFAULT_CONFIG,
-    API_DEFAULT_CONFIG,
-    IS_MOCK,
-    ONLINE_HOST,
-    QA_HOST,
-    MOCK_HOST,
-    CURRENT_HOST,
-    CONMOM_PRAMS
-} from './modules/http-config';
+export { AXIOS_DEFAULT_CONFIG, API_DEFAULT_CONFIG, CONMOM_PRAMS } from './modules/http-config';
 
 export { OPEN_MODULES, NEED_LOGGED_PAGES } from './modules/intercept-config';
 
-export { ROOT_ROUTER, ASSIST_ROUTER} from './modules/router-config';
+export { ROOT_PATH, ROOT_ROUTER, ASSIST_ROUTER } from './modules/router-config';
 
-export { MAPBOX_ACCESSTOKEN, MAP_VEC_URL, MAP_IMG_URL, MAP_CVA_URL, MAP_WAP_URL } from './modules/map-config';
+export {
+    MAPBOX_ACCESSTOKEN,
+    MAP_VEC_URL,
+    MAP_IMG_URL,
+    MAP_CVA_URL,
+    MAP_WAP_URL
+} from './modules/map-config';
 
 // 平台
 export const HOST_PLATFORM = 'WEB';

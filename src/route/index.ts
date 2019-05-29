@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import rootRouter from './modules/root-router';
-import { ASSIST_ROUTER } from '@/config';
+import { ROOT_PATH, ASSIST_ROUTER } from '@/config';
 
 Vue.use(Router);
 
@@ -9,7 +9,7 @@ const router = new Router({
     routes: [
         ...rootRouter,
         {
-            path: '/' + ASSIST_ROUTER.error.name,
+            path: ROOT_PATH + ASSIST_ROUTER.error.name,
             name: ASSIST_ROUTER.error.name,
             component: () => import('@/views/error-tips/ErrorTips.vue'),
             props: (route) => ({
@@ -24,8 +24,8 @@ const router = new Router({
             }
         },
         {
-            path: '*',
-            redirect: '/' + ASSIST_ROUTER.error.name
+            path: ROOT_PATH + '*',
+            redirect: ROOT_PATH + ASSIST_ROUTER.error.name
         }
     ],
     mode: 'history'

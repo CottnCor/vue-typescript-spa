@@ -10,11 +10,6 @@ import SimpleTabCard from './widgets/SimpleTabCard.vue';
 
 import CompareTabCard from './widgets/CompareTabCard.vue';
 
-export {
-    Mapbox,
-    MapDrawTools,
-    ExceptionCard,
-    SearchTool,
-    SimpleTabCard,
-    CompareTabCard,
-};
+import TipsBar from './widgets/TipsBar.vue';
+
+export { Mapbox, MapDrawTools, ExceptionCard, SearchTool, SimpleTabCard, CompareTabCard, TipsBar };

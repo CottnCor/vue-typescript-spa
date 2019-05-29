@@ -76,7 +76,7 @@ export const formatDate = (date: any, fmt: string) => {
     }
     for (const k in o) {
         if (new RegExp('(' + k + ')').test(fmt)) {
-            time = fmt.replace(
+            time = time.replace(
                 RegExp.$1,
                 RegExp.$1.length === 1 ? o[k] : ('00' + o[k]).substr(String(o[k]).length)
             );
@@ -107,10 +107,10 @@ export function objClone(obj: any) {
     return JSON.parse(JSON.stringify(obj));
 }
 
-export  function guid() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-    let r = Math.random() * 16 | 0,
-      v = c === 'x' ? r : (r & 0x3 | 0x8);
-    return v.toString(16);
-  });
-};
+export function guid() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        let r = (Math.random() * 16) | 0,
+            v = c === 'x' ? r : (r & 0x3) | 0x8;
+        return v.toString(16);
+    });
+}
