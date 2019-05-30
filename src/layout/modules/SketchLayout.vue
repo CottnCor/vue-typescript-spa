@@ -14,7 +14,9 @@
     </div>
 
     <div class="main-wapper">
+
       <a-spin v-if="this.status === 1" :spinning="this.status === 1" size="large" style="margin:auto;" />
+
       <div v-if="this.status === 2" class="middle popup radius">
         <div class="radius">
           <slot name="middle"></slot>
@@ -65,11 +67,11 @@ export default SketchLayout;
 
     .popup {
         margin: auto;
-        padding: $size_12;
+        padding: 1vw;
         z-index: $zindex_back-top;
 
         & > div {
-            padding: $size_12;
+            padding: 1vw;
             box-shadow: $shadow_power;
             background-color: map-get($default, glass);
         }
@@ -99,13 +101,9 @@ export default SketchLayout;
         display: flex;
         flex-direction: column;
         background-color: map-get($default, primary);
+        width: 100%;
         height: calc(100% - #{($size_64)});
         min-height: calc(100% - #{($size_64)});
-        max-width: map-get($breakpoint, lg);
-
-        & > div {
-            width: 100%;
-        }
     }
 }
 </style>

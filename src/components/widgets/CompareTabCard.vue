@@ -24,7 +24,7 @@
       </a>
       <div class="flex-wapper" v-if="this.currentQueryResult">
         <div class="content-wapper" v-if="this.currentTab.value === 'image_Analyze_History'">
-          <div v-for="(item, index) in this.currentQueryResult" :key="index" class="background" :style="{left: hideContentWidth + 'px'}">
+          <div v-for="(item, index) in this.currentQueryResult" :key="index" class="background" :style="hideContentWidth">
             <div class="radius">
               <div v-if="!themeSwitch ? item.images : item.themeImgs" class="content-tips">
                 <p class="secondary left pure">卫星：{{item.attributes[0].sjy}}</p>
@@ -42,7 +42,7 @@
           </div>
         </div>
         <div class="content-wapper" v-if="this.currentTab.value === 'landType_Analyze_History'">
-          <div v-for="(item, index) in this.currentQueryResult" :key="index" class="background" :style="{left: hideContentWidth + 'px'}">
+          <div v-for="(item, index) in this.currentQueryResult" :key="index" class="background" :style="hideContentWidth">
             <div class="radius">
               <div v-if="!themeSwitch ? item.images : item.themeImgs" class="content-tips">
                 <p class="secondary left pure">时间：{{item.date}}</p>
@@ -59,7 +59,7 @@
           </div>
         </div>
         <div class="content-wapper" v-if="this.currentTab.value === 'landType_Analyze_History'">
-          <div v-for="(item, index) in this.propContent" :key="index" :style="{left: hideContentWidth + 'px'}">
+          <div v-for="(item, index) in this.propContent" :key="index" :style="hideContentWidth">
             <div class="radius">
               <div class="info-wapper">
                 <a-table v-if="propColumns.length > 0 && propContent && propContent.length > 0" :columns="propColumns" :dataSource="item.attributes" bordered :pagination="false" />
@@ -155,8 +155,11 @@ class CompareTabCard extends Vue {
 
     private propContent: any;
 
-    private get hideContentWidth(): number {
-        return -this.hideContent.left * 304;
+    private get hideContentWidth(): string {
+        let style = `left: calc(((48vw - (32 * 0.072rem + 2 * 0.072rem)) / 2) * (-${
+            this.hideContent.left
+        }))`;
+        return style;
     }
 
     @Watch('currentTab', { immediate: true, deep: true })
@@ -252,8 +255,6 @@ export default CompareTabCard;
 
 <style lang="scss" scoped>
 .tab {
-    padding: $size_6 0;
-
     &:first-child {
         padding-top: 0;
     }
@@ -282,8 +283,8 @@ export default CompareTabCard;
             white-space: nowrap;
             overflow-x: hidden;
             justify-content: space-between;
-
-            max-width: calc(#{(($size_240 + $size_20 * 2 + $size_10 * 2) * 4 - $size_32 * 2)});
+            width: calc(98vw - #{($size_64)});
+            padding-left: calc(#{($size_32 + $size_1)});
 
             & > div {
                 display: inline-block;
@@ -333,10 +334,10 @@ export default CompareTabCard;
 
         & > a {
             i {
-                height: calc(#{(($size_240 - $size_20 + $size_6 + $size_12 * 2) * 2)});
+                height: calc(((48vw - #{($size_32 + $size_2)}) * 0.4) * 2);
             }
             &.fix i {
-                height: calc(#{($size_240 - $size_20 + $size_6 + $size_12 * 2)});
+                height: calc((48vw - #{($size_32 + $size_2)}) * 0.4);
             }
         }
 
@@ -349,8 +350,7 @@ export default CompareTabCard;
                 margin: auto;
                 display: flex;
                 overflow: hidden;
-                justify-content: space-between;
-                max-width: calc(#{(($size_240 + $size_20 * 2 + $size_12 * 2) * 4)});
+                max-width: calc((48vw - #{($size_32 + $size_2)}) * 2);
 
                 & > div.background {
                     background-image: url(https://gl.landcloud.org.cn/images/pic_bg.png);
@@ -362,15 +362,19 @@ export default CompareTabCard;
                     transition: left $ease_in;
                     background-size: 100% 100%;
                     background-repeat: no-repeat;
+                    width: calc((48vw - #{($size_32 + $size_2)}) / 2);
+                    height: calc((48vw - #{($size_32 + $size_2)}) * 0.4);
 
                     & > div {
-                        padding: calc(#{($size_12)});
+                        height: 100%;
+                        width: 100%;
+                        padding: 1vw;
 
                         & > img,
                         .no-img,
                         .info-wapper {
-                            width: calc(#{($size_240 + $size_20 * 2)});
-                            height: calc(#{($size_240 - $size_20 + $size_6)});
+                            width: 100%;
+                            height: 100%;
                         }
 
                         .info-wapper {
@@ -387,10 +391,10 @@ export default CompareTabCard;
                         .content-tips {
                             z-index: $zindex_back-top;
                             position: absolute;
-                            padding: $size_6;
-                            bottom: $size_12;
-                            left: $size_12;
-                            width: calc(100% - #{($size_12 * 2)});
+                            padding: 0.5vw;
+                            bottom: 1vw;
+                            left: 1vw;
+                            width: calc(100% - 2vw);
                             background-color: map-get($default, grey_3);
                         }
 

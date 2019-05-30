@@ -177,7 +177,7 @@ class SimpleTabCard extends Vue {
     private currentQueryResult: any = null;
 
     private get hideTabWidth(): number {
-        return -this.hideTab.left * 264 * 0.072;
+        return -this.hideTab.left * 132 * 0.072;
     }
 
     private currentTab: any = null;
@@ -318,8 +318,6 @@ export default SimpleTabCard;
 
 <style lang="scss" scoped>
 .tab {
-    padding: $size_6 0;
-
     &:first-child {
         padding-top: 0;
     }
@@ -338,13 +336,13 @@ export default SimpleTabCard;
             white-space: nowrap;
             overflow-x: hidden;
             justify-content: space-between;
-            max-width: 100%;
+            width: calc(98vw - #{($size_64) * 2});
 
             & > div {
                 display: inline-block;
                 position: relative;
-                width: calc(#{($size_120 + $size_12)});
                 height: $size_32;
+                width: calc(#{($size_120 + $size_12)});
                 padding: 0 $size_6;
                 transition: left $ease_in;
 
@@ -386,7 +384,8 @@ export default SimpleTabCard;
 
         & > div {
             float: left;
-            width: 50%;
+            width: calc(48vw - 1px);
+            height: calc((48vw - 1px) * 0.8);
 
             &:first-child {
                 background-image: url(https://gl.landcloud.org.cn/images/pic_bg.png);
@@ -396,19 +395,22 @@ export default SimpleTabCard;
 
             & > div {
                 position: relative;
-                padding: 3%;
+                height: 100%;
+                width: 100%;
+                padding: 2vw;
 
                 img,
                 .info-wapper,
                 .no-img {
                     width: 100%;
+                    height: 100%;
                 }
 
                 .content-tools {
                     z-index: $zindex_back-top;
                     position: absolute;
-                    top: 3%;
-                    right: 3%;
+                    top: 2vw;
+                    right: 2vw;
                     a {
                         box-shadow: none;
                         &.on {
@@ -434,9 +436,10 @@ export default SimpleTabCard;
                 .content-tips {
                     z-index: $zindex_back-top;
                     position: absolute;
-                    bottom: 3%;
-                    left: 3%;
-                    width: 100%;
+                    padding: 1vw;
+                    bottom: 2vw;
+                    left: 2vw;
+                    width: calc(100% - 4vw);
                     background-color: map-get($default, grey_3);
                 }
 
