@@ -37,7 +37,8 @@ const store = namespace('Common');
 
 @Component({})
 class TipsBar extends Vue {
-    private xzqTag: string = '';
+  
+    private xzqTag = '';
 
     private get currentTime(): string {
         return formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss');

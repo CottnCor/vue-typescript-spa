@@ -1,5 +1,3 @@
-import { MAP_IMG_URL } from '@/config';
-
 export {
     CLOUD_QUERY_API,
     IS_MOCK,
@@ -30,14 +28,6 @@ export { AXIOS_DEFAULT_CONFIG, API_DEFAULT_CONFIG, CONMOM_PRAMS } from './module
 export { OPEN_MODULES, NEED_LOGGED_PAGES } from './modules/intercept-config';
 
 export { ROOT_PATH, ROOT_ROUTER, ASSIST_ROUTER } from './modules/router-config';
-
-export {
-    MAPBOX_ACCESSTOKEN,
-    MAP_VEC_URL,
-    MAP_IMG_URL,
-    MAP_CVA_URL,
-    MAP_WAP_URL
-} from './modules/map-config';
 
 // 平台
 export const HOST_PLATFORM = 'WEB';

@@ -62,7 +62,7 @@
           <div v-for="(item, index) in this.propContent" :key="index" :style="hideContentWidth">
             <div class="radius">
               <div class="info-wapper">
-                <a-table v-if="propColumns.length > 0 && propContent && propContent.length > 0" :columns="propColumns" :dataSource="item.attributes" bordered :pagination="false" />
+                <a-table v-if="propColumns.length > 0 && propContent && propContent.length > 0" :columns="propColumns" :dataSource="item" bordered :pagination="false" />
                 <p v-else class="title center highlight">
                   <a-icon type="warning" />该专题暂无属性数据
                 </p>
@@ -136,7 +136,7 @@ class CompareTabCard extends Vue {
     }
   }
 
-  private themeSwitch: boolean = false;
+  private themeSwitch = false;
 
   private propColumns = [
     {
@@ -177,9 +177,9 @@ class CompareTabCard extends Vue {
             : 0
         };
         if (this.currentTab.value === "landType_Analyze_History") {
-          this.currentQueryResult.map((item, index) => {
+          this.currentQueryResult.map((item, index: number) => {
             if (item.attributes) {
-              let totalMj: number = 0;
+              let totalMj = 0;
               let attributes: any[] = item.attributes.map((attr, i) => {
                 totalMj += parseFloat(attr.mj);
                 return {
@@ -192,10 +192,7 @@ class CompareTabCard extends Vue {
                 name: "合计",
                 mj: totalMj.toFixed(2)
               });
-              this.propContent.push({
-                index: index,
-                attributes: attributes
-              });
+              this.propContent.push(attributes);
             }
           });
         }

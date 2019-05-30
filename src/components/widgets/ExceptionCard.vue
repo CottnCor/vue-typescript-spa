@@ -17,7 +17,6 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
 import { ROOT_ROUTER, ASSIST_ROUTER } from '@/config';
-import mapboxgl from 'mapbox-gl';
 
 @Component({})
 class ExceptionCard extends Vue {
