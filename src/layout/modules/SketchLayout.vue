@@ -34,76 +34,75 @@
 </template>
 
 <script lang='ts'>
-import { Component, Emit, Prop, Vue, Watch } from 'vue-property-decorator';
+import { Component, Emit, Prop, Vue, Watch } from "vue-property-decorator";
 
-import { Getter, Action, namespace } from 'vuex-class';
+import { Getter, Action, namespace } from "vuex-class";
 
-const store = namespace('Common');
+const store = namespace("Common");
 
 @Component({})
 class SketchLayout extends Vue {
-    @store.Getter('status')
-    private status!: number;
+  @store.Getter("status")
+  private status!: number;
 
-    @Watch('status', { immediate: true, deep: true })
-    private onStatusChanged(val: number, oldVal: number) {}
+  @Watch("status", { immediate: true, deep: true })
+  private onStatusChanged(val: number, oldVal: number) {}
 }
 export default SketchLayout;
 </script>
 
 <style lang='scss' scoped>
 .container {
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  .full {
+    position: absolute;
     width: 100%;
     height: 100%;
-    min-height: 100vh;
+  }
+
+  .popup {
+    margin: auto;
+    padding: 1vw;
+    z-index: $zindex_back-top;
+
+    & > div {
+      padding: 1vw;
+      box-shadow: $shadow_power;
+      background-color: map-get($default, glass);
+    }
+  }
+
+  .top-wapper {
+    width: 100%;
+    display: flex;
+    height: $size_64;
+  }
+
+  .top-wapper {
+    .top {
+      padding: 0;
+      & > div {
+        padding: $size_6;
+        & > div {
+          border: 1px dashed map-get($default, grey_4);
+        }
+      }
+    }
+  }
+
+  .main-wapper {
+    flex: 1;
+    margin: auto;
     display: flex;
     flex-direction: column;
-
-    .full {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-    }
-
-    .popup {
-        margin: auto;
-        padding: 1vw;
-        z-index: $zindex_back-top;
-
-        & > div {
-            padding: 1vw;
-            box-shadow: $shadow_power;
-            background-color: map-get($default, glass);
-        }
-    }
-
-    .top-wapper {
-        width: 100%;
-        display: flex;
-        height: $size_64;
-    }
-
-    .top-wapper {
-        .top {
-            padding: 0;
-            & > div {
-                padding: $size_6;
-                & > div {
-                    border: 1px dashed map-get($default, grey_4);
-                }
-            }
-        }
-    }
-
-    .main-wapper {
-        flex: 1;
-        margin: auto;
-        display: flex;
-        flex-direction: column;
-        background-color: map-get($default, primary);
-        width: 100%;
-        height: calc(100% - #{($size_64)});
-        min-height: calc(100% - #{($size_64)});
-    }
+    width: 100%;
+    height: calc(100% - #{($size_64)});
+    min-height: calc(100% - #{($size_64)});
+  }
 }
 </style>

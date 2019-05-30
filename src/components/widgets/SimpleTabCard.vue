@@ -33,7 +33,7 @@
             <img src="https://gl.landcloud.org.cn/images/no_img.png">
           </div>
           <div v-if="currentQueryResult && (!themeSwitch ? !currentQueryResult.images : !currentQueryResult.themeImgs)" class="content-tips">
-            <p class="secondary center pure">查询范围内不涉及{{this.currentTab.label}}</p>
+            <!-- <p class="secondary center pure">查询范围内不涉及{{this.currentTab.label}}</p> -->
           </div>
           <div v-else-if="this.currentQueryResult && this.currentQueryResult.attributes && this.currentTab.value === 'image_Analyze'" class="content-tips">
             <p class="secondary center left pure">卫星：{{this.currentQueryResult.attributes[0].sjy}} 拍摄时间：{{this.currentQueryResult.attributes[0].sx}}</p>

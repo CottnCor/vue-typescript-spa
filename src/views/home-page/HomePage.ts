@@ -56,7 +56,6 @@ class HomePage extends Vue {
     private onStatusChanged(val: number, oldVal: number) {
         if (val === 0) {
             console.log(ASSIST_ROUTER.error.title);
-            debugger;
             this.$router.push({
                 path: ROOT_PATH + ASSIST_ROUTER.error.name,
                 query: { code: '500', msg: '检查请求参数是否合法' }
