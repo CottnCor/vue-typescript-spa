@@ -338,9 +338,7 @@ export default SimpleTabCard;
             white-space: nowrap;
             overflow-x: hidden;
             justify-content: space-between;
-            max-width: calc(
-                #{(($size_240 + $size_20 * 2 + $size_32) * 4 + $size_12 * 8 - $size_64)}
-            );
+            max-width: 100%;
 
             & > div {
                 display: inline-block;
@@ -388,6 +386,7 @@ export default SimpleTabCard;
 
         & > div {
             float: left;
+            width: 50%;
 
             &:first-child {
                 background-image: url(https://gl.landcloud.org.cn/images/pic_bg.png);
@@ -397,20 +396,19 @@ export default SimpleTabCard;
 
             & > div {
                 position: relative;
-                padding: calc(#{($size_24)});
+                padding: 3%;
 
                 img,
                 .info-wapper,
                 .no-img {
-                    width: calc(#{(($size_240 + $size_20 * 2 + $size_32)) * 2});
-                    height: calc(#{(($size_240 - $size_20 + $size_6 + $size_24 + $size_2)) * 2});
+                    width: 100%;
                 }
 
                 .content-tools {
                     z-index: $zindex_back-top;
                     position: absolute;
-                    top: $size_24;
-                    right: $size_24;
+                    top: 3%;
+                    right: 3%;
                     a {
                         box-shadow: none;
                         &.on {
@@ -436,9 +434,9 @@ export default SimpleTabCard;
                 .content-tips {
                     z-index: $zindex_back-top;
                     position: absolute;
-                    bottom: $size_24;
-                    left: $size_24;
-                    width: calc(100% - #{($size_24 * 2)});
+                    bottom: 3%;
+                    left: 3%;
+                    width: 100%;
                     background-color: map-get($default, grey_3);
                 }
 

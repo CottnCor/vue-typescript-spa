@@ -24,4 +24,4 @@ export const QA_HOST = 'http://172.16.56.98:8080/';
 export const MOCK_HOST = './mock/';
 
 // 当前的host ONLINE_HOST | QA_HOST | MOCK_HOST
-export const CURRENT_HOST = QA_HOST;
+export const CURRENT_HOST = ONLINE_HOST;

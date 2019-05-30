@@ -53,6 +53,7 @@ export default SketchLayout;
 .container {
     width: 100%;
     height: 100%;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
 
@@ -74,18 +75,17 @@ export default SketchLayout;
         }
     }
 
-    .top-wapper,
-    .main-wapper {
+    .top-wapper {
         width: 100%;
         display: flex;
-        flex-direction: column;
+        height: $size_64;
     }
 
     .top-wapper {
         .top {
+            padding: 0;
             & > div {
                 padding: $size_6;
-
                 & > div {
                     border: 1px dashed map-get($default, grey_4);
                 }
@@ -95,6 +95,17 @@ export default SketchLayout;
 
     .main-wapper {
         flex: 1;
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        background-color: map-get($default, primary);
+        height: calc(100% - #{($size_64)});
+        min-height: calc(100% - #{($size_64)});
+        max-width: map-get($breakpoint, lg);
+
+        & > div {
+            width: 100%;
+        }
     }
 }
 </style>
