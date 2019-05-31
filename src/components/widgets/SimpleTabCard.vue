@@ -385,8 +385,8 @@ export default SimpleTabCard;
 
     & > div {
       float: left;
-      width: calc(48vw - 1px);
-      height: calc((48vw - 1px) * 0.8);
+      width: calc(48vw - #{($size_4)});
+      height: calc((48vw - #{($size_4)}) * 0.8);
 
       &:first-child {
         background-image: url(https://gl.landcloud.org.cn/images/pic_bg.png);
