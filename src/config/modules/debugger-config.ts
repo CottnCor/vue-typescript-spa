@@ -16,5 +16,5 @@ export const AJAX_LOCALLY_ENABLE = false;
 // 是否开启监控
 export const MONITOR_ENABLE = true;
 
-// 
+//
 export const MOCK_TIMEOUT = 500;

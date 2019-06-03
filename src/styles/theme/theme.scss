@@ -463,18 +463,18 @@ mark {
 }
 
 ::-webkit-scrollbar {
-  width: $size-4;
+  width: $size_4;
   background-color: map-get($default, pure);
 }
 
 ::-webkit-scrollbar-thumb {
-  border-radius: $size-4;
+  border-radius: $size_4;
   box-shadow: $shadow_base;
   background-color: map-get($default, grey_5);
 }
 
 ::-webkit-scrollbar-track {
-  border-radius: $size-4;
+  border-radius: $size_4;
   background-color: map-get($default, pure);
 }
 

@@ -40,6 +40,9 @@ class HomePage extends Vue {
 
   private mjScale = 666.667;
 
+  @Prop({ default: "add" })
+  private type!: string;
+
   @Prop({ default: null })
   private appkey!: string;
 
@@ -66,6 +69,7 @@ class HomePage extends Vue {
         path: ROOT_PATH + ASSIST_ROUTER.error.name,
         query: { code: "500", msg: "检查请求参数是否合法" }
       });
+      parent.postMessage("500", "*");
     } else if (val === 1) {
       console.log("加载");
     } else if (val === 2) {
@@ -74,24 +78,15 @@ class HomePage extends Vue {
       this.xzqdm = this.queryResult.data.xzqdm;
     } else {
       console.log("无权限");
+      parent.postMessage("403", "*");
     }
   }
 
   @Watch("tryAgainTimes", { immediate: true, deep: true })
   private onTryAgainTimes(val: number, oldVal: number) {
-    console.log("开始第" + val + "次尝试请求本次云查询结果");
-    if (this.queryResult) {
-      this.$notification.success({
-        message: "返回云查询结果成功",
-        description: ""
-      });
-      this.setStatus(2);
-      if (this.interval) {
-        clearInterval(this.interval);
-      }
-    } else if (val > this.maxRetries && !this.queryResult) {
+    if (val > this.maxRetries && !this.queryResult) {
       this.$notification.error({
-        message: "返回云查询结果失败",
+        message: "查找云查询结果失败",
         description: ""
       });
       this.setStatus(0);
@@ -101,10 +96,32 @@ class HomePage extends Vue {
     }
   }
 
+  @Watch("queryResult", { immediate: true, deep: true })
+  private onQueryResult(val: number, oldVal: number) {
+    if (this.queryResult) {
+      this.mj = this.queryResult.data.area;
+      this.$notification.success({
+        message: "查找云查询结果成功",
+        description: ""
+      });
+      this.setStatus(2);
+      if (this.interval) {
+        clearInterval(this.interval);
+      }
+    }
+  }
+
   private activated() {}
 
   private mounted() {
-    this.addQuery();
+    if (this.type === "add") {
+      this.addQuery();
+    } else if (this.type === "get") {
+      this.setStatus(1);
+      this.getResult(this.queryId);
+    } else {
+      this.setStatus(0);
+    }
   }
 
   private beforeDestroy() {
@@ -202,7 +219,7 @@ class HomePage extends Vue {
       });
     } else {
       this.$notification.error({
-        message: "返回云查询结果失败",
+        message: "查找云查询结果失败",
         description: "云查询id为空"
       });
       this.setStatus(0);
