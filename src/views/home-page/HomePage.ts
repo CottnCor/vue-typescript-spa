@@ -179,7 +179,8 @@ class HomePage extends Vue {
           } else {
             this.$notification.error({
               message: "添加云查询失败",
-              description: ""
+              description: result.message,
+              duration: 0
             });
             this.setStatus(0);
           }
@@ -188,7 +189,8 @@ class HomePage extends Vue {
           console.log(error);
           this.$notification.error({
             message: "添加云查询失败",
-            description: ""
+            description: "",
+            duration: 0
           });
           this.setStatus(0);
         });
@@ -215,12 +217,20 @@ class HomePage extends Vue {
       }).then(result => {
         if (result && result.status === "OK") {
           this.queryResult = result.data;
+        } else {
+          this.$notification.error({
+            message: "查找云查询结果失败",
+            description: result.message,
+            duration: 0
+          });
+          this.setStatus(0);
         }
       });
     } else {
       this.$notification.error({
         message: "查找云查询结果失败",
-        description: "云查询id为空"
+        description: "云查询id为空",
+        duration: 0
       });
       this.setStatus(0);
       if (this.interval) {
