@@ -1,9 +1,11 @@
-import ExceptionCard from './widgets/ExceptionCard.vue';
+import ExceptionCard from "./widgets/ExceptionCard.vue";
 
-import SimpleTabCard from './widgets/SimpleTabCard.vue';
+import TipsBar from "./widgets/TipsBar.vue";
 
-import CompareTabCard from './widgets/CompareTabCard.vue';
+import ResultCard from "./cloud-query/ResultCard.vue";
 
-import TipsBar from './widgets/TipsBar.vue';
+import BasicsQuery from "./cloud-query/BasicsQuery.vue";
 
-export { ExceptionCard, SimpleTabCard, CompareTabCard, TipsBar };
+import AdvancedQuery from "./cloud-query/AdvancedQuery.vue";
+
+export { ExceptionCard, ResultCard, TipsBar, BasicsQuery, AdvancedQuery };

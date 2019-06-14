@@ -5,10 +5,15 @@
         <a-icon type="caret-left" theme="filled" />
       </a>
       <div class="tab-wapper">
-        <div v-for="(item, index) in tabMenu" :key="item.handle" :class="[item.active ? 'active' : '', item.grade === 1 ? 'advanced' : '']" :style="{left: hideTabWidth + 'rem'}" @click="handleClick(item)">
-          <a class="tab">
-            <a-icon :type="item.icon" theme="filled" />
-            <span class="primary center left">{{item.label}}</span>
+        <div v-for="(tab, index) in tabMenu" :key="tab.handle" :class="[tab.active ? 'active' : '', tab.grade === 1 ? 'advanced' : '']" :style="{left: hideTabWidth + 'rem'}" @click="handleClick(tab)">
+          <a-select v-if="tab.children && tab.children.length > 1" class="tab-select" :value="tab.crrentChildren" :notFoundContent="'无' + tab.label" style="width: 100%; margin: auto; padding-left: 6%;" @change="selectChange">
+            <a-select-option v-for="(item, i) in tab.children" :key="item.handle" :value="item.tag">{{item.label}}</a-select-option>
+            <a-icon slot="suffixIcon" type="caret-down" theme="filled" />
+            <a-icon slot="menuItemSelectedIcon" type="schedule" />
+          </a-select>
+          <a v-else class="tab">
+            <a-icon :type="tab.icon" theme="filled" />
+            <span class="primary center left">{{tab.label}}</span>
           </a>
         </div>
       </div>
@@ -33,9 +38,8 @@
             <img src="https://gl.landcloud.org.cn/images/no_img.png">
           </div>
           <div v-if="currentQueryResult && (!themeSwitch ? !currentQueryResult.images : !currentQueryResult.themeImgs)" class="content-tips">
-            <!-- <p class="secondary center pure">查询范围内不涉及{{this.currentTab.label}}</p> -->
           </div>
-          <div v-else-if="this.currentQueryResult && this.currentQueryResult.attributes && this.currentTab.value === 'image_Analyze'" class="content-tips">
+          <div v-else-if="this.currentQueryResult && this.currentQueryResult.attributes && (this.currentTab.value === 'image_Analyze' || this.currentTab.value === 'image_Analyze_History')" class="content-tips">
             <p class="secondary center left pure">卫星：{{this.currentQueryResult.attributes[0].sjy}} 拍摄时间：{{this.currentQueryResult.attributes[0].sx}}</p>
           </div>
         </div>
@@ -64,93 +68,12 @@ const store = namespace("Common");
 @Component({
   components: {}
 })
-class SimpleTabCard extends Vue {
+class MultipleResultCard extends Vue {
   @Prop({ default: null })
   private queryResult!: any;
 
-  private tabMenu: any[] = [
-    // {
-    //     type: 'action',
-    //     active: false,
-    //     label: '在线影像',
-    //     value: 'map',
-    //     icon: 'pushpin',
-    //     grade: 0,
-    //     handle: 0
-    // },
-    {
-      type: "action",
-      active: false,
-      label: "最新影像",
-      value: "image_Analyze",
-      icon: "pushpin",
-      grade: 0,
-      handle: 1
-    },
-    {
-      type: "action",
-      active: false,
-      label: "土地分类",
-      value: "landType_Analyze",
-      icon: "pushpin",
-      grade: 0,
-      handle: 2
-    },
-    {
-      type: "action",
-      active: false,
-      label: "基本农田",
-      value: "primeFarm_Analyze",
-      icon: "pushpin",
-      grade: 0,
-      handle: 3
-    },
-    {
-      type: "action",
-      active: false,
-      label: "土地归属",
-      value: "ownership_Analyze",
-      icon: "pushpin",
-      grade: 0,
-      handle: 7
-    },
-    {
-      type: "action",
-      active: false,
-      label: "土地规划",
-      value: "plan_Analyze",
-      icon: "pushpin",
-      grade: 0,
-      handle: 5
-    },
-    {
-      type: "action",
-      active: false,
-      label: "耕地等别",
-      value: "landGrade_Analyze",
-      icon: "trophy",
-      grade: 1,
-      handle: 4
-    },
-    {
-      type: "action",
-      active: false,
-      label: "审批备案",
-      value: "spba_Analyze",
-      icon: "trophy",
-      grade: 1,
-      handle: 6
-    },
-    {
-      type: "action",
-      active: false,
-      label: "自然保护区",
-      value: "natureReserve_Analyze",
-      icon: "trophy",
-      grade: 1,
-      handle: 8
-    }
-  ];
+  @Prop({ default: [] })
+  private tabMenu!: any;
 
   private toolMenu: any[] = [
     {
@@ -163,13 +86,15 @@ class SimpleTabCard extends Vue {
     }
   ];
 
+  private currentSelect: any;
+
   private propColumns: any[] = [];
 
   private propContent: any[] = [];
 
   private hideTab: any = {
     left: 0,
-    right: this.tabMenu.length - 6
+    right: this.tabMenu.length - 2
   };
 
   private themeSwitch = false;
@@ -190,72 +115,91 @@ class SimpleTabCard extends Vue {
       if (val.value === "map") {
         return null;
       } else {
-        this.currentQueryResult = this.queryResult[val.value];
-        if (this.currentQueryResult && this.currentQueryResult.attributes) {
-          let totalMj = 0;
-          let attributes: any[] = this.currentQueryResult.attributes.map(
-            (item, index) => {
-              totalMj += parseFloat(item.mj);
-              return {
-                name:
-                  (item.name ? item.name : "") +
-                  (item.grade ? item.grade : "") +
-                  (item.code ? "-" + item.code : ""),
-                mj: parseFloat(item.mj).toFixed(2)
-              };
+        if (Array.isArray(this.queryResult[val.value])) {
+          if (this.currentSelect) {
+            for (const queryResult of this.queryResult[val.value]) {
+              if (queryResult.date === this.currentSelect.label) {
+                this.currentQueryResult = queryResult;
+              }
             }
-          );
-          attributes.push({
-            name: "合计",
-            mj: totalMj.toFixed(2)
-          });
-          this.propContent = attributes;
-          this.propColumns = [
-            {
-              title: "序号",
-              dataIndex: "index"
-            },
-            {
-              title: "地类名称",
-              dataIndex: "name"
-            },
-            {
-              title: "面积（亩）",
-              dataIndex: "mj"
-            }
-          ];
-          switch (val.value) {
-            case "image_Analyze":
-              this.propColumns = [];
-              this.propContent = [];
-              break;
-            case "landType_Analyze":
-              this.propColumns[1].title = "地类名称";
-              break;
-            case "primeFarm_Analyze":
-              this.propColumns[1].title = "类型";
-              break;
-            case "landGrade_Analyze":
-              this.propColumns[1].title = "耕地等别";
-              break;
-            case "plan_Analyze":
-              this.propColumns[1].title = "地类名称";
-              break;
-            case "spba_Analyze":
-              this.propColumns[1].title = "备案情况";
-              break;
-            case "ownership_Analyze":
-              this.propColumns[1].title = "权属单位";
-              break;
-            case "natureReserve_Analyze":
-              this.propColumns[1].title = "功能分区";
-              break;
-            default:
-              break;
           }
         } else {
-          this.propColumns = [];
-          this.propContent = [];
+          this.currentQueryResult = this.queryResult[val.value];
+        }
+        this.propColumns = [];
+        this.propContent = [];
+        if (this.currentQueryResult && this.currentQueryResult.attributes) {
+          let totalMj = 0;
+          let isContinue = true;
+          let attributes: any[] = this.currentQueryResult.attributes.map(
+            (item, index) => {
+              if (item.mj) {
+                totalMj += parseFloat(item.mj);
+                return {
+                  name:
+                    (item.name ? item.name : "") +
+                    (item.grade ? item.grade : "") +
+                    (item.code ? "-" + item.code : ""),
+                  mj: parseFloat(item.mj).toFixed(2)
+                };
+              } else {
+                isContinue = false;
+              }
+            }
+          );
+          if (isContinue) {
+            attributes.push({
+              name: "合计",
+              mj: totalMj.toFixed(2)
+            });
+            this.propContent = attributes;
+            this.propColumns = [
+              {
+                title: "序号",
+                dataIndex: "index"
+              },
+              {
+                title: "地类名称",
+                dataIndex: "name"
+              },
+              {
+                title: "面积（亩）",
+                dataIndex: "mj"
+              }
+            ];
+            switch (val.value) {
+              case "image_Analyze":
+                this.propColumns = [];
+                this.propContent = [];
+                break;
+              case "landType_Analyze":
+                this.propColumns[1].title = "地类名称";
+                break;
+              case "landType_Analyze_History":
+                this.propColumns[1].title = "地类名称";
+                break;
+              case "primeFarm_Analyze":
+                this.propColumns[1].title = "类型";
+                break;
+              case "landGrade_Analyze":
+                this.propColumns[1].title = "耕地等别";
+                break;
+              case "plan_Analyze":
+                this.propColumns[1].title = "地类名称";
+                break;
+              case "spba_Analyze":
+                this.propColumns[1].title = "备案情况";
+                break;
+              case "ownership_Analyze":
+                this.propColumns[1].title = "权属单位";
+                break;
+              case "natureReserve_Analyze":
+                this.propColumns[1].title = "功能分区";
+                break;
+              default:
+                break;
+            }
+          }
         }
       }
     }
@@ -268,8 +212,6 @@ class SimpleTabCard extends Vue {
       this.currentTab = this.tabMenu[0];
     }
   }
-
-  private mounted() {}
 
   private visibleTab(param: any) {
     if (param === "left") {
@@ -304,6 +246,23 @@ class SimpleTabCard extends Vue {
     });
   }
 
+  private selectChange(param: any) {
+    this.tabMenu.map(item => {
+      item.active = false;
+      if (item.handle === param.parent) {
+        item.active = true;
+        for (const child of item.children) {
+          if (child.handle === param.value) {
+            this.currentSelect = child;
+            item.crrentChildren =
+              child.label.substring(0, 4) + item.label.substring(2, 4);
+          }
+        }
+        this.currentTab = item;
+      }
+    });
+  }
+
   private toolsHandleClickClick(param: any) {
     this.toolMenu.map(item => {
       item.active = false;
@@ -314,7 +273,7 @@ class SimpleTabCard extends Vue {
     });
   }
 }
-export default SimpleTabCard;
+export default MultipleResultCard;
 </script>
 
 <style lang="scss" scoped>
@@ -333,11 +292,11 @@ export default SimpleTabCard;
     .tab-wapper {
       flex: 1;
       margin: auto;
-      display: inline-block;
+      display: inline-flex;
       white-space: nowrap;
-      overflow-x: hidden;
+      overflow: hidden;
       justify-content: space-between;
-      width: calc(98vw - #{($size_64) * 2});
+      width: calc(45vw - #{($size_4 + $size_64 * 2)});
 
       & > div {
         display: inline-block;
@@ -382,16 +341,17 @@ export default SimpleTabCard;
   .content {
     border: 1px dashed map-get($default, primary_light_1);
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
 
     & > div {
-      float: left;
-      width: calc(48vw - #{($size_4)});
-      height: calc((48vw - #{($size_4)}) * 0.8);
+      width: calc(45vw - #{($size_4)});
 
       &:first-child {
         background-image: url(https://gl.landcloud.org.cn/images/pic_bg.png);
         background-size: 100% 100%;
         background-repeat: no-repeat;
+        height: calc((45vw - #{($size_4)}) * 0.8);
       }
 
       & > div {
@@ -441,7 +401,7 @@ export default SimpleTabCard;
           bottom: 2vw;
           left: 2vw;
           width: calc(100% - 4vw);
-          background-color: map-get($default, grey_3);
+          background-color: map-get($default, grey_6);
         }
 
         .no-img {
@@ -462,3 +422,15 @@ export default SimpleTabCard;
   }
 }
 </style>
+
+<style scoped>
+.tab-wapper >>> .tab-select * {
+  color: #fff;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  background-color: transparent;
+}
+</style>
+
+

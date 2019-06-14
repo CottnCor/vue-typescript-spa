@@ -8,7 +8,7 @@ import { SketchLayout } from "@/layout";
 
 import { ROOT_PATH, ASSIST_ROUTER } from "@/config";
 
-import { TipsBar, SimpleTabCard, CompareTabCard } from "@/components";
+import { TipsBar, BasicsQuery, AdvancedQuery } from "@/components";
 
 import { addCloudQuery, getCloudQueryResult } from "@/api/home-page";
 
@@ -19,7 +19,7 @@ import * as wellknown from "wellknown";
 import * as turf from "@turf/turf";
 
 @Component({
-  components: { SketchLayout, TipsBar, SimpleTabCard, CompareTabCard }
+  components: { SketchLayout, TipsBar, BasicsQuery, AdvancedQuery }
 })
 class HomePage extends Vue {
   private map?: any = null;

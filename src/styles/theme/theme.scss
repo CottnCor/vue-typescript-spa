@@ -532,3 +532,19 @@ mark {
 .overlay {
   pointer-events: none;
 }
+
+.marker {
+  margin: auto;
+  display: flex;
+  padding: $size_6;
+  flex-direction: row;
+  background-image: map-get($default, linear_primary_1);
+
+  p {
+    margin: auto 0.1em;
+
+    &:nth-of-type(1) {
+      display: inline-flex;
+    }
+  }
+}

@@ -99,10 +99,45 @@ export default SketchLayout;
     flex: 1;
     margin: auto;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     width: 100%;
     height: calc(100% - #{($size_64)});
     min-height: calc(100% - #{($size_64)});
+
+    /* Extra small devices (phones, sm and down) */
+    @media only screen and (max-width: map-get($breakpoint, sm)) {
+      & {
+        flex-direction: column;
+      }
+    }
+
+    /* Small devices (portrait tablets and large phones, sm and up) */
+    @media only screen and (min-width: map-get($breakpoint, sm)) {
+      & {
+        flex-direction: column;
+      }
+    }
+
+    /* Medium devices (landscape tablets, md and up) */
+    @media only screen and (min-width: map-get($breakpoint, md)) {
+      & {
+        flex-direction: row;
+      }
+    }
+
+    /* Large devices (laptops/desktops, lg and up) */
+    @media only screen and (min-width: map-get($breakpoint, lg)) {
+      & {
+        flex-direction: row;
+      }
+    }
+
+    /* Extra large devices (large laptops and desktops, xl and up) */
+    @media only screen and (min-width: map-get($breakpoint, xl)) {
+      & {
+        flex-direction: row;
+      }
+    }
   }
 }
 </style>
