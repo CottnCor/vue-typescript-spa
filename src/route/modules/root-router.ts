@@ -17,6 +17,8 @@ const rootRouter = [
     component: () => import("@/views/home-page/HomePage.vue"),
     props: route => ({
       appkey: route.query.appkey,
+      timestamp: route.query.timestamp,
+      sign: route.query.sign,
       userId: route.query.userId,
       wkt: route.query.wkt,
       type: ROOT_ROUTER.add.name
@@ -34,6 +36,8 @@ const rootRouter = [
     component: () => import("@/views/home-page/HomePage.vue"),
     props: route => ({
       appkey: route.query.appkey,
+      timestamp: route.query.timestamp,
+      sign: route.query.sign,
       userId: route.query.userId,
       queryId: route.query.queryId,
       type: ROOT_ROUTER.loading.name
@@ -51,6 +55,8 @@ const rootRouter = [
     component: () => import("@/views/home-page/HomePage.vue"),
     props: route => ({
       appkey: route.query.appkey,
+      timestamp: route.query.timestamp,
+      sign: route.query.sign,
       userId: route.query.userId,
       type: ROOT_ROUTER.edit.name
     }),
@@ -67,6 +73,8 @@ const rootRouter = [
     component: () => import("@/views/home-page/HomePage.vue"),
     props: route => ({
       appkey: route.query.appkey,
+      timestamp: route.query.timestamp,
+      sign: route.query.sign,
       userId: route.query.userId,
       queryId: route.query.queryId,
       type: ROOT_ROUTER.get.name

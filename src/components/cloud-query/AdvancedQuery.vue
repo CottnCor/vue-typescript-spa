@@ -9,8 +9,6 @@ import { Component, Emit, Prop, Vue, Watch } from "vue-property-decorator";
 
 import { Getter, Action, namespace } from "vuex-class";
 
-import { getXzqTag } from "../../api/_mock-data";
-
 import { ResultCard } from "@/components";
 
 @Component({ components: { ResultCard } })

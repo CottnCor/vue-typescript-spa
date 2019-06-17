@@ -47,6 +47,12 @@ class HomePage extends Vue {
   private appkey!: string;
 
   @Prop({ default: null })
+  private sign!: string;
+
+  @Prop({ default: null })
+  private timestamp!: string;
+
+  @Prop({ default: null })
   private userId!: number;
 
   @Prop({ default: null })
@@ -161,7 +167,9 @@ class HomePage extends Vue {
           width: 530,
           height: 426,
           range: this.wkt
-        })
+        }),
+        timestamp: this.timestamp,
+        sign: this.sign
       })
         .then(result => {
           if (
@@ -213,7 +221,9 @@ class HomePage extends Vue {
       getCloudQueryResult({
         appkey: this.appkey,
         userId: this.userId,
-        id: queryId
+        id: queryId,
+        timestamp: this.timestamp,
+        sign: this.sign
       }).then(result => {
         if (result && result.status === "OK") {
           this.queryResult = result.data;

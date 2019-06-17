@@ -25,58 +25,65 @@
 </template>
 
 <script lang='ts'>
-import { Component, Emit, Prop, Vue, Watch } from 'vue-property-decorator';
+import { Component, Emit, Prop, Vue, Watch } from "vue-property-decorator";
 
-import { Getter, Action, namespace } from 'vuex-class';
+import { Getter, Action, namespace } from "vuex-class";
 
-import { getXzqTag } from '@/api/home-page';
+import { getXzqTag } from "@/api/home-page";
 
-import { formatDate } from '@/utils/common';
+import { formatDate } from "@/utils/common";
 
-const store = namespace('Common');
+const store = namespace("Common");
 
 @Component({})
 class TipsBar extends Vue {
-  
-    private xzqTag = '';
+  private xzqTag = "";
 
-    private get currentTime(): string {
-        return formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss');
-    }
+  private get currentTime(): string {
+    return formatDate(new Date(), "yyyy-MM-dd HH:mm:ss");
+  }
 
-    @Prop({ required: true }) private xzqdm!: string;
+  @Prop({ required: true }) private xzqdm!: string;
 
-    @Prop({ required: true, default: -1 }) private mj!: number;
+  @Prop({ required: true, default: -1 }) private mj!: number;
 
-    @store.Getter('status')
-    private status!: number;
+  @Prop({ default: null })
+  private sign!: string;
 
-    @store.Action('set_status')
-    private setStatus!: (val: number) => void;
+  @Prop({ default: null })
+  private timestamp!: string;
 
-    @Watch('xzqdm', { immediate: true, deep: true })
-    private onXzqdm(val: any, oldVal: any) {
-        if (val) {
-            getXzqTag({
-                xzqdm: val
-            }).then((result) => {
-                if (result && result.status === 'OK') {
-                    this.xzqTag = result.data.xzqmc;
-                }
-            });
+  @store.Getter("status")
+  private status!: number;
+
+  @store.Action("set_status")
+  private setStatus!: (val: number) => void;
+
+  @Watch("xzqdm", { immediate: true, deep: true })
+  private onXzqdm(val: any, oldVal: any) {
+    if (val) {
+      getXzqTag({
+        xzqdm: val,
+        timestamp: this.timestamp,
+        sign: this.sign
+      }).then(result => {
+        if (result && result.status === "OK") {
+          this.xzqTag = result.data.xzqmc;
         }
+      });
     }
+  }
 
-    @Watch('status', { immediate: true, deep: true })
-    private onStatusChanged(val: number, oldVal: number) {
-        console.log(val);
-    }
+  @Watch("status", { immediate: true, deep: true })
+  private onStatusChanged(val: number, oldVal: number) {
+    console.log(val);
+  }
 
-    @Emit('onLoaded') private mapLoaded() {
-        return {
-            component: this
-        };
-    }
+  @Emit("onLoaded") private mapLoaded() {
+    return {
+      component: this
+    };
+  }
 }
 
 export default TipsBar;
@@ -84,8 +91,8 @@ export default TipsBar;
 
 <style lang='scss' scoped>
 .content {
-    margin: auto;
-    display: flex;
+  margin: auto;
+  display: flex;
 }
 </style>
 

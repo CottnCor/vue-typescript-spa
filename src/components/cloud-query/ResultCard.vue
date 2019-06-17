@@ -384,6 +384,8 @@ export default MultipleResultCard;
         }
 
         .info-wapper {
+          min-height: $size_180;
+          max-height: $size_180;
           overflow-y: auto;
           display: flex;
           position: relative;

@@ -3,6 +3,8 @@ import Router from "vue-router";
 import rootRouter from "./modules/root-router";
 import { ROOT_PATH, ASSIST_ROUTER } from "@/config";
 
+import { notification } from "ant-design-vue";
+
 Vue.use(Router);
 
 const router = new Router({
@@ -33,16 +35,21 @@ const router = new Router({
 
 // 路由拦截
 router.beforeEach((to: any, from: any, next: any) => {
-  console.log("beforeEach");
-  console.log(to.query.appkey);
-  console.log(to.query.userId);
   if (to.name === ASSIST_ROUTER.error.name) {
     next();
   } else {
-    const verify = to.query.appkey && to.query.userId ? true : false;
+    const verify =
+      to.query.appkey && to.query.userId && to.query.timestamp && to.query.sign
+        ? true
+        : false;
     if (!verify) {
       next({
         name: ASSIST_ROUTER.error.name
+      });
+      notification.error({
+        message: "缺少必备参数",
+        description: "检查 appkey|userId|timestamp|sign 等参数",
+        duration: 0
       });
     } else {
       next();
