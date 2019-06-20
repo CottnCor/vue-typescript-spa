@@ -41,6 +41,28 @@ class BasicsQuery extends Vue {
     // },
     {
       type: "action",
+      active: true,
+      label: "多年影像",
+      value: "image_Analyze_History",
+      icon: "trophy",
+      grade: 3,
+      handle: 7,
+      children: [],
+      crrentChildren: ""
+    },
+    {
+      type: "action",
+      active: false,
+      label: "多年现状",
+      value: "landType_Analyze_History",
+      icon: "trophy",
+      grade: 4,
+      handle: 8,
+      children: [],
+      crrentChildren: ""
+    },
+    {
+      type: "action",
       active: false,
       label: "土地分类",
       value: "landType_Analyze",
@@ -83,32 +105,10 @@ class BasicsQuery extends Vue {
       icon: "trophy",
       grade: 1,
       handle: 6
-    },
-    {
-      type: "action",
-      active: false,
-      label: "多年影像",
-      value: "image_Analyze_History",
-      icon: "trophy",
-      grade: 3,
-      handle: 7,
-      children: [],
-      crrentChildren: ""
-    },
-    {
-      type: "action",
-      active: false,
-      label: "多年现状",
-      value: "landType_Analyze_History",
-      icon: "trophy",
-      grade: 4,
-      handle: 8,
-      children: [],
-      crrentChildren: ""
     }
   ];
 
-  @Watch("queryResult", { immediate: true, deep: true })
+  @Watch("queryResult", { immediate: true, deep: false })
   private onQueryResult(val: any, oldVal: any) {
     if (val) {
       let object = this.queryResult;

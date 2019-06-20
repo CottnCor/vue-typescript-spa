@@ -19,25 +19,7 @@ class AdvancedQuery extends Vue {
   private tabMenu: any = [
     {
       type: "action",
-      active: false,
-      label: "土地权属",
-      value: "ownership_Analyze",
-      icon: "pushpin",
-      grade: 1,
-      handle: 1
-    },
-    {
-      type: "action",
-      active: false,
-      label: "自然保护区",
-      value: "natureReserve_Analyze",
-      icon: "trophy",
-      grade: 2,
-      handle: 2
-    },
-    {
-      type: "action",
-      active: false,
+      active: true,
       label: "多年影像",
       value: "image_Analyze_History",
       icon: "trophy",
@@ -56,10 +38,28 @@ class AdvancedQuery extends Vue {
       handle: 4,
       children: [],
       crrentChildren: ""
+    },
+    {
+      type: "action",
+      active: false,
+      label: "土地权属",
+      value: "ownership_Analyze",
+      icon: "pushpin",
+      grade: 1,
+      handle: 1
+    },
+    {
+      type: "action",
+      active: false,
+      label: "自然保护区",
+      value: "natureReserve_Analyze",
+      icon: "trophy",
+      grade: 2,
+      handle: 2
     }
   ];
 
-  @Watch("queryResult", { immediate: true, deep: true })
+  @Watch("queryResult", { immediate: true, deep: false })
   private onQueryResult(val: any, oldVal: any) {
     if (val) {
       let object = this.queryResult;

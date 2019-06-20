@@ -120,6 +120,16 @@ class MultipleResultCard extends Vue {
         return null;
       } else {
         if (Array.isArray(this.queryResult[val.value])) {
+          if (!this.currentSelect) {
+            this.tabMenu.map(item => {
+              if (item.active && item.children && item.children.length > 1) {
+                this.currentSelect = item.children[0];
+                item.crrentChildren =
+                  this.currentSelect.label.substring(0, 4) +
+                  item.label.substring(2, 4);
+              }
+            });
+          }
           if (this.currentSelect) {
             for (const queryResult of this.queryResult[val.value]) {
               if (queryResult.date === this.currentSelect.label) {
@@ -130,90 +140,94 @@ class MultipleResultCard extends Vue {
         } else {
           this.currentQueryResult = this.queryResult[val.value];
         }
-        this.propColumns = [];
-        this.propContent = [];
-        if (this.currentQueryResult && this.currentQueryResult.attributes) {
-          let totalMj = 0;
-          let isContinue = true;
-          let attributes: any[] = this.currentQueryResult.attributes.map(
-            (item, index) => {
-              if (item.mj) {
-                totalMj += parseFloat(item.mj);
-                return {
-                  name:
-                    (item.name ? item.name : "") +
-                    (item.grade ? item.grade : "") +
-                    (item.code ? "-" + item.code : ""),
-                  mj: parseFloat(item.mj).toFixed(2)
-                };
-              } else {
-                isContinue = false;
-              }
-            }
-          );
-          if (isContinue) {
-            attributes.push({
-              name: "合计",
-              mj: totalMj.toFixed(2)
-            });
-            this.propContent = attributes;
-            this.propColumns = [
-              {
-                title: "序号",
-                dataIndex: "index"
-              },
-              {
-                title: "地类名称",
-                dataIndex: "name"
-              },
-              {
-                title: "面积（亩）",
-                dataIndex: "mj"
-              }
-            ];
-            switch (val.value) {
-              case "image_Analyze":
-                this.propColumns = [];
-                this.propContent = [];
-                break;
-              case "landType_Analyze":
-                this.propColumns[1].title = "地类名称";
-                break;
-              case "landType_Analyze_History":
-                this.propColumns[1].title = "地类名称";
-                break;
-              case "primeFarm_Analyze":
-                this.propColumns[1].title = "类型";
-                break;
-              case "landGrade_Analyze":
-                this.propColumns[1].title = "耕地等别";
-                break;
-              case "plan_Analyze":
-                this.propColumns[1].title = "地类名称";
-                break;
-              case "spba_Analyze":
-                this.propColumns[1].title = "备案情况";
-                break;
-              case "ownership_Analyze":
-                this.propColumns[1].title = "权属单位";
-                break;
-              case "natureReserve_Analyze":
-                this.propColumns[1].title = "功能分区";
-                break;
-              default:
-                break;
-            }
-          }
-        }
+        this.refreshProp();
       }
     }
   }
 
-  @Watch("queryResult", { immediate: true, deep: true })
+  @Watch("queryResult", { immediate: true, deep: false })
   private onQueryResult(val: any, oldVal: any) {
     if (val) {
       this.tabMenu[0].active = true;
       this.currentTab = this.tabMenu[0];
+    }
+  }
+
+  private refreshProp() {
+    this.propColumns = [];
+    this.propContent = [];
+    if (this.currentQueryResult && this.currentQueryResult.attributes) {
+      let totalMj = 0;
+      let isContinue = true;
+      let attributes: any[] = this.currentQueryResult.attributes.map(
+        (item, index) => {
+          if (item.mj) {
+            totalMj += parseFloat(item.mj);
+            return {
+              name:
+                (item.name ? item.name : "") +
+                (item.grade ? item.grade : "") +
+                (item.code ? "-" + item.code : ""),
+              mj: parseFloat(item.mj).toFixed(2)
+            };
+          } else {
+            isContinue = false;
+          }
+        }
+      );
+      if (isContinue) {
+        attributes.push({
+          name: "合计",
+          mj: totalMj.toFixed(2)
+        });
+        this.propContent = attributes;
+        this.propColumns = [
+          {
+            title: "序号",
+            dataIndex: "index"
+          },
+          {
+            title: "地类名称",
+            dataIndex: "name"
+          },
+          {
+            title: "面积（亩）",
+            dataIndex: "mj"
+          }
+        ];
+        switch (this.currentTab.value) {
+          case "image_Analyze":
+            this.propColumns = [];
+            this.propContent = [];
+            break;
+          case "landType_Analyze":
+            this.propColumns[1].title = "地类名称";
+            break;
+          case "landType_Analyze_History":
+            this.propColumns[1].title = "地类名称";
+            break;
+          case "primeFarm_Analyze":
+            this.propColumns[1].title = "类型";
+            break;
+          case "landGrade_Analyze":
+            this.propColumns[1].title = "耕地等别";
+            break;
+          case "plan_Analyze":
+            this.propColumns[1].title = "地类名称";
+            break;
+          case "spba_Analyze":
+            this.propColumns[1].title = "备案情况";
+            break;
+          case "ownership_Analyze":
+            this.propColumns[1].title = "权属单位";
+            break;
+          case "natureReserve_Analyze":
+            this.propColumns[1].title = "功能分区";
+            break;
+          default:
+            break;
+        }
+      }
     }
   }
 
