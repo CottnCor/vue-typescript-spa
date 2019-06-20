@@ -20,10 +20,10 @@ class AdvancedQuery extends Vue {
     {
       type: "action",
       active: false,
-      label: "土地归属",
+      label: "土地权属",
       value: "ownership_Analyze",
       icon: "pushpin",
-      grade: 0,
+      grade: 1,
       handle: 1
     },
     {
@@ -32,7 +32,7 @@ class AdvancedQuery extends Vue {
       label: "自然保护区",
       value: "natureReserve_Analyze",
       icon: "trophy",
-      grade: 0,
+      grade: 2,
       handle: 2
     },
     {
@@ -41,7 +41,7 @@ class AdvancedQuery extends Vue {
       label: "多年影像",
       value: "image_Analyze_History",
       icon: "trophy",
-      grade: 0,
+      grade: 3,
       handle: 3,
       children: [],
       crrentChildren: ""
@@ -52,7 +52,7 @@ class AdvancedQuery extends Vue {
       label: "多年现状",
       value: "landType_Analyze_History",
       icon: "trophy",
-      grade: 0,
+      grade: 4,
       handle: 4,
       children: [],
       crrentChildren: ""

@@ -48,5 +48,7 @@ module.exports = {
       }
     }
   },
-  devServer: {}
+  devServer: {
+    https: true
+  }
 }

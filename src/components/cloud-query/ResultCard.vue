@@ -5,7 +5,7 @@
         <a-icon type="caret-left" theme="filled" />
       </a>
       <div class="tab-wapper">
-        <div v-for="(tab, index) in tabMenu" :key="tab.handle" :class="[tab.active ? 'active' : '', tab.grade === 1 ? 'advanced' : '']" :style="{left: hideTabWidth + 'rem'}" @click="handleClick(tab)">
+        <div v-for="(tab, index) in tabMenu" :key="tab.handle" :class="[tab.active ? 'active' : '', true ? '' : 'advanced']" :style="{left: hideTabWidth + 'rem'}" @click="handleClick(tab)">
           <a-select v-if="tab.children && tab.children.length > 1" class="tab-select" :value="tab.crrentChildren" :notFoundContent="'无' + tab.label" style="width: 100%; margin: auto; padding-left: 6%;" @change="selectChange">
             <a-select-option v-for="(item, i) in tab.children" :key="item.handle" :value="item.tag">{{item.label}}</a-select-option>
             <a-icon slot="suffixIcon" type="caret-down" theme="filled" />
@@ -38,9 +38,13 @@
             <img src="https://gl.landcloud.org.cn/images/no_img.png">
           </div>
           <div v-if="currentQueryResult && (!themeSwitch ? !currentQueryResult.images : !currentQueryResult.themeImgs)" class="content-tips">
+            <span v-if="currentTab.grade === 1" class="center pure">查询范围内无{{currentTab.label}}信息</span>
+            <span v-else-if="currentTab.grade === 2" class="center pure">查询范围不涉及{{currentTab.label}}</span>
+            <span v-else-if="currentTab.grade === 3" class="center pure">查询范围内无当年影像信息</span>
+            <span v-else-if="currentTab.grade === 4" class="center pure">查询范围内无当年现状信息</span>
           </div>
           <div v-else-if="this.currentQueryResult && this.currentQueryResult.attributes && (this.currentTab.value === 'image_Analyze' || this.currentTab.value === 'image_Analyze_History')" class="content-tips">
-            <p class="secondary center left pure">卫星：{{this.currentQueryResult.attributes[0].sjy}} 拍摄时间：{{this.currentQueryResult.attributes[0].sx}}</p>
+            <span class="center pure">卫星：{{this.currentQueryResult.attributes[0].sjy}} 拍摄时间：{{this.currentQueryResult.attributes[0].sx}}</span>
           </div>
         </div>
       </div>
@@ -219,14 +223,14 @@ class MultipleResultCard extends Vue {
         this.hideTab.left--;
         this.hideTab.right++;
       } else {
-        this.$message.warning("没有了", 3);
+        // this.$message.warning("没有了", 3);
       }
     } else if (param === "right") {
       if (this.hideTab.right > 0) {
         this.hideTab.right--;
         this.hideTab.left++;
       } else {
-        this.$message.warning("没有了", 3);
+        // this.$message.warning("没有了", 3);
       }
     }
   }
@@ -295,7 +299,6 @@ export default MultipleResultCard;
       display: inline-flex;
       white-space: nowrap;
       overflow: hidden;
-      justify-content: space-between;
       width: calc(45vw - #{($size_4 + $size_64 * 2)});
 
       & > div {
@@ -397,6 +400,7 @@ export default MultipleResultCard;
         }
 
         .content-tips {
+          display: flex;
           z-index: $zindex_back-top;
           position: absolute;
           padding: 1vw;
@@ -408,10 +412,10 @@ export default MultipleResultCard;
 
         .no-img {
           display: flex;
-          background-image: map-get($default, linear_primary_2);
+          background-image: map-get($default, linear_primary);
           img {
-            width: $size_64;
-            height: $size_64;
+            width: $size_120;
+            height: $size_120;
             margin: auto;
           }
         }

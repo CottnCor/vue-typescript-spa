@@ -105,14 +105,16 @@ class HomePage extends Vue {
   @Watch("queryResult", { immediate: true, deep: true })
   private onQueryResult(val: number, oldVal: number) {
     if (this.queryResult) {
-      this.mj = this.queryResult.data.area;
-      this.$notification.success({
-        message: "查找云查询结果成功",
-        description: ""
-      });
-      this.setStatus(2);
-      if (this.interval) {
-        clearInterval(this.interval);
+      if (this.queryResult.data && this.queryResult.data.area) {
+        this.mj = this.queryResult.data.area;
+        // this.$notification.success({
+        //   message: "查找云查询结果成功",
+        //   description: ""
+        // });
+        this.setStatus(2);
+        if (this.interval) {
+          clearInterval(this.interval);
+        }
       }
     }
   }
@@ -177,10 +179,10 @@ class HomePage extends Vue {
             result.status === "OK" &&
             result.message === "SUCCESS"
           ) {
-            this.$notification.success({
-              message: "添加云查询成功",
-              description: "请稍等，等待返回结果."
-            });
+            // this.$notification.success({
+            //   message: "添加云查询成功",
+            //   description: "请稍等，等待返回结果."
+            // });
             this.setStatus(1);
             console.log(result);
             this.intervalGetResult(result.data);
