@@ -42,7 +42,7 @@ class BasicsQuery extends Vue {
     {
       type: "action",
       active: false,
-      label: "土地规划",
+      label: "土地分类",
       value: "landType_Analyze",
       icon: "pushpin",
       grade: 1,
@@ -101,7 +101,7 @@ class BasicsQuery extends Vue {
       label: "多年现状",
       value: "landType_Analyze_History",
       icon: "trophy",
-      grade:4,
+      grade: 4,
       handle: 8,
       children: [],
       crrentChildren: ""
