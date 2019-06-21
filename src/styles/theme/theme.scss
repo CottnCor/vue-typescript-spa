@@ -301,11 +301,16 @@ textarea {
   i {
     width: $size_32;
     height: $size_32;
-    display: inline-flex;
+  }
+}
 
-    svg {
-      margin: auto;
-    }
+i {
+  width: auto;
+  height: auto;
+  display: inline-flex;
+
+  svg {
+    margin: auto;
   }
 }
 

@@ -39,14 +39,50 @@ class BasicsQuery extends Vue {
     //   grade: 0,
     //   handle: 1
     // },
+    //  {
+    //   type: "action",
+    //   active: false,
+    //   label: "土地分类",
+    //   value: "landType_Analyze",
+    //   icon: "pushpin",
+    //   grade: 1,
+    //   handle: 2
+    // },
     {
       type: "action",
       active: true,
+      label: "基本农田",
+      value: "primeFarm_Analyze",
+      icon: "pushpin",
+      grade: 2,
+      handle: 1
+    },
+    {
+      type: "action",
+      active: false,
+      label: "土地规划",
+      value: "plan_Analyze",
+      icon: "pushpin",
+      grade: 1,
+      handle: 2
+    },
+    {
+      type: "action",
+      active: false,
+      label: "审批备案",
+      value: "spba_Analyze",
+      icon: "trophy",
+      grade: 1,
+      handle: 3
+    },
+    {
+      type: "action",
+      active: false,
       label: "多年影像",
       value: "image_Analyze_History",
       icon: "trophy",
       grade: 3,
-      handle: 7,
+      handle: 4,
       children: [],
       crrentChildren: ""
     },
@@ -57,51 +93,15 @@ class BasicsQuery extends Vue {
       value: "landType_Analyze_History",
       icon: "trophy",
       grade: 4,
-      handle: 8,
+      handle: 5,
       children: [],
       crrentChildren: ""
     },
     {
       type: "action",
       active: false,
-      label: "土地分类",
-      value: "landType_Analyze",
-      icon: "pushpin",
-      grade: 1,
-      handle: 2
-    },
-    {
-      type: "action",
-      active: false,
-      label: "基本农田",
-      value: "primeFarm_Analyze",
-      icon: "pushpin",
-      grade: 2,
-      handle: 3
-    },
-    {
-      type: "action",
-      active: false,
-      label: "土地规划",
-      value: "plan_Analyze",
-      icon: "pushpin",
-      grade: 1,
-      handle: 4
-    },
-    {
-      type: "action",
-      active: false,
       label: "耕地等别",
       value: "landGrade_Analyze",
-      icon: "trophy",
-      grade: 1,
-      handle: 5
-    },
-    {
-      type: "action",
-      active: false,
-      label: "审批备案",
-      value: "spba_Analyze",
       icon: "trophy",
       grade: 1,
       handle: 6

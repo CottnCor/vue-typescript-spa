@@ -6,13 +6,14 @@
       </a>
       <div class="tab-wapper">
         <div v-for="(tab, index) in tabMenu" :key="tab.handle" :class="[tab.active ? 'active' : '', true ? '' : 'advanced']" :style="{left: hideTabWidth + 'rem'}" @click="handleClick(tab)">
-          <a-select v-if="tab.children && tab.children.length > 1" class="tab-select" :value="tab.crrentChildren" :notFoundContent="'无' + tab.label" style="width: 100%; margin: auto; padding-left: 6%;" @change="selectChange">
+          <a-select v-if="tab.children && tab.children.length > 1" class="tab-select" :value="tab.crrentChildren" :showArrow="false" :notFoundContent="'无' + tab.label" @change="selectChange" dropdownStyle="width: max-content;">
             <a-select-option v-for="(item, i) in tab.children" :key="item.handle" :value="item.tag">{{item.label}}</a-select-option>
-            <a-icon slot="suffixIcon" type="caret-down" theme="filled" />
-            <a-icon slot="menuItemSelectedIcon" type="schedule" />
+            <!-- <a-icon slot="suffixIcon" type="caret-down" theme="filled" />
+            <a-icon slot="menuItemSelectedIcon" type="schedule" /> -->
           </a-select>
+          <a-icon class="pure primary center" v-if="tab.children && tab.children.length > 1" type="caret-down" theme="filled" style="z-index: 999;" />
           <a v-else class="tab">
-            <a-icon :type="tab.icon" theme="filled" />
+            <!-- <a-icon :type="tab.icon" theme="filled" /> -->
             <span class="primary center left">{{tab.label}}</span>
           </a>
         </div>
@@ -316,12 +317,27 @@ export default MultipleResultCard;
       width: calc(45vw - #{($size_4 + $size_64 * 2)});
 
       & > div {
-        display: inline-block;
+        display: inline-flex;
         position: relative;
         height: $size_32;
-        width: calc(#{($size_120 + $size_12)});
-        padding: 0 $size_6;
+        padding-left: calc(#{($size_16 + $size_1)});
         transition: left $ease_in;
+
+        & > a {
+          display: inline-flex;
+          width: $size_84;
+          span {
+            margin: auto;
+          }
+        }
+
+        .tab-select {
+          width: $size_84;
+          display: inline-flex;
+          span {
+            margin: auto;
+          }
+        }
 
         &::before {
           content: "";
@@ -444,6 +460,10 @@ export default MultipleResultCard;
 </style>
 
 <style scoped>
+.tab-wapper >>> .tab-select div {
+  margin: auto;
+}
+
 .tab-wapper >>> .tab-select * {
   color: #fff;
   border: none;
