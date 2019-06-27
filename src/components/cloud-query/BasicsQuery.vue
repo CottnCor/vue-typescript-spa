@@ -51,19 +51,19 @@ class BasicsQuery extends Vue {
     {
       type: "action",
       active: true,
-      label: "基本农田",
-      value: "primeFarm_Analyze",
+      label: "土地规划",
+      value: "plan_Analyze",
       icon: "pushpin",
-      grade: 2,
+      grade: 1,
       handle: 1
     },
     {
       type: "action",
       active: false,
-      label: "土地规划",
-      value: "plan_Analyze",
+      label: "基本农田",
+      value: "primeFarm_Analyze",
       icon: "pushpin",
-      grade: 1,
+      grade: 2,
       handle: 2
     },
     {
