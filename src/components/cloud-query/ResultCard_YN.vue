@@ -314,7 +314,7 @@ export default ResultCard;
       display: inline-flex;
       white-space: nowrap;
       overflow: hidden;
-      width: calc(45vw - #{($size_4 + $size_64 * 2)});
+      width: calc(90vw - #{($size_4 + $size_64 * 2)});
 
       & > div {
         display: inline-flex;
@@ -378,13 +378,13 @@ export default ResultCard;
     flex-direction: column;
 
     & > div {
-      width: calc(45vw - #{($size_4)});
+      width: calc(90vw - #{($size_4)});
 
       &:first-child {
         background-image: url(https://gl.landcloud.org.cn/images/pic_bg.png);
         background-size: 100% 100%;
         background-repeat: no-repeat;
-        height: calc((45vw - #{($size_4)}) * 0.8);
+        height: calc((90vw - #{($size_4)}) * 0.8);
       }
 
       & > div {
@@ -472,5 +472,3 @@ export default ResultCard;
   background-color: transparent;
 }
 </style>
-
-

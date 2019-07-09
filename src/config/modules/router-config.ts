@@ -32,6 +32,33 @@ export const ROOT_ROUTER = {
   }
 };
 
+export const ROOT_ROUTER_YN = {
+  add: {
+    name: "add_yn",
+    label: "",
+    icon: "smile",
+    title: APP_PRAMS.title
+  },
+  get: {
+    name: "get_yn",
+    label: "",
+    icon: "smile",
+    title: APP_PRAMS.title
+  },
+  edit: {
+    name: "edit_yn",
+    label: "",
+    icon: "smile",
+    title: APP_PRAMS.title
+  },
+  loading: {
+    name: "loading_yn",
+    label: "",
+    icon: "smile",
+    title: APP_PRAMS.title
+  }
+};
+
 /**
  * 辅助菜单路由配置
  */

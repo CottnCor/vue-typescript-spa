@@ -8,4 +8,8 @@ import BasicsQuery from "./cloud-query/BasicsQuery.vue";
 
 import AdvancedQuery from "./cloud-query/AdvancedQuery.vue";
 
-export { ExceptionCard, ResultCard, TipsBar, BasicsQuery, AdvancedQuery };
+import AdvancedQuery_YN from "./cloud-query/AdvancedQuery_YN.vue";
+
+import ResultCard_YN from "./cloud-query/ResultCard_YN.vue";
+
+export { ExceptionCard, ResultCard, TipsBar, BasicsQuery, AdvancedQuery, AdvancedQuery_YN, ResultCard_YN };
