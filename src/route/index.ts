@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 import rootRouter from "./modules/root-router";
-import rootRouterYN from "./modules/root-router_yn";
+import rootRouterYN from "./modules/root-router-yn";
 import { ROOT_PATH, ASSIST_ROUTER } from "@/config";
 
 import { notification } from "ant-design-vue";
