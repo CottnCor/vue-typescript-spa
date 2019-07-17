@@ -166,9 +166,13 @@ class ResultCard extends Vue {
             totalMj += parseFloat(item.mj);
             return {
               name:
-                (item.name ? item.name : "") +
-                (item.grade ? item.grade : "") +
-                (item.code ? "-" + item.code : ""),
+                (item.gnfq
+                  ? item.gnfq
+                  : item.grade
+                  ? item.grade
+                  : item.name
+                  ? item.name
+                  : "") + (item.code ? "-" + item.code : ""),
               mj: parseFloat(item.mj).toFixed(2)
             };
           } else {

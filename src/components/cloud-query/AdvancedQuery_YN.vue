@@ -23,7 +23,7 @@ class AdvancedQuery extends Vue {
       label: "多年影像",
       value: "image_Analyze_History",
       icon: "trophy",
-      grade: 2,
+      grade: 3,
       handle: 1,
       children: [],
       crrentChildren: ""
@@ -34,7 +34,7 @@ class AdvancedQuery extends Vue {
       label: "多年现状",
       value: "landType_Analyze_History",
       icon: "trophy",
-      grade: 2,
+      grade: 4,
       handle: 2,
       children: [],
       crrentChildren: ""
