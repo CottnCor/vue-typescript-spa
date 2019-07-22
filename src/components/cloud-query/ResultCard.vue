@@ -6,7 +6,7 @@
       </a>
       <div class="tab-wapper">
         <div v-for="(tab, index) in tabMenu" :key="tab.handle" :class="[tab.active ? 'active' : '', true ? '' : 'advanced']" :style="{left: hideTabWidth + 'rem'}" @click="handleClick(tab)">
-          <a-select v-if="tab.children && tab.children.length > 1" class="tab-select" :value="tab.crrentChildren" :showArrow="false" :notFoundContent="'无' + tab.label" @change="selectChange" dropdownStyle="width: max-content;">
+          <a-select v-if="tab.children && tab.children.length > 1" class="tab-select" :value="tab.crrentChildren" :showArrow="false" :notFoundContent="'无' + tab.label" @change="selectChange" :dropdownStyle="dropdownStyle">
             <a-select-option v-for="(item, i) in tab.children" :key="item.handle" :value="item.tag">{{item.label}}</a-select-option>
             <!-- <a-icon slot="suffixIcon" type="caret-down" theme="filled" />
             <a-icon slot="menuItemSelectedIcon" type="schedule" /> -->
@@ -90,6 +90,10 @@ class ResultCard extends Vue {
       invork: this.switchTheme
     }
   ];
+
+  private dropdownStyle = {
+    "min-width": "max-content"
+  };
 
   private currentSelect: any;
 

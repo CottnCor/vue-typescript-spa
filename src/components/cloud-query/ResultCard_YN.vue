@@ -6,8 +6,8 @@
       </a>
       <div class="tab-wapper">
         <div v-for="(tab, index) in tabMenu" :key="tab.handle" :class="[tab.active ? 'active' : '', true ? '' : 'advanced']" :style="{left: hideTabWidth + 'rem'}" @click="handleClick(tab)">
-          <a-select v-if="tab.children && tab.children.length > 1" class="tab-select" :value="tab.crrentChildren" :showArrow="false" :notFoundContent="'无' + tab.label" @change="selectChange" dropdownStyle="width: max-content;">
-            <a-select-option v-for="(item, i) in tab.children" :key="item.handle" :value="item.tag">{{item.label}}</a-select-option>
+          <a-select v-if="tab.children && tab.children.length > 1" class="tab-select" :value="tab.crrentChildren" :showArrow="false" :notFoundContent="'无' + tab.label" @change="selectChange" :dropdownStyle="dropdownStyle">
+            <a-select-option class="select-option" v-for="(item, i) in tab.children" :key="item.handle" :value="item.tag" :style="dropdownStyle">{{item.label}}</a-select-option>
             <!-- <a-icon slot="suffixIcon" type="caret-down" theme="filled" />
             <a-icon slot="menuItemSelectedIcon" type="schedule" /> -->
           </a-select>
@@ -33,29 +33,34 @@
               <a-divider v-if="item.type === 'split'" type="vertical" />
             </div>
           </div>
-          <img v-if="currentQueryResult && !themeSwitch && currentQueryResult.images" :src="currentQueryResult.images">
-          <img v-if="currentQueryResult && themeSwitch && currentQueryResult.themeImgs" :src="currentQueryResult.themeImgs">
-          <div v-if="!currentQueryResult || (currentQueryResult && (!themeSwitch ? !currentQueryResult.images : !currentQueryResult.themeImgs))" class="no-img">
-            <img src="https://gl.landcloud.org.cn/images/no_img.png">
-          </div>
-          <div v-if="currentQueryResult && (!themeSwitch ? !currentQueryResult.images : !currentQueryResult.themeImgs)" class="content-tips">
-            <span v-if="currentTab.grade === 1" class="center pure">查询范围内无{{currentTab.label}}信息</span>
-            <span v-else-if="currentTab.grade === 2" class="center pure">查询范围不涉及{{currentTab.label}}</span>
-            <span v-else-if="currentTab.grade === 3" class="center pure">查询范围内无当年影像信息</span>
-            <span v-else-if="currentTab.grade === 4" class="center pure">查询范围内无当年现状信息</span>
-          </div>
-          <div v-else-if="this.currentQueryResult && this.currentQueryResult.attributes && (this.currentTab.value === 'image_Analyze' || this.currentTab.value === 'image_Analyze_History')" class="content-tips">
-            <span class="center pure">卫星：{{this.currentQueryResult.attributes[0].sjy}} 拍摄时间：{{this.currentQueryResult.attributes[0].sx}}</span>
-          </div>
-        </div>
-      </div>
-      <div>
-        <div class="radius">
-          <div class="info-wapper">
+          <div v-if="currentQueryResult && infoSwitch" class="info-wapper">
             <a-table v-if="this.propColumns.length > 0 && this.propContent.length > 0" :columns="this.propColumns" :dataSource="this.propContent" bordered :pagination="false" />
             <p v-else class="title center highlight">
               <a-icon type="warning" />该专题暂无属性数据
             </p>
+          </div>
+          <div class="img-wapper" v-else>
+            <!-- what a complex judge !!! -->
+            <img v-if="currentQueryResult && !themeSwitch && currentQueryResult.images" :src="currentQueryResult.images">
+            <img v-if="currentQueryResult && themeSwitch && currentQueryResult.themeImgs" :src="currentQueryResult.themeImgs">
+            <div v-if="!currentQueryResult || (currentQueryResult && (!themeSwitch ? !currentQueryResult.images : !currentQueryResult.themeImgs))" class="no-img">
+              <img src="https://gl.landcloud.org.cn/images/no_img.png">
+            </div>
+            <div v-if="currentQueryResult && (!themeSwitch ? !currentQueryResult.images : !currentQueryResult.themeImgs)" class="content-tips">
+              <span v-if="currentTab.grade === 1" class="center pure">查询范围内无{{currentTab.label}}信息</span>
+              <span v-else-if="currentTab.grade === 2" class="center pure">查询范围不涉及{{currentTab.label}}</span>
+              <span v-else-if="currentTab.grade === 3" class="center pure">查询范围内无当年影像信息</span>
+              <span v-else-if="currentTab.grade === 4" class="center pure">查询范围内无当年现状信息</span>
+            </div>
+            <div v-if="currentQueryResult && infoSwitch" class="info-wapper">
+              <a-table v-if="this.propColumns.length > 0 && this.propContent.length > 0" :columns="this.propColumns" :dataSource="this.propContent" bordered :pagination="false" />
+              <p v-else class="title center highlight">
+                <a-icon type="warning" />该专题暂无属性数据
+              </p>
+            </div>
+            <div v-else-if="!(!currentQueryResult || (currentQueryResult && (!themeSwitch ? !currentQueryResult.images : !currentQueryResult.themeImgs))) && this.currentQueryResult.attributes && (this.currentTab.value === 'image_Analyze' || this.currentTab.value === 'image_Analyze_History')" class="content-tips">
+              <span class="center pure">卫星：{{this.currentQueryResult.attributes[0].sjy}} 拍摄时间：{{this.currentQueryResult.attributes[0].sx}}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -88,8 +93,20 @@ class ResultCard extends Vue {
       icon: "picture",
       handle: "onTheme",
       invork: this.switchTheme
+    },
+    {
+      type: "action",
+      on: false,
+      label: "查看属性",
+      icon: "profile",
+      handle: "onInfo",
+      invork: this.switchInfo
     }
   ];
+
+  private dropdownStyle = {
+    "min-width": "max-content"
+  };
 
   private currentSelect: any;
 
@@ -103,6 +120,8 @@ class ResultCard extends Vue {
   };
 
   private themeSwitch = false;
+
+  private infoSwitch = false;
 
   private currentQueryResult: any = null;
 
@@ -255,6 +274,11 @@ class ResultCard extends Vue {
     this.themeSwitch = param.on;
   }
 
+  private switchInfo(param: any) {
+    param.on = !param.on;
+    this.infoSwitch = param.on;
+  }
+
   private handleClick(param: any) {
     this.tabMenu.map(item => {
       item.active = false;
@@ -283,9 +307,14 @@ class ResultCard extends Vue {
   }
 
   private toolsHandleClickClick(param: any) {
+    this.themeSwitch = false;
+    this.infoSwitch = false;
     this.toolMenu.map(item => {
+      let state = item.on;
       item.active = false;
+      item.on = false;
       if (item.handle === param.handle) {
+        item.on = state;
         item.invork(item);
         item.active = true;
       }
@@ -416,9 +445,15 @@ export default ResultCard;
           }
         }
 
+        .img-wapper {
+          width: 100%;
+          height: 100%;
+        }
+
         .info-wapper {
-          min-height: $size_180;
-          max-height: $size_180;
+          min-height: 100%;
+          max-height: 100%;
+          padding-top: $size_32;
           overflow-y: auto;
           display: flex;
           position: relative;
