@@ -137,7 +137,7 @@ class HomePage extends Vue {
   }
 
   private beforeDestroy() {
-    if (this.intervalGetResult) {
+    if (this.interval) {
       clearInterval(this.interval);
     }
   }
